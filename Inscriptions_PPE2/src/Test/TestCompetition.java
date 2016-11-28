@@ -2,11 +2,16 @@ package Test;
 
 import static org.junit.Assert.*;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.junit.Test;
 
+import inscriptions.Candidat;
 import inscriptions.Competition;
 import inscriptions.Equipe;
 import inscriptions.Inscriptions;
+import inscriptions.Personne;
 import junit.framework.TestCase;
 
 public class TestCompetition extends TestCase{
@@ -14,12 +19,16 @@ public class TestCompetition extends TestCase{
 	Inscriptions i = Inscriptions.getInscriptions();
 	Competition c = i.createCompetition("Nom de la compet'", null, false);
 	Equipe e = i.createEquipe("Nom Equipe");
+	Personne p = i.createPersonne("Claude", "Jean", "jean.claude@mail.com");
+	Set<Candidat> candidats = new TreeSet<Candidat>();
 	
 	protected void setUp() throws Exception {
 		super.setUp();
 		Inscriptions i = Inscriptions.getInscriptions();
 		Competition c = i.createCompetition("Nom de la compet'", null, false);
 		Equipe e = i.createEquipe("Nom Equipe");
+		Personne p = i.createPersonne("Claude", "Jean", "jean.claude@mail.com");
+		Set<Candidat> candidats = new TreeSet<Candidat>();
 	}
 
 	@Test
@@ -61,23 +70,27 @@ public class TestCompetition extends TestCase{
 
 	@Test
 	public void testGetCandidats() {
-		assertEquals(c.getCandidats(), null);
+		candidats.add(p);
+		assertNotNull(c.getCandidats());
 	}
 
 	@Test
 	public void testAddPersonne() {
-		c.add(e);
-		assertEquals(c.getCandidats(), e);
+		c.add(p);
+		assertNotNull(i.getPersonnes());
 	}
 
 	@Test
 	public void testAddEquipe() {
-		
+		Competition c2 = i.createCompetition("Nom de la compet'", null, true);
+		c2.add(e);
+		assertNotNull(i.getEquipes());
 	}
 
 	@Test
 	public void testRemove() {
-		
+		c.remove(e);
+		assertEquals(i.getEquipes(), null);
 	}
 
 	@Test
