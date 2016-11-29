@@ -24,7 +24,6 @@ public class TestCompetition extends TestCase{
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		Inscriptions i = Inscriptions.getInscriptions();
 		Competition c = i.createCompetition("Nom de la compet'", null, false);
 		Equipe e = i.createEquipe("Nom Equipe");
 		Personne p = i.createPersonne("Claude", "Jean", "jean.claude@mail.com");
@@ -89,13 +88,14 @@ public class TestCompetition extends TestCase{
 
 	@Test
 	public void testRemove() {
-		c.remove(e);
-		assertEquals(i.getEquipes(), null);
+		c.remove(p);
+		assertEquals(c.getCandidats(), null);
 	}
 
 	@Test
 	public void testDelete() {
-		
+		c.delete();
+		assertEquals(i.getCompetitions(), null);
 	}
 
 	@Test
