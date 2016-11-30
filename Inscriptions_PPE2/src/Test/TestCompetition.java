@@ -1,9 +1,6 @@
 package Test;
 
-import static org.junit.Assert.*;
-
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.SortedSet;
 
 import org.junit.Test;
 
@@ -17,17 +14,17 @@ import junit.framework.TestCase;
 public class TestCompetition extends TestCase{
 	
 	Inscriptions i = Inscriptions.getInscriptions();
-	Competition c = i.createCompetition("Nom de la compet'", null, false);
+	Competition c = i.createCompetition("Competition 1", null, false);
 	Equipe e = i.createEquipe("Nom Equipe");
 	Personne p = i.createPersonne("Claude", "Jean", "jean.claude@mail.com");
-	Set<Candidat> candidats = new TreeSet<Candidat>();
+	SortedSet<Candidat> can = i.getCandidats();
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		Competition c = i.createCompetition("Nom de la compet'", null, false);
-		Equipe e = i.createEquipe("Nom Equipe");
-		Personne p = i.createPersonne("Claude", "Jean", "jean.claude@mail.com");
-		Set<Candidat> candidats = new TreeSet<Candidat>();
+		c = i.createCompetition("Competition 1", null, false);
+		e = i.createEquipe("Nom Equipe");
+		p = i.createPersonne("Claude", "Jean", "jean.claude@mail.com");
+		can = i.getCandidats();
 	}
 
 	@Test
@@ -37,7 +34,7 @@ public class TestCompetition extends TestCase{
 
 	@Test
 	public void testGetNom() {
-		assertEquals(c.getNom(), "Nom de la compet'");
+		assertEquals(c.getNom(), "Competition 1");
 	}
 
 	@Test
@@ -48,7 +45,7 @@ public class TestCompetition extends TestCase{
 
 	@Test
 	public void testInscriptionsOuvertes() {
-		assertEquals(c.inscriptionsOuvertes(), false);
+		assert(c.inscriptionsOuvertes());
 	}
 
 	@Test
@@ -69,14 +66,13 @@ public class TestCompetition extends TestCase{
 
 	@Test
 	public void testGetCandidats() {
-		candidats.add(p);
 		assertNotNull(c.getCandidats());
 	}
 
 	@Test
 	public void testAddPersonne() {
 		c.add(p);
-		assertNotNull(i.getPersonnes());
+		assertNotNull(c.getCandidats());
 	}
 
 	@Test
@@ -84,28 +80,30 @@ public class TestCompetition extends TestCase{
 		Competition c2 = i.createCompetition("Nom de la compet'", null, true);
 		c2.add(e);
 		assertNotNull(i.getEquipes());
+		c2.delete();
 	}
 
-	@Test
+	/*@Test
 	public void testRemove() {
-		c.remove(p);
-		assertEquals(c.getCandidats(), null);
-	}
+		c.remove(can.last());
+		assertEquals(i.getCandidats(), "[]");
+	}*/
 
 	@Test
 	public void testDelete() {
 		c.delete();
-		assertEquals(i.getCompetitions(), null);
+		assertNotSame(i.getCompetitions(), "[Competition 1]");
 	}
 
 	@Test
 	public void testCompareTo() {
-		
+		Competition c2 = i.createCompetition("Nom de la compet'", null, true);
+		c.compareTo(c2);
 	}
 
 	@Test
 	public void testToString() {
-		assertEquals(c.toString(), "Nom de la compet'");
+		assertEquals(c.toString(), "Competition 1");
 	}
 
 }

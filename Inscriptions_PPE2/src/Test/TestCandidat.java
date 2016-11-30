@@ -2,53 +2,59 @@ package Test;
 
 import static org.junit.Assert.*;
 
+import java.util.SortedSet;
+
 import org.junit.Test;
 
-public class TestCandidat {
+import inscriptions.Candidat;
+import inscriptions.Competition;
+import inscriptions.Inscriptions;
+import inscriptions.Personne;
 
-	@Test
-	public void testCandidat() {
-		fail("Not yet implemented");
-	}
+public class TestCandidat {
+	
+	Inscriptions i = Inscriptions.getInscriptions();
+	SortedSet<Candidat> can = i.getCandidats();
+	Personne p = i.createPersonne("Riviere", "Jean", "jean.riviere@mail.com");
+	Personne p2 = i.createPersonne("Dupont", "Michel", "michel.dupont@mail.com");
+	Competition c = i.createCompetition("Competition 1", null, false);
 
 	@Test
 	public void testGetNom() {
-		fail("Not yet implemented");
+		c.add(p);
+		assertEquals(can.last().getNom(), "Riviere");
 	}
 
 	@Test
 	public void testSetNom() {
-		fail("Not yet implemented");
+		c.add(p);
+		can.last().setNom("Robert");
+		assertEquals(can.last().getNom(), "Robert");
 	}
 
 	@Test
 	public void testGetCompetitions() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAdd() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testRemove() {
-		fail("Not yet implemented");
+		assertNotNull(i.getCompetitions());
 	}
 
 	@Test
 	public void testDelete() {
-		fail("Not yet implemented");
+		c.add(p);
+		c.add(p2);
+		can.last().delete();
+		assertEquals(i.getCandidats().toString(), "["+can.last()+"]");
 	}
 
 	@Test
 	public void testCompareTo() {
-		fail("Not yet implemented");
+		c.add(p);
+		c.add(p2);
+		assertEquals(can.first().compareTo(can.first()), can.last().compareTo(can.last()));
 	}
 
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		assertEquals(can.last().toString(), "\nRiviere -> inscrit à [] membre de []");
 	}
 
 }
