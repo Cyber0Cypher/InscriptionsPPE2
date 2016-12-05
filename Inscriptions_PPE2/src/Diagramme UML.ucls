@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="inscriptions.Candidat" project="Inscriptions_PPE2" 
     file="/Inscriptions_PPE2/src/inscriptions/Candidat.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="524" y="171"/>    
+    <position height="-1" width="-1" x="313" y="212"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="inscriptions.Competition" project="Inscriptions_PPE2" 
     file="/Inscriptions_PPE2/src/inscriptions/Competition.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="911" y="207"/>    
+    <position height="387" width="203" x="544" y="18"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="inscriptions.Equipe" project="Inscriptions_PPE2" 
     file="/Inscriptions_PPE2/src/inscriptions/Equipe.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="135" y="543"/>    
+    <position height="-1" width="-1" x="114" y="546"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="inscriptions.Inscriptions" project="Inscriptions_PPE2" 
     file="/Inscriptions_PPE2/src/inscriptions/Inscriptions.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="527" y="626"/>    
+    <position height="-1" width="-1" x="407" y="681"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="inscriptions.Personne" project="Inscriptions_PPE2" 
     file="/Inscriptions_PPE2/src/inscriptions/Personne.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="142" y="172"/>    
+    <position height="297" width="174" x="10" y="62"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
