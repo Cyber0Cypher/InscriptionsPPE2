@@ -409,7 +409,7 @@ public class Inscriptions implements Serializable
 		menuPersonne.ajoute(new Option("Supprimer une personne", "a", new Action() {
 			public void optionSelectionnee() {
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
-				db.sql("call supprPersonne(" + idPers + ")");
+				db.sql("call deletecandidat(" + idPers + ")");
 			}
 		}));
 		// Affiche les équipes de la personne
@@ -433,9 +433,12 @@ public class Inscriptions implements Serializable
 				db.sql("call retourPrenom(" + idPers + ")");
 			}
 		}));
-		// Modifier le prénom
-		menuPersonne.ajoute(new Option("Modifier le prénom d'une personne", "e", new Action() {
+		// Modifier le nom
+		menuPersonne.ajoute(new Option("Modifier le nom d'une personne", "e", new Action() {
 			public void optionSelectionnee() {
+				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
+				String nom = utilitaires.EntreesSorties.getString("Saisissez le nouveau nom: ");
+				db.sql("call renommerPersonne(" + idPers + "," + nom + ")");
 				
 			}
 		}));
@@ -447,27 +450,19 @@ public class Inscriptions implements Serializable
 				db.sql("call changeMail(" + idPers + ", " + mail + ")");
 			}
 		}));
-		// Modifier le prenom
-		menuPersonne.ajoute(new Option("Modifier le prenom d'une personne", "g", new Action() {
-			public void optionSelectionnee() {
-				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
-				String prenom = utilitaires.EntreesSorties.getString("Saisissez le nouveau prenom: ");
-				db.sql("call renommerPersonne(" + idPers + "," + prenom + ")");
-			}
-		}));
 		// Créer une personne
 		menuPersonne.ajoute(new Option("Créer une personne", "h", new Action() {
 			public void optionSelectionnee() {
 				String nom = utilitaires.EntreesSorties.getString("Saisissez le nom: ");
 				String prenom = utilitaires.EntreesSorties.getString("Saisissez le prenom: ");
 				String mail = utilitaires.EntreesSorties.getString("Saisissez le mail: ");
-				db.sql("call create_personne(" + nom + ", " + prenom + ", " + mail + ")");
+				db.sql("call creatPers(" + nom + ", " + prenom + ", " + mail + ")");
 			}
 		}));
 		// Afficher les personnes
 		menuPersonne.ajoute(new Option("Afficher les personnes", "i", new Action() {
 			public void optionSelectionnee() {
-				db.sql("call affPersonnes()");
+				db.sql("call getPers()");
 			}
 		}));
 		
@@ -483,21 +478,21 @@ public class Inscriptions implements Serializable
 			public void optionSelectionnee() {
 				int idCandidat = utilitaires.EntreesSorties.getInt("Saisissez l'id du candidat qui rejoindra l'équipe: ");
 				int idEquipe = utilitaires.EntreesSorties.getInt("Saisissez l'id de l'équipe: ");
-				db.sql("call ajoutPers(" + idCandidat + ", " + idEquipe + ")");
+				db.sql("call ajoutPer(" + idCandidat + ", " + idEquipe + ")");
 			}
 		}));
 		// Supprime une équipe
 		menuEquipe.ajoute(new Option("Supprimer une équipe", "b", new Action() {
 			public void optionSelectionnee() {
 				int idEquipe = utilitaires.EntreesSorties.getInt("Saisissez l'id de l'équipe: ");
-				db.sql("call delete_equipe(" + idEquipe + ")");
+				db.sql("call deletecandidat(" + idEquipe + ")");
 			}
 		}));
 		// Afficher les membres de l'équipe
 		menuEquipe.ajoute(new Option("Afficher les membres d'une équipe", "c", new Action() {
 			public void optionSelectionnee() {
 				int idEquipe = utilitaires.EntreesSorties.getInt("Saisissez l'id de l'équipe: ");
-				db.sql("call retourPersonneEquipe(" + idEquipe + ")");
+				db.sql("call retourPersonnEquipe(" + idEquipe + ")");
 			}
 		}));
 		// Supprimer un membre de l'équipe
@@ -512,13 +507,13 @@ public class Inscriptions implements Serializable
 		menuEquipe.ajoute(new Option("Créer une équipe", "e", new Action() {
 			public void optionSelectionnee() {
 				String nom = utilitaires.EntreesSorties.getString("Saisissez le nom de la nouvelle équipe: ");
-				db.sql("call create_equipe(" + nom + ")");
+				db.sql("call creatEquipe(" + nom + ")");
 			}
 		}));
 		// Affiche les équipes
 		menuEquipe.ajoute(new Option("Afficher les équipes", "f", new Action() {
 			public void optionSelectionnee() {
-				db.sql("call affEquipes()");
+				db.sql("call getEquipe()");
 			}
 		}));
 		
