@@ -348,7 +348,7 @@ public class Inscriptions implements Serializable
 		}));
 		menuCompetition.ajoute(new Option("date de cloture des compétitions", "f", new Action() {
 			public void optionSelectionnee() {
-				db.sql("call dateClotureInscription()");
+				db.sql("call dateClotureInscriptions()");
 			}
 		}));
 		menuCompetition.ajoute(new Option("Nom d'une compétition", "g", new Action() {
