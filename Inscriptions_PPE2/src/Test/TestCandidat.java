@@ -2,6 +2,7 @@ package Test;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
 import java.util.SortedSet;
 
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class TestCandidat {
 	SortedSet<Candidat> can = i.getCandidats();
 	Personne p = i.createPersonne("Riviere", "Jean", "jean.riviere@mail.com");
 	Personne p2 = i.createPersonne("Dupont", "Michel", "michel.dupont@mail.com");
-	Competition c = i.createCompetition("Competition 1", null, false);
+	Competition c = i.createCompetition("Competition 1", LocalDate.of(2020, 1, 1), false);
 
 	@Test
 	public void testGetNom() {
