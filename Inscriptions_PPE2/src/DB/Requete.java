@@ -1,6 +1,6 @@
 package DB;
 
-public class Requête {
+public class Requete {
 	
 	Connect db = new Connect();
 	
