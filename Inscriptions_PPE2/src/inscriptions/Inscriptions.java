@@ -14,7 +14,7 @@ import java.util.TreeSet;
 import org.junit.runner.Request;
 
 import DB.Connect;
-import DB.Requête;
+import DB.Requete;
 import dialogue.Action;
 import dialogue.Menu;
 import dialogue.Option;
@@ -265,7 +265,7 @@ public class Inscriptions implements Serializable
 		
 		// connection à la base
 		Connect db = new Connect();		
-		Requête r = new Requête();
+		Requete r = new Requete();
 		
 		System.out.println("\n ----------------------------------- \n Utilitaire des inscriptions sportives M2L \n ----------------------------------- \n");
 		
