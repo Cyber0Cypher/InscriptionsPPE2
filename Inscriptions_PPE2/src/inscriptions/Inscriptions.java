@@ -11,6 +11,10 @@ import java.time.LocalDate;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.junit.runner.Request;
+
+import DB.Connect;
+import DB.Requête;
 import dialogue.Action;
 import dialogue.Menu;
 import dialogue.Option;
@@ -261,6 +265,7 @@ public class Inscriptions implements Serializable
 		
 		// connection à la base
 		Connect db = new Connect();		
+		Requête r = new Requête();
 		
 		System.out.println("\n ----------------------------------- \n Utilitaire des inscriptions sportives M2L \n ----------------------------------- \n");
 		
@@ -280,21 +285,21 @@ public class Inscriptions implements Serializable
 		menuCandidat.ajoute(new Option("Supprimer un candiat", "a", new Action() {
 			public void optionSelectionnee() {
 				int idCandidat = utilitaires.EntreesSorties.getInt("Saisissez l'id du candidat à supprimer : ");
-				db.sql("call deleteCandidat(" + idCandidat + ")");
+				r.deleteCandidat(idCandidat);
 			}
 		}));
 		// Compétitions auxquelles le candidat est inscrit 
 		menuCandidat.ajoute(new Option("Compétitions du candidat", "b", new Action() {
 			public void optionSelectionnee() {
 				int idCandidat = utilitaires.EntreesSorties.getInt("Saisissez l'id du candidat: ");
-				db.sql("call competCandidat(" + idCandidat + ")");
+				r.competitionCandidat(idCandidat);
 			}
 		}));
 		// Nom du candidat
 		menuCandidat.ajoute(new Option("Nom du candidat", "c", new Action() {
 			public void optionSelectionnee() {
 				int idCandidat = utilitaires.EntreesSorties.getInt("Saisissez l'id du candidat: ");
-				db.sql("call nameCandidat(" + idCandidat + ")");
+				r.nomCandidat(idCandidat);
 			}
 		}));
 		// Modifier nom candidat
@@ -302,7 +307,7 @@ public class Inscriptions implements Serializable
 			public void optionSelectionnee() {
 				int idCandidat = utilitaires.EntreesSorties.getInt("Saisissez l'id du candidat: ");
 				String nomCandidat = utilitaires.EntreesSorties.getString("Saissisez le nouveau nom du candidat: ");
-				db.sql("call renameCandidat(" + idCandidat + ", \"" + nomCandidat +"\")");
+				r.renommerCandidat(idCandidat, nomCandidat);
 			}
 		}));
 		// Afficher les candidats
@@ -324,64 +329,64 @@ public class Inscriptions implements Serializable
 			public void optionSelectionnee() {
 				int idEquipe = utilitaires.EntreesSorties.getInt("Saisissez l'id de l'équipe: ");
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
-				db.sql("call ajouterEquipeACompetition(" + idEquipe + ", " + idComp + ")");
+				r.ajouterEquipeACompetition(idEquipe, idComp);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Ajouter une personne à une compétition", "b", new Action() {
 			public void optionSelectionnee() {
 				int idPersonne = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
-				db.sql("call ajouterPersonneACompetition(" + idPersonne + ", " + idComp + ")");
+				r.ajouterPersonneACompetition(idPersonne, idComp);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Supprimer une compétition", "c", new Action() {
 			public void optionSelectionnee() {
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
-				db.sql("call suprCom(" + idComp + ")");
+				r.supprimerCompetiton(idComp);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Candidats inscrits à une compétition", "e", new Action() {
 			public void optionSelectionnee() {
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
-				db.sql("call candidatsInscritsComp(" + idComp + ")");
+				r.candidatsInscritsCompetition(idComp);
 			}
 		}));
 		menuCompetition.ajoute(new Option("date de cloture des compétitions", "f", new Action() {
 			public void optionSelectionnee() {
-				db.sql("call dateClotureInscriptions()");
+				r.dateClotureInscriptions();
 			}
 		}));
 		menuCompetition.ajoute(new Option("Nom d'une compétition", "g", new Action() {
 			public void optionSelectionnee() {
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
-				db.sql("call nom_de_competition(" + idComp + ")");
+				r.nomCompetition(idComp);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Les inscriptions d'une compétition sont elles encore ouvertes", "h", new Action() {
 			public void optionSelectionnee() {
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
-				db.sql("call inscriptions_date(" + idComp + ")");
+				r.inscriptionsOuvertes(idComp);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Désinscrire un candidat d'une compétition", "i", new Action() {
 			public void optionSelectionnee() {
 				int idCandidat = utilitaires.EntreesSorties.getInt("Saisissez l'id du candidat: ");
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
-				db.sql("call desinscritCandidat(" + idCandidat + ", " + idComp + ")");
+				r.desinscritCandidat(idCandidat, idComp);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Modifier date de cloture d'une compétition", "j", new Action() {
 			public void optionSelectionnee() {
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
 				String date = utilitaires.EntreesSorties.getString("Saisissez la nouvelle date de cloture: ");
-				db.sql("call modifdatecloture(" + idComp + ",\"" + date +"\" )");
+				r.modifierDateCloture(idComp, date);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Modifier le nom d'une compétition", "k", new Action() {
 			public void optionSelectionnee() {
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
 				String nom = utilitaires.EntreesSorties.getString("Saisissez le nouveau nom: ");
-				db.sql("call modifnomcompetition(" + idComp + ",\""+ nom +"\" )");
+				r.modifierNomCompetition(idComp, nom);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Créer une compétition", "l", new Action() {
@@ -389,12 +394,12 @@ public class Inscriptions implements Serializable
 				String nom = utilitaires.EntreesSorties.getString("Saisissez le nom de la nouvelle compétition: ");
 				String date = utilitaires.EntreesSorties.getString("Saisissez la date de cloture: ");
 				int enEquipe = utilitaires.EntreesSorties.getInt("Compétition en équipe ? oui 1, non 0: ");
-				db.sql("call creatcomp(\"" + nom +"\",\" " + date +"\", " + enEquipe +")");
+				r.creerCompetition(nom, date, enEquipe);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Afficher les compétitions", "m", new Action() {
 			public void optionSelectionnee() {
-				db.sql("call getComp()");
+				r.getCompetition();
 			}
 		}));
 		
@@ -409,28 +414,28 @@ public class Inscriptions implements Serializable
 		menuPersonne.ajoute(new Option("Supprimer une personne", "a", new Action() {
 			public void optionSelectionnee() {
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
-				db.sql("call deletecandidat(" + idPers + ")");
+				r.supprimerCandidat(idPers);
 			}
 		}));
 		// Affiche les équipes de la personne
 		menuPersonne.ajoute(new Option("Afficher les équipes d'une personne", "b", new Action() {
 			public void optionSelectionnee() {
-			int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
-			db.sql("call retourCandidatEquipe(" + idPers + ")");
+			int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne : ");
+			r.retourCandidatEquipe(idPers);
 			}
 		}));
 		// Affiche le mail d'une personne
 		menuPersonne.ajoute(new Option("Afficher le mail d'une personne", "c", new Action() {
 			public void optionSelectionnee() {
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
-				db.sql("call retourMail(" + idPers + ")");
+				r.retourMail(idPers);
 			}
 		}));
 		// Afficher le prénom d'une personne
 		menuPersonne.ajoute(new Option("Afficher le prénom d'une personne", "d", new Action() {
 			public void optionSelectionnee() {
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
-				db.sql("call retourPrenom(" + idPers + ")");
+				r.retourPrenom(idPers);
 			}
 		}));
 		// Modifier le nom
@@ -438,7 +443,7 @@ public class Inscriptions implements Serializable
 			public void optionSelectionnee() {
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
 				String nom = utilitaires.EntreesSorties.getString("Saisissez le nouveau nom: ");
-				db.sql("call renommerPersonne(" + idPers + ",\"" + nom +"\")");
+				r.renommerPersonne(idPers, nom);
 				
 			}
 		}));
@@ -447,7 +452,7 @@ public class Inscriptions implements Serializable
 			public void optionSelectionnee() {
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
 				String mail = utilitaires.EntreesSorties.getString("Saisissez le nouveau mail: ");
-				db.sql("call changeMail(" + idPers + ", \"" + mail + "\")");
+				r.changerMail(idPers, mail);
 			}
 		}));
 		// Créer une personne
@@ -456,13 +461,13 @@ public class Inscriptions implements Serializable
 				String nom = utilitaires.EntreesSorties.getString("Saisissez le nom: ");
 				String prenom = utilitaires.EntreesSorties.getString("Saisissez le prenom: ");
 				String mail = utilitaires.EntreesSorties.getString("Saisissez le mail: ");
-				db.sql("call creatPers(" + nom + ", " + prenom + ", " + mail + ")");
+				r.creerPersonne(nom, prenom, mail);
 			}
 		}));
 		// Afficher les personnes
 		menuPersonne.ajoute(new Option("Afficher les personnes", "i", new Action() {
 			public void optionSelectionnee() {
-				db.sql("call getPers()");
+				r.getPersonne();
 			}
 		}));
 		
@@ -478,21 +483,21 @@ public class Inscriptions implements Serializable
 			public void optionSelectionnee() {
 				int idCandidat = utilitaires.EntreesSorties.getInt("Saisissez l'id du candidat qui rejoindra l'équipe: ");
 				int idEquipe = utilitaires.EntreesSorties.getInt("Saisissez l'id de l'équipe: ");
-				db.sql("call ajoutPer(" + idCandidat + ", " + idEquipe + ")");
+				r.ajouterPersonne(idCandidat, idEquipe);
 			}
 		}));
 		// Supprime une équipe
 		menuEquipe.ajoute(new Option("Supprimer une équipe", "b", new Action() {
 			public void optionSelectionnee() {
 				int idEquipe = utilitaires.EntreesSorties.getInt("Saisissez l'id de l'équipe: ");
-				db.sql("call deletecandidat(" + idEquipe + ")");
+				r.supprimerCandidat(idEquipe);
 			}
 		}));
 		// Afficher les membres de l'équipe
 		menuEquipe.ajoute(new Option("Afficher les membres d'une équipe", "c", new Action() {
 			public void optionSelectionnee() {
 				int idEquipe = utilitaires.EntreesSorties.getInt("Saisissez l'id de l'équipe: ");
-				db.sql("call retourPersonnEquipe(" + idEquipe + ")");
+				r.retourPersonneEquipe(idEquipe);
 			}
 		}));
 		// Supprimer un membre de l'équipe
@@ -500,20 +505,20 @@ public class Inscriptions implements Serializable
 			public void optionSelectionnee() {
 				int idEquipe = utilitaires.EntreesSorties.getInt("Saisissez l'id de l'équipe: ");
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
-				db.sql("call supprMembrEq(" + idEquipe + ", " + idPers + ")");
+				r.supprimerMembreEquipe(idEquipe, idPers);
 			}
 		}));
 		// créer une équipe
 		menuEquipe.ajoute(new Option("Créer une équipe", "e", new Action() {
 			public void optionSelectionnee() {
 				String nom = utilitaires.EntreesSorties.getString("Saisissez le nom de la nouvelle équipe: ");
-				db.sql("call creatEquipe(\"" + nom + "\")");
+				r.creerEquipe(nom);
 			}
 		}));
 		// Affiche les équipes
 		menuEquipe.ajoute(new Option("Afficher les équipes", "f", new Action() {
 			public void optionSelectionnee() {
-				db.sql("call getEquipe()");
+				r.getEquipe();
 			}
 		}));
 		

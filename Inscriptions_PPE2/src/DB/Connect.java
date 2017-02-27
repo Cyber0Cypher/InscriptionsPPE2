@@ -1,4 +1,4 @@
-package inscriptions;
+package DB;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
