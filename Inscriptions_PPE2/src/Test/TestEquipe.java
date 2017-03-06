@@ -39,14 +39,14 @@ public class TestEquipe extends TestCase {
 	@Test
 	public void testAddPersonne() {
 		e1.add(p1);
-		assertEquals(e1.getMembres().toString(), "[\nWayne -> inscrit à [] membre de ["+e1.toString()+"]]");
+		assertTrue(e1.getMembres().contains(p1));
 	}
 
 	@Test
 	public void testRemovePersonne() {
 		e1.add(p1);
 		e1.remove(p1);
-		assertEquals(e1.getMembres().toString(), "[]");
+		assertFalse(e1.getMembres().contains(p1));
 	}
 
 }
