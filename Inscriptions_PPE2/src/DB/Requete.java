@@ -4,29 +4,7 @@ public class Requete {
 	
 	Connect db = new Connect();
 	
-	public void deleteCandidat(int idCandidat) {
-		db.sql("call deleteCandidat(" + idCandidat + ")");
-	}
-	
-	public void competitionCandidat(int idCandidat) {
-		db.sql("call competitionCandidat(" + idCandidat + ")");
-	}
-	
-	public void nomCandidat(int idCandidat) {
-		db.sql("call nomCandidat(" + idCandidat + ")");
-	}
-	
-	public void renommerCandidat(int idCandidat, String nomCandidat) {
-		db.sql("call renommerCandidat(" + idCandidat + ", \"" + nomCandidat +"\")");
-	}
-	
-	public void getCandidat() {
-		db.sql("call getCandidat()");
-	}
-	
-	public void ajouterCandidatCompetition(int idCandidat, int idCompetition) {
-		db.sql("call ajouterCandidatCompetition(" + idCandidat + ", " + idCompetition + ")");
-	}
+	/* COMPETITION */
 	
 	public void supprimerCompetiton(int idCompetition) {
 		db.sql("call supprimerCompetiton(" + idCompetition + ")");
@@ -52,6 +30,10 @@ public class Requete {
 		db.sql("call desinscrireCandidat(" + idCandidat + ", " + idCompetition + ")");
 	}
 	
+	public void ajouterCandidatCompetition(int idCandidat,int idCompetition) {
+		db.sql("call ajouterCandidatCompetition(" + idCandidat + ", " + idCompetition + ")");
+	}
+	
 	public void modifierDateCloture(int idCompetiton, String date) {
 		db.sql("call modifierDateCloture(" + idCompetiton + ",\"" + date +"\" )");
 	}
@@ -67,6 +49,8 @@ public class Requete {
 	public void getCompetition() {
 		db.sql("call getCompetition()");
 	}
+	
+	/* PERSONNE */
 	
 	public void supprimerPersonne(int idPersonne) {
 		db.sql("call supprimerPersonne(" + idPersonne + ")");
@@ -89,16 +73,18 @@ public class Requete {
 	}
 	
 	public void modifierMail(int idPersonne, String mail) {
-		db.sql("call modifierMail(" + idPersonne + ", \"" + mail + "\")");
+		db.sql("call modifierMail('" + idPersonne + "', '" + mail + "')");
 	}
 	
 	public void creerPersonne(String nom, String prenom, String mail) {
-		db.sql("call creerPersonne(" + nom + ", " + prenom + ", " + mail + ")");
+		db.sql("call creerPersonne('" + nom + "', '" + prenom + "', '" + mail + "');");
 	}
 	
 	public void getPersonne() {
-		db.sql("call getPersonne()");
+		db.sql("call getPersonne();");
 	}
+	
+	/* EQUIPE */
 	
 	public void ajouterPersonneEquipe(int idCandidat, int idEquipe) {
 		db.sql("call ajouterPersonneEquipe(" + idCandidat + ", " + idEquipe + ")");
@@ -110,6 +96,10 @@ public class Requete {
 	
 	public void supprimerPersonneEquipe(int idEquipe, int idPersonne) {
 		db.sql("call supprimerPersonneEquipe(" + idEquipe + ", " + idPersonne + ")");
+	}
+	
+	public void ajouterEquipeCompetition(int idEquipe, int idCompetition){
+		db.sql("call ajouterEquipeCompetition(" + idEquipe + ", " + idCompetition + ")");
 	}
 	
 	public void supprimerEquipe(int idEquipe) {

@@ -10,6 +10,8 @@ import com.mysql.jdbc.ResultSetMetaData;
 
 public class Connect {
 	
+	public static Connection conn;
+	
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	// Port 3306 wamp et 8889 MAMP
 	static final String DB_URL = "jdbc:mysql://localhost:3306/inscription";
@@ -28,13 +30,83 @@ public class Connect {
 		      String passwd = PASS;
 	
 		      @SuppressWarnings("unused")
-			Connection conn = (Connection) DriverManager.getConnection(url, user, passwd);
-		      System.out.println("Connexion effective !");         
+		      Connection conn = (Connection) DriverManager.getConnection(url, user, passwd);
+		      System.out.println("Connexion effective !");
 		         
 		} catch (Exception e) {
 		      e.printStackTrace();
-		}      
+		}
 	}
+	
+//	public static Connection connexion() throws ClassNotFoundException{
+//		try {
+//		      Class.forName("com.mysql.jdbc.Driver");
+//		      System.out.println("Driver O.K.");
+//	
+//		      String url = DB_URL;
+//		      String user = USER;
+//		      String passwd = PASS;
+//	
+//		      @SuppressWarnings("unused")
+//		      Connection conn = (Connection) DriverManager.getConnection(url, user, passwd);
+//		      System.out.println("Connexion effective !");
+//		         
+//		} catch (Exception e) {
+//		      e.printStackTrace();
+//		}
+//		return conn;
+//	}
+//	
+//	public static String[] getNomsColonnes(ResultSet resultat) throws SQLException { 
+//	   ResultSetMetaData metadata = (ResultSetMetaData) resultat.getMetaData(); 
+//	   String[] noms = new String[metadata.getColumnCount()]; 
+//	   for(int i = 0; i < noms.length; i++){ 
+//	      String nomColonne = metadata.getColumnName(i+1); 
+//	      noms[i] = nomColonne; 
+//	   } 
+//	   return noms; 
+//	}
+//	
+//	public static void connexionExe (String req)
+//	{
+//		try {
+//			connexion();
+//			String sql = req;
+//			Statement smt = conn.createStatement();
+//			smt.executeUpdate(sql) ;
+//		}  catch (Exception e) {
+//			System.out.println( e.getMessage() );
+//		}
+//	}
+//	
+//
+//
+//	public static ResultSet connexionQuery (String req)
+//	{
+//		Connection conn = null;
+//		try {
+//			connexion();
+//			String sql = req  ;
+//			Statement smt = conn.createStatement() ;
+//			ResultSet rs = smt.executeQuery(sql) ;
+//			return rs;
+//		}
+//		catch (Exception e) {
+//		// gestion des exceptions
+//		System.out.println( e.getMessage() );
+//		}
+//
+//		finally
+//		{
+//			try {
+//				conn.close();
+//			} catch (Exception e) {
+//				
+//				
+//			}
+//		}
+//		return null;
+//	}
 	
 	public void sql(String requete) {
 
@@ -54,9 +126,11 @@ public class Connect {
 			// AFFICHE TOUTES LES COLONNES 
 			ResultSetMetaData metadata = (ResultSetMetaData) rs.getMetaData();
 			int columncount = metadata.getColumnCount();
+			System.out.print("[");
 			for (int i = 1; i <= columncount; i++) {
-				System.out.println(metadata.getColumnName(i) + ", ");
+				System.out.print(metadata.getColumnName(i) + ", ");
 			}
+			System.out.print("]");
 			System.out.println();
 			while (rs.next()) {
 		        String row = "";
