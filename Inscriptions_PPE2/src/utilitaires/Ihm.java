@@ -1,6 +1,10 @@
 package utilitaires;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,6 +24,13 @@ import javax.swing.JTextArea;
 import javax.swing.JList;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+
+import com.toedter.calendar.JDateChooser;
+
+import DB.Requete;
+import inscriptions.Equipe;
+import inscriptions.Inscriptions;
+
 import java.awt.Color;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
@@ -39,9 +50,11 @@ public class Ihm {
 	private JTextField txtNomEpreuve;
 	private JTextField txtDateCloture;
 	private ButtonGroup bg = new ButtonGroup();
-	private JRadioButton rdbtnNewRadioButton = new JRadioButton("Oui");
+	private JRadioButton rdbtnOui = new JRadioButton("Oui");
 	private JRadioButton rdbtnNo = new JRadioButton("Non");
+	private JDateChooser dateCloture = new JDateChooser();
 
+	private static Requete r;
 	/**
 	 * Launch the application.
 	 */
@@ -49,6 +62,7 @@ public class Ihm {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					r = new Requete();
 					Ihm window = new Ihm();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -73,7 +87,7 @@ public class Ihm {
 		frame.setBounds(100, 100, 520, 392);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		bg.add(rdbtnNewRadioButton);
+		bg.add(rdbtnOui);
 		bg.add(rdbtnNo);
 		
 		JLabel lblAccueil = new JLabel("Inscriptions\r\n");
@@ -93,8 +107,19 @@ public class Ihm {
 		panelPersonne.add(btnAjouterUnePersonne);
 		
 		JComboBox<Object> comboBox = new JComboBox<Object>();
+		comboBox.addItem(null);
+		for(String l : r.getPersonne())
+			comboBox.addItem(l);
 		comboBox.setBounds(290, 35, 152, 20);
 		panelPersonne.add(comboBox);
+		
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				txtNomPersonne.setText(r.getNom(comboBox.getSelectedIndex()));
+				txtPrenomPersonne.setText(r.getPrenom(comboBox.getSelectedIndex()));
+				txtMailPersonne.setText(r.getMail(comboBox.getSelectedIndex()));
+			}
+		});
 		
 		JLabel lblNewLabel = new JLabel("Nom\r\n");
 		lblNewLabel.setBounds(10, 14, 46, 14);
@@ -126,6 +151,7 @@ public class Ihm {
 		JButton btnModifierUnePersonne = new JButton("Modifier une personne\r\n");
 		btnModifierUnePersonne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//txtNomPersonne.setText((String) comboBox.);
 			}
 		});
 		btnModifierUnePersonne.setBounds(172, 203, 152, 23);
@@ -186,8 +212,20 @@ public class Ihm {
 		txtMailEquipe.setColumns(10);
 		
 		JComboBox<Object> comboBox_1 = new JComboBox<Object>();
+		comboBox_1.addItem(null);
+		for(String l : r.getEquipe())
+			comboBox_1.addItem(l);
 		comboBox_1.setBounds(254, 50, 179, 20);
 		panelEquipe.add(comboBox_1);
+		
+		comboBox_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				txtAcronymeEquipe.setText(r.getAcrEquipe(comboBox_1.getSelectedIndex()));
+				txtNomEquipe.setText(r.getNomEquipe(comboBox_1.getSelectedIndex()));
+				txtMailEquipe.setText(r.getMailEquipe(comboBox_1.getSelectedIndex()));
+			}
+		});
+		
 		
 		JLabel lblSlctionnerUnequipe = new JLabel("S\u00E9l\u00E9ctionner une \u00E9quipe");
 		lblSlctionnerUnequipe.setBounds(254, 25, 179, 14);
@@ -196,9 +234,28 @@ public class Ihm {
 		JLayeredPane panelCompetition = new JLayeredPane();
 		tabbedPane.addTab("Competitions", null, panelCompetition, null);
 		
+		dateCloture = new JDateChooser();
+		dateCloture.setBounds(10,91,152,23);
+		dateCloture.setDate(Date.valueOf("2017-01-01"));
+		panelCompetition.add(dateCloture);
+		
 		JComboBox<Object> comboBox_2 = new JComboBox<Object>();
+		comboBox_2.addItem(null);
+		for(String l : r.getCompetition())
+			comboBox_2.addItem(l);
 		comboBox_2.setBounds(290, 35, 152, 20);
 		panelCompetition.add(comboBox_2);
+		
+		comboBox_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				txtNomEpreuve.setText(r.nomCompetition(comboBox_2.getSelectedIndex()));
+				dateCloture.setDateFormatString(r.dateClotureInscription(comboBox_2.getSelectedIndex()));
+				if(r.enEquipe(comboBox_2.getSelectedIndex()).equals("1"))
+					rdbtnOui.setSelected(true);
+				if(r.enEquipe(comboBox_2.getSelectedIndex()).equals("0"))
+					rdbtnNo.setSelected(true);
+			}
+		});
 		
 		JLabel lblNewLabel_7 = new JLabel("S\u00E9l\u00E9ctionner une comp\u00E9tition");
 		lblNewLabel_7.setBounds(290, 10, 165, 14);
@@ -221,13 +278,8 @@ public class Ihm {
 		panelCompetition.add(txtNomEpreuve);
 		txtNomEpreuve.setColumns(10);
 		
-		txtDateCloture = new JTextField();
-		txtDateCloture.setBounds(10, 91, 152, 20);
-		panelCompetition.add(txtDateCloture);
-		txtDateCloture.setColumns(10);
-		
-		rdbtnNewRadioButton.setBounds(10, 154, 70, 23);
-		panelCompetition.add(rdbtnNewRadioButton);
+		rdbtnOui.setBounds(10, 154, 70, 23);
+		panelCompetition.add(rdbtnOui);
 		
 		rdbtnNo.setBounds(95, 154, 70, 23);
 		panelCompetition.add(rdbtnNo);

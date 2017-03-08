@@ -292,33 +292,42 @@ public class Inscriptions implements Serializable
 				r.supprimerCompetiton(idComp);
 			}
 		}));
-		menuCompetition.ajoute(new Option("Candidats inscrits à une compétition", "d", new Action() {
+		menuCompetition.ajoute(new Option("Candidats inscrits à une compétition", "c", new Action() {
 			public void optionSelectionnee() {
 				r.getCompetition();
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
 				r.candidatsInscritsCompetition(idComp);
 			}
 		}));
-		menuCompetition.ajoute(new Option("Nom d'une compétition", "e", new Action() {
+		menuCompetition.ajoute(new Option("Nom d'une compétition", "d", new Action() {
 			public void optionSelectionnee() {
 				r.getCompetition();
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
 				r.nomCompetition(idComp);
 			}
 		}));
-		menuCompetition.ajoute(new Option("date de cloture des compétitions", "f", new Action() {
+		menuCompetition.ajoute(new Option("date de cloture des compétitions", "e", new Action() {
 			public void optionSelectionnee() {
-				r.dateClotureInscriptions();
+				r.getCompetition();
+				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
+				r.dateClotureInscription(idComp);
 			}
 		}));
-		menuCompetition.ajoute(new Option("Les inscriptions d'une compétition sont elles encore ouvertes", "g", new Action() {
+		menuCompetition.ajoute(new Option("Les inscriptions d'une compétition sont elles encore ouvertes", "f", new Action() {
 			public void optionSelectionnee() {
 				r.getCompetition();
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
 				r.inscriptionsOuvertes(idComp);
 			}
 		}));
-		
+		menuCompetition.ajoute(new Option("Modifier le nom d'une compétition", "g", new Action() {
+			public void optionSelectionnee() {
+				r.getCompetition();
+				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
+				String nom = utilitaires.EntreesSorties.getString("Saisissez le nouveau nom: ");
+				r.modifierNomCompetition(idComp, nom);
+			}
+		}));
 		menuCompetition.ajoute(new Option("Modifier date de cloture d'une compétition", "h", new Action() {
 			public void optionSelectionnee() {
 				r.getCompetition();
@@ -327,15 +336,7 @@ public class Inscriptions implements Serializable
 				r.modifierDateCloture(idComp, date);
 			}
 		}));
-		menuCompetition.ajoute(new Option("Modifier le nom d'une compétition", "i", new Action() {
-			public void optionSelectionnee() {
-				r.getCompetition();
-				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compétition: ");
-				String nom = utilitaires.EntreesSorties.getString("Saisissez le nouveau nom: ");
-				r.modifierNomCompetition(idComp, nom);
-			}
-		}));
-		menuCompetition.ajoute(new Option("Afficher les compétitions", "j", new Action() {
+		menuCompetition.ajoute(new Option("Afficher les compétitions", "i", new Action() {
 			public void optionSelectionnee() {
 				r.getCompetition();
 			}
@@ -349,7 +350,7 @@ public class Inscriptions implements Serializable
 		Menu menuPersonne = new Menu("Personnes", "b");
 		menuPersonne.ajouteRevenir("r");
 		// Créer une personne
-		menuPersonne.ajoute(new Option("Créer une personne", "g", new Action() {
+		menuPersonne.ajoute(new Option("Créer une personne", "a", new Action() {
 			public void optionSelectionnee() {
 				String nom = utilitaires.EntreesSorties.getString("Saisissez le Nom: ");
 				String prenom = utilitaires.EntreesSorties.getString("Saisissez le Prénom: ");
@@ -358,7 +359,7 @@ public class Inscriptions implements Serializable
 			}
 		}));
 		// Supprimer une personne
-		menuPersonne.ajoute(new Option("Supprimer une personne", "a", new Action() {
+		menuPersonne.ajoute(new Option("Supprimer une personne", "b", new Action() {
 			public void optionSelectionnee() {
 				r.getPersonne();
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
@@ -366,7 +367,7 @@ public class Inscriptions implements Serializable
 			}
 		}));
 		// Modifier le nom et le prénom
-		menuPersonne.ajoute(new Option("Modifier le nom et le prénom d'une personne", "e", new Action() {
+		menuPersonne.ajoute(new Option("Modifier le nom et le prénom d'une personne", "c", new Action() {
 			public void optionSelectionnee() {
 				r.getPersonne();
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
@@ -377,7 +378,7 @@ public class Inscriptions implements Serializable
 			}
 		}));
 		// Modifier le mail d'une personne
-		menuPersonne.ajoute(new Option("Modifier le mail d'une personne", "f", new Action() {
+		menuPersonne.ajoute(new Option("Modifier le mail d'une personne", "d", new Action() {
 			public void optionSelectionnee() {
 				r.getPersonne();
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
@@ -386,7 +387,7 @@ public class Inscriptions implements Serializable
 			}
 		}));
 		// Affiche les équipes de la personne
-		menuPersonne.ajoute(new Option("Afficher les équipes d'une personne", "b", new Action() {
+		menuPersonne.ajoute(new Option("Afficher les équipes d'une personne", "e", new Action() {
 			public void optionSelectionnee() {
 				r.getPersonne();
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne : ");
@@ -394,7 +395,7 @@ public class Inscriptions implements Serializable
 			}
 		}));
 		// Affiche le mail d'une personne
-		menuPersonne.ajoute(new Option("Afficher le mail d'une personne", "c", new Action() {
+		menuPersonne.ajoute(new Option("Afficher le mail d'une personne", "f", new Action() {
 			public void optionSelectionnee() {
 				r.getPersonne();
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
@@ -402,14 +403,14 @@ public class Inscriptions implements Serializable
 			}
 		}));
 		// Afficher le prénom d'une personne
-		menuPersonne.ajoute(new Option("Afficher le prénom d'une personne", "d", new Action() {
+		menuPersonne.ajoute(new Option("Afficher le prénom d'une personne", "g", new Action() {
 			public void optionSelectionnee() {
 				r.getPersonne();
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
 				r.getPrenom(idPers);
 			}
 		}));
-		menuPersonne.ajoute(new Option("Ajouter une personne à une compétition", "c", new Action() {
+		menuPersonne.ajoute(new Option("Ajouter une personne à une compétition", "h", new Action() {
 			public void optionSelectionnee() {
 				r.getPersonne();
 				int idCandidat = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
@@ -418,7 +419,7 @@ public class Inscriptions implements Serializable
 				r.ajouterCandidatCompetition(idCandidat, idComp);
 			}
 		}));
-		menuPersonne.ajoute(new Option("Désinscrire une personne d'une compétition", "c", new Action() {
+		menuPersonne.ajoute(new Option("Désinscrire une personne d'une compétition", "i", new Action() {
 			public void optionSelectionnee() {
 				r.getPersonne();
 				int idCandidat = utilitaires.EntreesSorties.getInt("Saisissez l'id du candidat: ");
@@ -428,7 +429,7 @@ public class Inscriptions implements Serializable
 			}
 		}));
 		// Afficher les personnes
-		menuPersonne.ajoute(new Option("Afficher les personnes", "h", new Action() {
+		menuPersonne.ajoute(new Option("Afficher les personnes", "j", new Action() {
 			public void optionSelectionnee() {
 				r.getPersonne();
 			}
@@ -484,7 +485,7 @@ public class Inscriptions implements Serializable
 				r.creerEquipe(nom);
 			}
 		}));
-		menuEquipe.ajoute(new Option("Ajouter une équipe à une compétition", "c", new Action() {
+		menuEquipe.ajoute(new Option("Ajouter une équipe à une compétition", "f", new Action() {
 			public void optionSelectionnee() {
 				r.getEquipe();
 				int idEquipe = utilitaires.EntreesSorties.getInt("Saisissez l'id d'une équipe: ");
@@ -494,7 +495,7 @@ public class Inscriptions implements Serializable
 			}
 		}));
 		// Affiche les équipes
-		menuEquipe.ajoute(new Option("Afficher les équipes", "f", new Action() {
+		menuEquipe.ajoute(new Option("Afficher les équipes", "g", new Action() {
 			public void optionSelectionnee() {
 				r.getEquipe();
 			}

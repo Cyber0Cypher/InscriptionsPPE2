@@ -1,8 +1,14 @@
 package DB;
 
+import java.util.ArrayList;
+
 public class Requete {
 	
-	Connect db = new Connect();
+	private Connect db;
+	
+	public Requete() {
+		db = new Connect();
+	}
 	
 	/* COMPETITION */
 	
@@ -10,20 +16,24 @@ public class Requete {
 		db.sql("call supprimerCompetiton(" + idCompetition + ")");
 	}
 	
-	public void candidatsInscritsCompetition(int idCompetiton) {
-		db.sql("call candidatsInscritsCompetition(" + idCompetiton + ")");
+	public void candidatsInscritsCompetition(int idCompetition) {
+		db.sql("call candidatsInscritsCompetition(" + idCompetition + ")");
 	}
 	
-	public void dateClotureInscriptions() {
-		db.sql("call dateClotureInscriptions()");
+	public String dateClotureInscription(int idCompetition) {
+		return db.select("call dateClotureInscription("+ idCompetition +")");
 	}
 	
-	public void nomCompetition(int idCompetiton) {
-		db.sql("call nomCompetition(" + idCompetiton + ")");
+	public String nomCompetition(int idCompetition) {
+		return db.select("call nomCompetition(" + idCompetition + ")");
 	}
 	
-	public void inscriptionsOuvertes(int idCompetition) {
-		db.sql("call inscriptionsOuvertes(" + idCompetition + ")");
+	public String inscriptionsOuvertes(int idCompetition) {
+		return db.select("select inscriptionsOuvertes(" + idCompetition + ");");
+	}
+	
+	public String enEquipe(int idCompetition) {
+		return db.select("call enEquipe(" + idCompetition + ")");
 	}
 	
 	public void desinscrireCandidat(int idCandidat,int idCompetition) {
@@ -34,8 +44,8 @@ public class Requete {
 		db.sql("call ajouterCandidatCompetition(" + idCandidat + ", " + idCompetition + ")");
 	}
 	
-	public void modifierDateCloture(int idCompetiton, String date) {
-		db.sql("call modifierDateCloture(" + idCompetiton + ",\"" + date +"\" )");
+	public void modifierDateCloture(int idCompetition, String date) {
+		db.sql("call modifierDateCloture(" + idCompetition + ",\"" + date +"\" )");
 	}
 	
 	public void modifierNomCompetition(int idCompetition, String nom) {
@@ -46,8 +56,8 @@ public class Requete {
 		db.sql("call creerCompetition(\"" + nom +"\",\" " + date +"\", " + enEquipe +")");
 	}
 	
-	public void getCompetition() {
-		db.sql("call getCompetition()");
+	public ArrayList<String> getCompetition() {
+		return db.select("call getCompetition()",2);
 	}
 	
 	/* PERSONNE */
@@ -60,12 +70,16 @@ public class Requete {
 		db.sql("call getEquipePersonne(" + idPersonne + ")");
 	}
 	
-	public void getMail(int idPersonne) {
-		db.sql("call getMail(" + idPersonne + ")");
+	public String getMail(int idPersonne) {
+		return db.select("call getMail(" + idPersonne + ")");
 	}
 	
-	public void getPrenom(int idPersonne) {
-		db.sql("call getPrenom(" + idPersonne + ")");
+	public String getPrenom(int idPersonne) {
+		return db.select("call getPrenom(" + idPersonne + ")");
+	}
+	
+	public String getNom(int idPersonne) {
+		return db.select("call getNom(" + idPersonne + ")");
 	}
 	
 	public void renommerPersonne(int idPersonne,String prenom, String nom) {
@@ -80,8 +94,8 @@ public class Requete {
 		db.sql("call creerPersonne('" + nom + "', '" + prenom + "', '" + mail + "');");
 	}
 	
-	public void getPersonne() {
-		db.sql("call getPersonne();");
+	public ArrayList<String> getPersonne() {
+		return db.select("call getPersonne()",2,3);
 	}
 	
 	/* EQUIPE */
@@ -110,7 +124,19 @@ public class Requete {
 		db.sql("call creerEquipe(\"" + nom + "\")");
 	}
 	
-	public void getEquipe() {
-		db.sql("call getEquipe()");
+	public String getAcrEquipe(int idEquipe) {
+		return db.select("call getAcrEquipe("+idEquipe+")");
+	}
+	
+	public String getNomEquipe(int idEquipe) {
+		return db.select("call getNomEquipe("+idEquipe+")");
+	}
+	
+	public String getMailEquipe(int idEquipe) {
+		return db.select("call getMailEquipe("+idEquipe+")");
+	}
+	
+	public ArrayList<String> getEquipe() {
+		return db.select("call getEquipe()",3);
 	}
 }

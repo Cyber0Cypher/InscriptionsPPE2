@@ -4,13 +4,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSetMetaData;
 
 public class Connect {
 	
-	public static Connection conn;
+	private Connection conn;
 	
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	// Port 3306 wamp et 8889 MAMP
@@ -18,20 +19,20 @@ public class Connect {
 	
 	static final String USER = "root";
 	// Pas sous wamp = "", "root" sous mamp
-	static final String PASS = "";
+	static final String PASS = "pBFIck0LMKrkfvuU";
 	
 	public Connect() {
 		try {
 		      Class.forName("com.mysql.jdbc.Driver");
-		      System.out.println("Driver O.K.");
+		      //System.out.println("Driver O.K.");
 	
 		      String url = DB_URL;
 		      String user = USER;
 		      String passwd = PASS;
 	
-		      @SuppressWarnings("unused")
-		      Connection conn = (Connection) DriverManager.getConnection(url, user, passwd);
-		      System.out.println("Connexion effective !");
+		      //@SuppressWarnings("unused")
+		      this.conn = (Connection) DriverManager.getConnection(url, user, passwd);
+		      //System.out.println("Connexion effective !");
 		         
 		} catch (Exception e) {
 		      e.printStackTrace();
@@ -107,6 +108,82 @@ public class Connect {
 //		}
 //		return null;
 //	}
+	public String select(String requete) {
+		String url = DB_URL;
+		String login = USER;
+		String pass = PASS;
+		Connection cn = null; Statement st = null; ResultSet rs = null;
+		String liste = null;
+		
+		try {
+//			Class.forName("com.mysql.jdbc.Driver");
+//			cn = (Connection) DriverManager.getConnection(url, login, pass);
+			st = (Statement) conn.createStatement();
+			
+			String sql = requete;
+			rs = st.executeQuery(sql);
+			rs.next();
+			liste = rs.getString(1);
+			
+		}
+		catch (SQLException e) {
+			// affiche les erreurs sql
+			// e.printStackTrace();
+		}
+		return liste;
+	}
+	
+	public ArrayList<String> select(String requete, int colonne, int colonne2) {
+		String url = DB_URL;
+		String login = USER;
+		String pass = PASS;
+		Connection cn = null; Statement st = null; ResultSet rs = null;
+		ArrayList<String> liste = new ArrayList<>();
+		
+		try {
+//			Class.forName("com.mysql.jdbc.Driver");
+//			cn = (Connection) DriverManager.getConnection(url, login, pass);
+			st = (Statement) conn.createStatement();
+			
+			String sql = requete;
+			rs = st.executeQuery(sql);
+			while (rs.next()) {
+				liste.add(rs.getString(colonne)+" "+rs.getString(colonne2));
+			}
+			
+		}
+		catch (SQLException e) {
+			// affiche les erreurs sql
+			// e.printStackTrace();
+		}
+		return liste;
+	}
+	
+	public ArrayList<String> select(String requete, int colonne) {
+		String url = DB_URL;
+		String login = USER;
+		String pass = PASS;
+		Connection cn = null; Statement st = null; ResultSet rs = null;
+		ArrayList<String> liste = new ArrayList<>();
+		
+		try {
+//			Class.forName("com.mysql.jdbc.Driver");
+//			cn = (Connection) DriverManager.getConnection(url, login, pass);
+			st = (Statement) conn.createStatement();
+			
+			String sql = requete;
+			rs = st.executeQuery(sql);
+			while (rs.next()) {
+				liste.add(rs.getString(colonne));
+			}
+			
+		}
+		catch (SQLException e) {
+			// affiche les erreurs sql
+			// e.printStackTrace();
+		}
+		return liste;
+	}
 	
 	public void sql(String requete) {
 
@@ -116,9 +193,9 @@ public class Connect {
 		Connection cn = null; Statement st = null; ResultSet rs = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			cn = (Connection) DriverManager.getConnection(url, login, pass);
-			st = (Statement) cn.createStatement();
+//			Class.forName("com.mysql.jdbc.Driver");
+//			cn = (Connection) DriverManager.getConnection(url, login, pass);
+			st = (Statement) conn.createStatement();
 			// Requete
 			String sql = requete;
 			rs = st.executeQuery(sql);
@@ -146,13 +223,10 @@ public class Connect {
 			// affiche les erreurs sql
 			// e.printStackTrace();
 		}
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
 		finally {
 			try {
 				// Libérer les ress de la mémoire
-				cn.close();
+				conn.close();
 				st.close();
 			}
 			catch (SQLException e){
