@@ -363,7 +363,7 @@ public class Inscriptions implements Serializable
 			public void optionSelectionnee() {
 				r.getPersonne();
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
-				r.supprimerPersonne(idPers);
+				//TODO r.supprimerPersonne(idPers);
 			}
 		}));
 		// Modifier le nom et le prénom

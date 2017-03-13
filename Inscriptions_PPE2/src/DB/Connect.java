@@ -15,11 +15,11 @@ public class Connect {
 	
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	// Port 3306 wamp et 8889 MAMP
-	static final String DB_URL = "jdbc:mysql://localhost:3306/inscription";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/inscription?autoReconnect=true&useSSL=false";
 	
 	static final String USER = "root";
 	// Pas sous wamp = "", "root" sous mamp
-	static final String PASS = "pBFIck0LMKrkfvuU";
+	static final String PASS = "";
 	
 	public Connect() {
 		try {
@@ -108,6 +108,69 @@ public class Connect {
 //		}
 //		return null;
 //	}
+	public void set(String requete) {
+		String url = DB_URL;
+		String login = USER;
+		String pass = PASS;
+		Connection cn = null; Statement st = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			cn = (Connection) DriverManager.getConnection(url, login, pass);
+			st = (Statement) cn.createStatement();
+			
+			String sql = requete;
+			st.executeQuery(sql);
+		}
+		catch (SQLException e) {
+			// affiche les erreurs sql
+			// e.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public ArrayList<ArrayList<String>> get(String requete) {
+		String url = DB_URL;
+		String login = USER;
+		String pass = PASS;
+		Connection cn = null; Statement st = null; ResultSet rs = null;
+		ArrayList<ArrayList<String>> liste = new ArrayList<ArrayList<String>>();
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			cn = (Connection) DriverManager.getConnection(url, login, pass);
+			st = (Statement) cn.createStatement();
+			
+			String sql = requete;
+			rs = st.executeQuery(sql);
+			
+			ResultSetMetaData metadata = (ResultSetMetaData) rs.getMetaData();
+			int columncount = metadata.getColumnCount();
+			for (int i = 1; i <= columncount; i++) {
+				liste.add(new ArrayList<>());
+			}
+			
+			while (rs.next()) {
+				for (int i = 0; i < columncount; ++i) {
+					liste.get(i).add(rs.getString(i+1));
+		        }
+			}
+			
+		}
+		catch (SQLException e) {
+			// affiche les erreurs sql
+			// e.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return liste;
+	}
+	
+	
 	public String select(String requete) {
 		String url = DB_URL;
 		String login = USER;
@@ -116,9 +179,9 @@ public class Connect {
 		String liste = null;
 		
 		try {
-//			Class.forName("com.mysql.jdbc.Driver");
-//			cn = (Connection) DriverManager.getConnection(url, login, pass);
-			st = (Statement) conn.createStatement();
+			Class.forName("com.mysql.jdbc.Driver");
+			cn = (Connection) DriverManager.getConnection(url, login, pass);
+			st = (Statement) cn.createStatement();
 			
 			String sql = requete;
 			rs = st.executeQuery(sql);
@@ -129,6 +192,9 @@ public class Connect {
 		catch (SQLException e) {
 			// affiche les erreurs sql
 			// e.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 		return liste;
 	}
@@ -141,9 +207,9 @@ public class Connect {
 		ArrayList<String> liste = new ArrayList<>();
 		
 		try {
-//			Class.forName("com.mysql.jdbc.Driver");
-//			cn = (Connection) DriverManager.getConnection(url, login, pass);
-			st = (Statement) conn.createStatement();
+			Class.forName("com.mysql.jdbc.Driver");
+			cn = (Connection) DriverManager.getConnection(url, login, pass);
+			st = (Statement) cn.createStatement();
 			
 			String sql = requete;
 			rs = st.executeQuery(sql);
@@ -155,32 +221,47 @@ public class Connect {
 		catch (SQLException e) {
 			// affiche les erreurs sql
 			// e.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 		return liste;
 	}
 	
-	public ArrayList<String> select(String requete, int colonne) {
+	public ArrayList<ArrayList<String>> select(String requete, int colonne) {
 		String url = DB_URL;
 		String login = USER;
 		String pass = PASS;
 		Connection cn = null; Statement st = null; ResultSet rs = null;
-		ArrayList<String> liste = new ArrayList<>();
+		ArrayList<ArrayList<String>> liste = new ArrayList<>();
 		
 		try {
-//			Class.forName("com.mysql.jdbc.Driver");
-//			cn = (Connection) DriverManager.getConnection(url, login, pass);
-			st = (Statement) conn.createStatement();
+			Class.forName("com.mysql.jdbc.Driver");
+			cn = (Connection) DriverManager.getConnection(url, login, pass);
+			st = (Statement) cn.createStatement();
 			
 			String sql = requete;
 			rs = st.executeQuery(sql);
+			
+			ResultSetMetaData metadata = (ResultSetMetaData) rs.getMetaData();
+			int columncount = metadata.getColumnCount();
+			for (int i = 1; i <= columncount; i++) {
+				liste.add(new ArrayList<>());
+			}
 			while (rs.next()) {
-				liste.add(rs.getString(colonne));
+				for (int i = 0; i < columncount; i++) {
+					liste.get(i).add(rs.getString(colonne));     
+		        }
+				
 			}
 			
 		}
 		catch (SQLException e) {
 			// affiche les erreurs sql
 			// e.printStackTrace();
+		}
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 		return liste;
 	}
@@ -193,9 +274,9 @@ public class Connect {
 		Connection cn = null; Statement st = null; ResultSet rs = null;
 		
 		try {
-//			Class.forName("com.mysql.jdbc.Driver");
-//			cn = (Connection) DriverManager.getConnection(url, login, pass);
-			st = (Statement) conn.createStatement();
+			Class.forName("com.mysql.jdbc.Driver");
+			cn = (Connection) DriverManager.getConnection(url, login, pass);
+			st = (Statement) cn.createStatement();
 			// Requete
 			String sql = requete;
 			rs = st.executeQuery(sql);
@@ -222,6 +303,9 @@ public class Connect {
 		catch (SQLException e) {
 			// affiche les erreurs sql
 			// e.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 		finally {
 			try {

@@ -16,8 +16,8 @@ public class Requete {
 		db.sql("call supprimerCompetiton(" + idCompetition + ")");
 	}
 	
-	public void candidatsInscritsCompetition(int idCompetition) {
-		db.sql("call candidatsInscritsCompetition(" + idCompetition + ")");
+	public ArrayList<ArrayList<String>> candidatsInscritsCompetition(int idCompetition) {
+		return db.get("call candidatsInscritsCompetition(" + idCompetition + ")");
 	}
 	
 	public String dateClotureInscription(int idCompetition) {
@@ -56,18 +56,18 @@ public class Requete {
 		db.sql("call creerCompetition(\"" + nom +"\",\" " + date +"\", " + enEquipe +")");
 	}
 	
-	public ArrayList<String> getCompetition() {
-		return db.select("call getCompetition()",2);
+	public ArrayList<ArrayList<String>> getCompetition() {
+		return db.get("call getCompetition()");
 	}
 	
 	/* PERSONNE */
 	
-	public void supprimerPersonne(int idPersonne) {
-		db.sql("call supprimerPersonne(" + idPersonne + ")");
+	public void supprimerPersonne(int i) {
+		db.set("call supprimerPersonne(" + i + ")");
 	}
 	
-	public void getEquipePersonne(int idPersonne) {
-		db.sql("call getEquipePersonne(" + idPersonne + ")");
+	public ArrayList<ArrayList<String>> getEquipePersonne(int idPersonne) {
+		return db.get("call getEquipePersonne(" + idPersonne + ")");
 	}
 	
 	public String getMail(int idPersonne) {
@@ -94,8 +94,8 @@ public class Requete {
 		db.sql("call creerPersonne('" + nom + "', '" + prenom + "', '" + mail + "');");
 	}
 	
-	public ArrayList<String> getPersonne() {
-		return db.select("call getPersonne()",2,3);
+	public ArrayList<ArrayList<String>> getPersonne() {
+		return db.get("call getPersonne()");
 	}
 	
 	/* EQUIPE */
@@ -104,8 +104,8 @@ public class Requete {
 		db.sql("call ajouterPersonneEquipe(" + idCandidat + ", " + idEquipe + ")");
 	}
 	
-	public void getPersonneEquipe(int idEquipe) {
-		db.sql("call getPersonneEquipe(" + idEquipe + ")");
+	public ArrayList<ArrayList<String>> getPersonneEquipe(int idEquipe) {
+		return db.get("call getPersonneEquipe(" + idEquipe + ")");
 	}
 	
 	public void supprimerPersonneEquipe(int idEquipe, int idPersonne) {
@@ -136,7 +136,7 @@ public class Requete {
 		return db.select("call getMailEquipe("+idEquipe+")");
 	}
 	
-	public ArrayList<String> getEquipe() {
-		return db.select("call getEquipe()",3);
+	public ArrayList<ArrayList<String>> getEquipe() {
+		return db.get("call getEquipe()");
 	}
 }
