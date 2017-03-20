@@ -31,7 +31,8 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import com.toedter.calendar.JDateChooser;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 import DB.Requete;
 import inscriptions.Equipe;
@@ -63,11 +64,11 @@ public class Ihm {
 	private JTextField txtMailEquipe;
 	private JTextField txtNomEpreuve;
 	private JTextField txtDateCloture;
+	private JTextField dateCloture;
 	private ButtonGroup bg = new ButtonGroup();
 	private JRadioButton rdbtnOui = new JRadioButton("Oui");
 	private JRadioButton rdbtnNo = new JRadioButton("Non");
-	private JDateChooser dateCloture = new JDateChooser();
-
+	
 	private Requete r;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private boolean refresh = false;
@@ -340,25 +341,25 @@ public class Ihm {
 		panelEquipe.add(txtMailEquipe);
 		txtMailEquipe.setColumns(10);
 		
-		JComboBox<Object> comboBox_1 = new JComboBox<Object>();
+		JComboBox<Object> listeEquipe = new JComboBox<Object>();
 		for(String l : r.getEquipe().get(2))
-			comboBox_1.addItem(l);
-		comboBox_1.setBounds(198, 36, 176, 20);
-		panelEquipe.add(comboBox_1);
+			listeEquipe.addItem(l);
+		listeEquipe.setBounds(198, 36, 176, 20);
+		panelEquipe.add(listeEquipe);
 		
 		List list_1 = new List();
 		list_1.setBounds(399, 36, 176, 303);
 		panelEquipe.add(list_1);
 		
-		comboBox_1.addActionListener(new ActionListener() {
+		listeEquipe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				list_1.removeAll();
-				for(int i=0; i<r.getPersonneEquipe(Integer.parseInt(r.getEquipe().get(0).get(comboBox_1.getSelectedIndex()))).get(0).size();i++) {
-					list_1.add(r.getPersonneEquipe(Integer.parseInt(r.getEquipe().get(0).get(comboBox_1.getSelectedIndex()))).get(0).get(i) +" "+ r.getPersonneEquipe(Integer.parseInt(r.getEquipe().get(0).get(comboBox_1.getSelectedIndex()))).get(1).get(i));
+				for(int i=0; i<r.getPersonneEquipe(Integer.parseInt(r.getEquipe().get(0).get(listeEquipe.getSelectedIndex()))).get(0).size();i++) {
+					list_1.add(r.getPersonneEquipe(Integer.parseInt(r.getEquipe().get(0).get(listeEquipe.getSelectedIndex()))).get(0).get(i) +" "+ r.getPersonneEquipe(Integer.parseInt(r.getEquipe().get(0).get(listeEquipe.getSelectedIndex()))).get(1).get(i));
 				}
-				txtAcronymeEquipe.setText(r.getEquipe().get(1).get(comboBox_1.getSelectedIndex()));
-				txtNomEquipe.setText(r.getEquipe().get(2).get(comboBox_1.getSelectedIndex()));
-				txtMailEquipe.setText(r.getEquipe().get(3).get(comboBox_1.getSelectedIndex()));
+				txtAcronymeEquipe.setText(r.getEquipe().get(1).get(listeEquipe.getSelectedIndex()));
+				txtNomEquipe.setText(r.getEquipe().get(2).get(listeEquipe.getSelectedIndex()));
+				txtMailEquipe.setText(r.getEquipe().get(3).get(listeEquipe.getSelectedIndex()));
 			}
 		});
 		
@@ -376,32 +377,32 @@ public class Ihm {
 		JLayeredPane panelCompetition = new JLayeredPane();
 		tabbedPane.addTab("Competitions", null, panelCompetition, null);
 		
-		dateCloture = new JDateChooser();
+		dateCloture = new JTextField("YYYY-MM-DD");
 		dateCloture.setBounds(10,91,152,23);
-		dateCloture.setDate(Date.valueOf("2017-01-01"));
 		panelCompetition.add(dateCloture);
+		dateCloture.setColumns(10);
 		
-		JComboBox<Object> comboBox_2 = new JComboBox<Object>();
+		JComboBox<Object> listeCompetition = new JComboBox<Object>();
 		for(String l : r.getCompetition().get(1))
-			comboBox_2.addItem(l);
-		comboBox_2.setBounds(190, 35, 178, 20);
-		panelCompetition.add(comboBox_2);
+			listeCompetition.addItem(l);
+		listeCompetition.setBounds(190, 35, 178, 20);
+		panelCompetition.add(listeCompetition);
 		
 		List list_2 = new List();
 		list_2.setBounds(397, 35, 178, 304);
 		panelCompetition.add(list_2);
 		
-		comboBox_2.addActionListener(new ActionListener() {
+		listeCompetition.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				list_2.removeAll();
-				for(int i=0; i<r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(comboBox_2.getSelectedIndex()))).get(0).size();i++) {
-					list_2.add(r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(comboBox_2.getSelectedIndex()))).get(0).get(i) +" "+ r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(comboBox_2.getSelectedIndex()))).get(1).get(i));
+				for(int i=0; i<r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(listeCompetition.getSelectedIndex()))).get(0).size();i++) {
+					list_2.add(r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(listeCompetition.getSelectedIndex()))).get(0).get(i) +" "+ r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(listeCompetition.getSelectedIndex()))).get(1).get(i));
 				}
-				txtNomEpreuve.setText(r.getCompetition().get(1).get(comboBox_2.getSelectedIndex()));
-				dateCloture.setDateFormatString(r.getCompetition().get(2).get(comboBox_2.getSelectedIndex()));
-				if(r.getCompetition().get(3).get(comboBox_2.getSelectedIndex()).equals("1"))
+				txtNomEpreuve.setText(r.getCompetition().get(1).get(listeCompetition.getSelectedIndex()));
+				dateCloture.setText(r.getCompetition().get(2).get(listeCompetition.getSelectedIndex()));
+				if(r.getCompetition().get(3).get(listeCompetition.getSelectedIndex()).equals("1"))
 					rdbtnOui.setSelected(true);
-				if(r.getCompetition().get(3).get(comboBox_2.getSelectedIndex()).equals("0"))
+				if(r.getCompetition().get(3).get(listeCompetition.getSelectedIndex()).equals("0"))
 					rdbtnNo.setSelected(true);
 			}
 		});
@@ -414,8 +415,8 @@ public class Ihm {
 		lblNewLabel_8.setBounds(10, 14, 88, 14);
 		panelCompetition.add(lblNewLabel_8);
 		
-		JLabel lblNewLabel_9 = new JLabel("Date Cloture");
-		lblNewLabel_9.setBounds(10, 66, 152, 14);
+		JLabel lblNewLabel_9 = new JLabel("Date Cloture (YYYY-MM-DD)");
+		lblNewLabel_9.setBounds(10, 66, 160, 14);
 		panelCompetition.add(lblNewLabel_9);
 		
 		JLabel lblNewLabel_10 = new JLabel("En Equipe");
