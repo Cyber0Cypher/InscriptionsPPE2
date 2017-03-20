@@ -24,9 +24,11 @@ import javax.swing.JLayeredPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JTextArea;
 import javax.swing.JList;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.toedter.calendar.JDateChooser;
@@ -66,8 +68,9 @@ public class Ihm {
 	private JRadioButton rdbtnNo = new JRadioButton("Non");
 	private JDateChooser dateCloture = new JDateChooser();
 
-	private static Requete r;
+	private Requete r;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private boolean refresh = false;
 	/**
 	 * Launch the application.
 	 */
@@ -75,7 +78,6 @@ public class Ihm {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					r = new Requete();
 					Ihm window = new Ihm();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -96,6 +98,7 @@ public class Ihm {
 	 */
 	private void initialize() {
 		frame = new JFrame("Inscriptions");
+		r = new Requete();
 		frame.getContentPane().setBackground(Color.GRAY);
 		frame.setBackground(Color.DARK_GRAY);
 		frame.setSize(626, 472);
@@ -148,22 +151,29 @@ public class Ihm {
 		JLayeredPane panelPersonne = new JLayeredPane();
 		tabbedPane.addTab("Personnes", null, panelPersonne, null);
 		
-		JComboBox<Object> comboBox = new JComboBox<Object>();
-		comboBox.setBounds(192, 35, 190, 20);
-		panelPersonne.add(comboBox);
+		JComboBox<Object> listePersonne = new JComboBox<Object>();
+		int i = 0;
+		for(String l : r.getPersonne().get(1)){
+			listePersonne.addItem(l+" "+r.getPersonne().get(2).get(i));
+			i++;
+		}
+		listePersonne.setBounds(192, 35, 190, 20);
+		panelPersonne.add(listePersonne);
 		
 		List list = new List();
 		list.setBounds(410, 35, 165, 295);
 		panelPersonne.add(list);
 		
-		comboBox.addActionListener(new ActionListener() {
+		listePersonne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				list.removeAll();
-				for(String l : r.getEquipePersonne(Integer.parseInt(r.getPersonne().get(0).get(comboBox.getSelectedIndex()))).get(0))
-					list.add(l);
-				txtNomPersonne.setText(r.getPersonne().get(1).get(comboBox.getSelectedIndex()));
-				txtPrenomPersonne.setText(r.getPersonne().get(2).get(comboBox.getSelectedIndex()));
-				txtMailPersonne.setText(r.getPersonne().get(3).get(comboBox.getSelectedIndex()));
+				if(!refresh){
+					list.removeAll();
+					for(String l : r.getEquipePersonne(Integer.parseInt(r.getPersonne().get(0).get(listePersonne.getSelectedIndex()))).get(0))
+						list.add(l);
+					txtNomPersonne.setText(r.getPersonne().get(1).get(listePersonne.getSelectedIndex()));
+					txtPrenomPersonne.setText(r.getPersonne().get(2).get(listePersonne.getSelectedIndex()));
+					txtMailPersonne.setText(r.getPersonne().get(3).get(listePersonne.getSelectedIndex()));
+				}
 			}
 		});
 		
@@ -202,8 +212,61 @@ public class Ihm {
 		panelPersonne.add(btnAjouterUnePersonne);
 		btnAjouterUnePersonne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Ajouter ajout = new Ajouter();
-				ajout.setVisible(true);
+//				JDialog ajout = new JDialog();
+//				
+//				ajout.setTitle("Ajouter");
+//				ajout.setBounds(dim.width/2 - frame.getWidth()/2, dim.height/2 - frame.getHeight()/2, 450, 300);
+//				
+//				JLabel lblNewLabel = new JLabel("Nom\r\n");
+//				lblNewLabel.setBounds(10, 14, 46, 14);
+//				ajout.getContentPane().add(lblNewLabel);
+//				
+//				JLabel lblNewLabel_1 = new JLabel("Pr\u00E9nom");
+//				lblNewLabel_1.setBounds(10, 66, 46, 14);
+//				ajout.getContentPane().add(lblNewLabel_1);
+//				
+//				JLabel lblNewLabel_2 = new JLabel("Mail");
+//				lblNewLabel_2.setBounds(10, 126, 46, 14);
+//				ajout.getContentPane().add(lblNewLabel_2);
+//				
+//				txtNomPersonne = new JTextField();
+//				txtNomPersonne.setBounds(10, 35, 152, 20);
+//				ajout.getContentPane().add(txtNomPersonne);
+//				txtNomPersonne.setColumns(10);
+//				
+//				txtPrenomPersonne = new JTextField();
+//				txtPrenomPersonne.setBounds(10, 91, 152, 20);
+//				ajout.getContentPane().add(txtPrenomPersonne);
+//				txtPrenomPersonne.setColumns(10);
+//				
+//				txtMailPersonne = new JTextField();
+//				txtMailPersonne.setBounds(10, 151, 152, 20);
+//				ajout.getContentPane().add(txtMailPersonne);
+//				txtMailPersonne.setColumns(10);
+//				
+//				ajout.setVisible(true);
+				
+				try {
+					Ajouter ajout = new Ajouter();
+					ajout.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					ajout.setVisible(true);
+					ajout.okButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							r.creerPersonne(ajout.txtNom.getText(), ajout.txtPrenom.getText(), ajout.txtMail.getText());
+							ajout.dispose();
+							refresh = true;
+							listePersonne.removeAllItems();
+							int i = 0;
+							for(String l : r.getPersonne().get(1)) {
+								listePersonne.addItem(l+" "+r.getPersonne().get(2).get(i));
+								i++;
+							}
+							refresh = false;
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				
 			}
 		});
@@ -222,8 +285,8 @@ public class Ihm {
 		panelPersonne.add(btnSupprimerUnePersonne);
 		btnSupprimerUnePersonne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				r.supprimerPersonne(Integer.parseInt(r.getPersonne().get(0).get(comboBox.getSelectedIndex())));
-				comboBox.removeItem(comboBox.getSelectedItem());
+				r.supprimerPersonne(Integer.parseInt(r.getPersonne().get(0).get(listePersonne.getSelectedIndex())));
+				listePersonne.removeItem(listePersonne.getSelectedItem());
 			}
 		});
 		
@@ -309,8 +372,6 @@ public class Ihm {
 		JLabel lblPersonnesDeLequipe = new JLabel("Personne(s) de l'equipe");
 		lblPersonnesDeLequipe.setBounds(399, 11, 176, 14);
 		panelEquipe.add(lblPersonnesDeLequipe);
-		for(String l : r.getPersonne().get(1))
-			comboBox.addItem(l);
 		
 		JLayeredPane panelCompetition = new JLayeredPane();
 		tabbedPane.addTab("Competitions", null, panelCompetition, null);

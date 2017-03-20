@@ -91,7 +91,7 @@ public class Requete {
 	}
 	
 	public void creerPersonne(String nom, String prenom, String mail) {
-		db.sql("call creerPersonne('" + nom + "', '" + prenom + "', '" + mail + "');");
+		db.set("call creerPersonne('" + nom + "', '" + prenom + "', '" + mail + "')");
 	}
 	
 	public ArrayList<ArrayList<String>> getPersonne() {

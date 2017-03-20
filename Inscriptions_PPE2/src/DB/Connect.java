@@ -154,8 +154,9 @@ public class Connect {
 			}
 			
 			while (rs.next()) {
-				for (int i = 0; i < columncount; ++i) {
-					liste.get(i).add(rs.getString(i+1));
+				//ArrayList<String> row = new ArrayList<String>();
+				for (int i = 1; i <= columncount; ++i) {
+					liste.get(i-1).add(rs.getString(i));
 		        }
 			}
 			

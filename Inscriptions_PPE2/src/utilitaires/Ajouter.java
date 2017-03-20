@@ -20,11 +20,12 @@ public class Ajouter extends JDialog {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5710667649806192170L;
-	private final JPanel contentPanel = new JPanel();
-	private JTextField txtNom;
-	private JTextField txtPrenom;
-	private JTextField txtMail;
+	private static final long serialVersionUID = 1L;
+	final JPanel contentPanel = new JPanel();
+	JButton okButton;
+	JTextField txtNom;
+	JTextField txtPrenom;
+	JTextField txtMail;
 	private boolean valider;
 	private Requete r = new Requete();
 
@@ -33,9 +34,9 @@ public class Ajouter extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			Ajouter dialog = new Ajouter();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
+			Ajouter ajout = new Ajouter();
+			//ajout.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			ajout.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -45,6 +46,7 @@ public class Ajouter extends JDialog {
 	 * Create the dialog.
 	 */
 	public Ajouter() {
+		//super();
 		setTitle("Ajouter");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -84,11 +86,14 @@ public class Ajouter extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Valider");
+				okButton = new JButton("Valider");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						r.creerPersonne(txtNom.getText(), txtPrenom.getText(), txtMail.getText());
-						setValider(true);
+//						r.creerPersonne(txtNom.getText(), txtPrenom.getText(), txtMail.getText());
+//						dispose();
+//						super.list.removeAll();
+//						for(String l : r.getEquipePersonne(Integer.parseInt(r.getPersonne().get(0).get(comboBox.getSelectedIndex()))).get(0))
+//							list.add(l); 
 					}
 				});
 				okButton.setActionCommand("OK");
