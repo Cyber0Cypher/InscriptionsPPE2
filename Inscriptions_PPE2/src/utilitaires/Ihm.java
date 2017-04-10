@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -35,8 +36,11 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import DB.Requete;
+import inscriptions.Candidat;
+import inscriptions.Competition;
 import inscriptions.Equipe;
 import inscriptions.Inscriptions;
+import inscriptions.Personne;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -100,9 +104,16 @@ public class Ihm {
 	private void initialize() {
 		frame = new JFrame("Inscriptions");
 		r = new Requete();
+		Inscriptions insc = Inscriptions.getInscriptions();
+//		ArrayList<ArrayList<String>> lesCompets = r.getCompetition();
+//		int i = 0;
+//		for(String compet : r.getCompetition().get(0)) {
+//			insc.createCompetition(lesCompets.get(1).get(i), LocalDate.parse(lesCompets.get(2).get(i)), Boolean.parseBoolean(lesCompets.get(3).get(i)));
+//			i++;
+//		}
 		frame.getContentPane().setBackground(Color.GRAY);
 		frame.setBackground(Color.DARK_GRAY);
-		frame.setSize(626, 472);
+		frame.setSize(659, 472);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(dim.width/2 - frame.getWidth()/2, dim.height/2 - frame.getHeight()/2);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -146,34 +157,50 @@ public class Ihm {
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBackground(Color.WHITE);
-		tabbedPane.setBounds(10, 45, 590, 377);
+		tabbedPane.setBounds(0, 45, 643, 388);
 		frame.getContentPane().add(tabbedPane);
 		
 		JLayeredPane panelPersonne = new JLayeredPane();
 		tabbedPane.addTab("Personnes", null, panelPersonne, null);
 		
 		JComboBox<Object> listePersonne = new JComboBox<Object>();
-		int i = 0;
-		for(String l : r.getPersonne().get(1)){
-			listePersonne.addItem(l+" "+r.getPersonne().get(2).get(i));
-			i++;
+		for(Personne personne : insc.getPersonnes()){
+			listePersonne.addItem(personne.getPrenom()+" "+personne.getNom());
 		}
 		listePersonne.setBounds(192, 35, 190, 20);
 		panelPersonne.add(listePersonne);
 		
-		List list = new List();
-		list.setBounds(410, 35, 165, 295);
-		panelPersonne.add(list);
+		List listeEquipePersonne = new List();
+		listeEquipePersonne.setBounds(410, 35, 190, 136);
+		panelPersonne.add(listeEquipePersonne);
+		
+		List listCompetitionPersonne = new List();
+		listCompetitionPersonne.setBounds(410, 199, 190, 136);
+		panelPersonne.add(listCompetitionPersonne);
 		
 		listePersonne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!refresh){
-					list.removeAll();
-					for(String l : r.getEquipePersonne(Integer.parseInt(r.getPersonne().get(0).get(listePersonne.getSelectedIndex()))).get(0))
-						list.add(l);
-					txtNomPersonne.setText(r.getPersonne().get(1).get(listePersonne.getSelectedIndex()));
-					txtPrenomPersonne.setText(r.getPersonne().get(2).get(listePersonne.getSelectedIndex()));
-					txtMailPersonne.setText(r.getPersonne().get(3).get(listePersonne.getSelectedIndex()));
+					listeEquipePersonne.removeAll();
+					listCompetitionPersonne.removeAll();
+					int i = 0;
+					for(Personne p : insc.getPersonnes()){
+						if (i == listePersonne.getSelectedIndex()){
+							for(Equipe e : p.getEquipes()){
+								listeEquipePersonne.add(e.getNom());
+								for(Competition comp : e.getCompetitions()){
+									listCompetitionPersonne.add(comp.getNom());
+								}
+							}
+							for(Competition comp : p.getCompetitions()){
+								listCompetitionPersonne.add(comp.getNom());
+							}
+							txtNomPersonne.setText(p.getNom());
+							txtPrenomPersonne.setText(p.getPrenom());
+							txtMailPersonne.setText(p.getMail());
+						}
+						i++;
+					}
 				}
 			}
 		});
@@ -296,8 +323,12 @@ public class Ihm {
 		panelPersonne.add(lblNewLabel_6);
 		
 		JLabel lblEquipesDeLa = new JLabel("Equipe(s) de la personne");
-		lblEquipesDeLa.setBounds(410, 14, 161, 14);
+		lblEquipesDeLa.setBounds(410, 14, 190, 14);
 		panelPersonne.add(lblEquipesDeLa);
+		
+		JLabel lblComptitionsDeLa = new JLabel("Compétition(s) de la personne");
+		lblComptitionsDeLa.setBounds(410, 179, 190, 14);
+		panelPersonne.add(lblComptitionsDeLa);
 		
 		JLayeredPane panelEquipe = new JLayeredPane();
 		tabbedPane.addTab("Equipes", null, panelEquipe, null);
@@ -314,17 +345,17 @@ public class Ihm {
 		btnSupprimerUneEquipe.setBounds(10, 291, 155, 40);
 		panelEquipe.add(btnSupprimerUneEquipe);
 		
-		JLabel lblNewLabel_3 = new JLabel("Acronyme");
-		lblNewLabel_3.setBounds(10, 11, 155, 20);
-		panelEquipe.add(lblNewLabel_3);
+		JLabel lblAcrEquipe = new JLabel("Acronyme");
+		lblAcrEquipe.setBounds(10, 11, 155, 20);
+		panelEquipe.add(lblAcrEquipe);
 		
-		JLabel lblNewLabel_4 = new JLabel("Nom de l'\u00E9quipe\r\n");
-		lblNewLabel_4.setBounds(10, 67, 152, 20);
-		panelEquipe.add(lblNewLabel_4);
+		JLabel lblNomEquipe = new JLabel("Nom de l'\u00E9quipe\r\n");
+		lblNomEquipe.setBounds(10, 67, 152, 20);
+		panelEquipe.add(lblNomEquipe);
 		
-		JLabel lblNewLabel_5 = new JLabel("Mail de l'\u00E9quipe\r\n");
-		lblNewLabel_5.setBounds(10, 123, 152, 20);
-		panelEquipe.add(lblNewLabel_5);
+		JLabel lblMailEquipe = new JLabel("Mail de l'\u00E9quipe\r\n");
+		lblMailEquipe.setBounds(10, 123, 152, 20);
+		panelEquipe.add(lblMailEquipe);
 		
 		txtAcronymeEquipe = new JTextField();
 		txtAcronymeEquipe.setBounds(10, 36, 152, 20);
@@ -342,32 +373,37 @@ public class Ihm {
 		txtMailEquipe.setColumns(10);
 		
 		JComboBox<Object> listeEquipe = new JComboBox<Object>();
-		for(String l : r.getEquipe().get(2))
-			listeEquipe.addItem(l);
+		for(Equipe equipe : insc.getEquipes())
+			listeEquipe.addItem(equipe.getNom());
 		listeEquipe.setBounds(198, 36, 176, 20);
 		panelEquipe.add(listeEquipe);
 		
-		List list_1 = new List();
-		list_1.setBounds(399, 36, 176, 303);
-		panelEquipe.add(list_1);
+		List listePersonneEquipe = new List();
+		listePersonneEquipe.setBounds(399, 36, 176, 303);
+		panelEquipe.add(listePersonneEquipe);
 		
 		listeEquipe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				list_1.removeAll();
-				for(int i=0; i<r.getPersonneEquipe(Integer.parseInt(r.getEquipe().get(0).get(listeEquipe.getSelectedIndex()))).get(0).size();i++) {
-					list_1.add(r.getPersonneEquipe(Integer.parseInt(r.getEquipe().get(0).get(listeEquipe.getSelectedIndex()))).get(0).get(i) +" "+ r.getPersonneEquipe(Integer.parseInt(r.getEquipe().get(0).get(listeEquipe.getSelectedIndex()))).get(1).get(i));
+				if(!refresh){
+					listePersonneEquipe.removeAll();
+					int i = 0;
+					for(Equipe e : insc.getEquipes()){
+						if (i == listeEquipe.getSelectedIndex()){
+							for(Personne p : e.getMembres()){
+								listePersonneEquipe.add(p.getPrenom()+" "+p.getNom());
+							}
+							txtNomEquipe.setText(e.getNom());
+						}
+						i++;
+					}
 				}
-				txtAcronymeEquipe.setText(r.getEquipe().get(1).get(listeEquipe.getSelectedIndex()));
-				txtNomEquipe.setText(r.getEquipe().get(2).get(listeEquipe.getSelectedIndex()));
-				txtMailEquipe.setText(r.getEquipe().get(3).get(listeEquipe.getSelectedIndex()));
 			}
 		});
 		
 		
 		JLabel lblSlctionnerUnequipe = new JLabel("S\u00E9l\u00E9ctionner une \u00E9quipe");
 		lblSlctionnerUnequipe.setBounds(198, 11, 176, 14);
-		panelEquipe.add(lblSlctionnerUnequipe);
-		
+		panelEquipe.add(lblSlctionnerUnequipe);	
 
 		
 		JLabel lblPersonnesDeLequipe = new JLabel("Personne(s) de l'equipe");
@@ -383,45 +419,63 @@ public class Ihm {
 		dateCloture.setColumns(10);
 		
 		JComboBox<Object> listeCompetition = new JComboBox<Object>();
-		for(String l : r.getCompetition().get(1))
-			listeCompetition.addItem(l);
+		for(Competition c : insc.getCompetitions())
+			listeCompetition.addItem(c.getNom());
 		listeCompetition.setBounds(190, 35, 178, 20);
 		panelCompetition.add(listeCompetition);
 		
-		List list_2 = new List();
-		list_2.setBounds(397, 35, 178, 304);
-		panelCompetition.add(list_2);
+		List listeCandidatCompetition = new List();
+		listeCandidatCompetition.setBounds(397, 35, 178, 304);
+		panelCompetition.add(listeCandidatCompetition);
 		
 		listeCompetition.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				list_2.removeAll();
-				for(int i=0; i<r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(listeCompetition.getSelectedIndex()))).get(0).size();i++) {
-					list_2.add(r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(listeCompetition.getSelectedIndex()))).get(0).get(i) +" "+ r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(listeCompetition.getSelectedIndex()))).get(1).get(i));
+				if(!refresh){
+					listeCandidatCompetition.removeAll();
+					int i = 0;
+					for(Competition c : insc.getCompetitions()){
+						if (i == listeCompetition.getSelectedIndex()){
+							for(Candidat candi : c.getCandidats()){
+								listeCandidatCompetition.add(candi.getNom());
+							}
+							txtNomEpreuve.setText(c.getNom());
+							dateCloture.setText(c.getDateCloture().toString());
+							if(c.estEnEquipe())
+								rdbtnOui.setSelected(true);
+							if(!c.estEnEquipe())
+								rdbtnNo.setSelected(true);
+						}
+						i++;
+					}
 				}
-				txtNomEpreuve.setText(r.getCompetition().get(1).get(listeCompetition.getSelectedIndex()));
-				dateCloture.setText(r.getCompetition().get(2).get(listeCompetition.getSelectedIndex()));
-				if(r.getCompetition().get(3).get(listeCompetition.getSelectedIndex()).equals("1"))
-					rdbtnOui.setSelected(true);
-				if(r.getCompetition().get(3).get(listeCompetition.getSelectedIndex()).equals("0"))
-					rdbtnNo.setSelected(true);
+//				listeCandidatCompetition.removeAll();
+//				for(int i=0; i<r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(listeCompetition.getSelectedIndex()))).get(0).size();i++) {
+//					listeCandidatCompetition.add(r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(listeCompetition.getSelectedIndex()))).get(0).get(i) +" "+ r.candidatsInscritsCompetition(Integer.parseInt(r.getCompetition().get(0).get(listeCompetition.getSelectedIndex()))).get(1).get(i));
+//				}
+//				txtNomEpreuve.setText(r.getCompetition().get(1).get(listeCompetition.getSelectedIndex()));
+//				dateCloture.setText(r.getCompetition().get(2).get(listeCompetition.getSelectedIndex()));
+//				if(r.getCompetition().get(3).get(listeCompetition.getSelectedIndex()).equals("1"))
+//					rdbtnOui.setSelected(true);
+//				if(r.getCompetition().get(3).get(listeCompetition.getSelectedIndex()).equals("0"))
+//					rdbtnNo.setSelected(true);
 			}
 		});
 		
-		JLabel lblNewLabel_7 = new JLabel("S\u00E9l\u00E9ctionner une comp\u00E9tition");
-		lblNewLabel_7.setBounds(190, 14, 178, 14);
-		panelCompetition.add(lblNewLabel_7);
+		JLabel lblListeCompetition = new JLabel("S\u00E9l\u00E9ctionner une comp\u00E9tition");
+		lblListeCompetition.setBounds(190, 14, 178, 14);
+		panelCompetition.add(lblListeCompetition);
 		
-		JLabel lblNewLabel_8 = new JLabel("Nom Epreuve");
-		lblNewLabel_8.setBounds(10, 14, 88, 14);
-		panelCompetition.add(lblNewLabel_8);
+		JLabel lblNomEpreuve = new JLabel("Nom Epreuve");
+		lblNomEpreuve.setBounds(10, 14, 88, 14);
+		panelCompetition.add(lblNomEpreuve);
 		
-		JLabel lblNewLabel_9 = new JLabel("Date Cloture (YYYY-MM-DD)");
-		lblNewLabel_9.setBounds(10, 66, 160, 14);
-		panelCompetition.add(lblNewLabel_9);
+		JLabel lblDateCloture = new JLabel("Date Cloture (YYYY-MM-DD)");
+		lblDateCloture.setBounds(10, 66, 160, 14);
+		panelCompetition.add(lblDateCloture);
 		
-		JLabel lblNewLabel_10 = new JLabel("En Equipe");
-		lblNewLabel_10.setBounds(10, 126, 88, 14);
-		panelCompetition.add(lblNewLabel_10);
+		JLabel lblEnEquipe = new JLabel("En Equipe");
+		lblEnEquipe.setBounds(10, 126, 88, 14);
+		panelCompetition.add(lblEnEquipe);
 		
 		txtNomEpreuve = new JTextField();
 		txtNomEpreuve.setBounds(10, 35, 152, 20);
@@ -434,20 +488,20 @@ public class Ihm {
 		rdbtnNo.setBounds(95, 154, 70, 23);
 		panelCompetition.add(rdbtnNo);
 		
-		JButton btnNewButton = new JButton("Ajouter");
-		btnNewButton.setBounds(10, 203, 152, 33);
-		panelCompetition.add(btnNewButton);
+		JButton btnAjouterCompetition = new JButton("Ajouter");
+		btnAjouterCompetition.setBounds(10, 203, 152, 33);
+		panelCompetition.add(btnAjouterCompetition);
 		
-		JButton btnNewButton_1 = new JButton("Modifier");
-		btnNewButton_1.setBounds(10, 247, 152, 33);
-		panelCompetition.add(btnNewButton_1);
+		JButton btnModifierCompetition = new JButton("Modifier");
+		btnModifierCompetition.setBounds(10, 247, 152, 33);
+		panelCompetition.add(btnModifierCompetition);
 		
-		JButton btnNewButton_2 = new JButton("Supprimer");
-		btnNewButton_2.setBounds(10, 291, 152, 33);
-		panelCompetition.add(btnNewButton_2);
+		JButton btnSupprimerCompetition = new JButton("Supprimer");
+		btnSupprimerCompetition.setBounds(10, 291, 152, 33);
+		panelCompetition.add(btnSupprimerCompetition);
 		
-		JLabel lblCandidatsDeLa = new JLabel("Candidat(s) de la compétition");
-		lblCandidatsDeLa.setBounds(397, 15, 178, 14);
-		panelCompetition.add(lblCandidatsDeLa);
+		JLabel lblCandidatCompetition = new JLabel("Candidat(s) de la compétition");
+		lblCandidatCompetition.setBounds(397, 15, 178, 14);
+		panelCompetition.add(lblCandidatCompetition);
 	}
 }

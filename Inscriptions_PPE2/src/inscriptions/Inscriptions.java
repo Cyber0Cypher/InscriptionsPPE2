@@ -6,10 +6,15 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.time.LocalDate;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import javax.sound.sampled.BooleanControl;
+
+import org.junit.experimental.theories.internal.BooleanSupplier;
 
 import DB.Requete;
 import dialogue.Action;
@@ -33,6 +38,60 @@ public class Inscriptions implements Serializable
 
 	private Inscriptions()
 	{
+		// Objet permettant l'accès aux procédure stockées de la BD
+		Requete r = new Requete();
+		ArrayList<ArrayList<String>> lesCompets = r.getCompetition();
+		ArrayList<ArrayList<String>> lesEquipes = r.getEquipe();
+		ArrayList<ArrayList<String>> lesPersonnes = r.getPersonne();
+		
+		// iniatialisation des compétitions
+		for (int j = 0; j < r.getCompetition().get(0).size(); j++) {
+			createCompetition(Integer.parseInt(lesCompets.get(0).get(j)), lesCompets.get(1).get(j), LocalDate.parse(lesCompets.get(2).get(j)), convertToBoolean(lesCompets.get(3).get(j)));
+		}
+		
+		// initialisation des personnes
+		for (int j = 0; j < r.getPersonne().get(0).size(); j++) {
+			createPersonne(Integer.parseInt(lesPersonnes.get(0).get(j)), lesPersonnes.get(1).get(j), lesPersonnes.get(2).get(j), lesPersonnes.get(3).get(j));
+		}
+		
+		// initialisation des equipes
+		for (int j = 0; j < r.getEquipe().get(0).size(); j++) {
+			createEquipe(Integer.parseInt(lesEquipes.get(0).get(j)), lesEquipes.get(2).get(j));
+		}
+		
+		// initialisation des membres de chaque équipe
+		for(Equipe e : getEquipes()) {
+			ArrayList<ArrayList<String>> lesMembres = r.getPersonneEquipe(e.getId());
+			for (int j = 0; j < r.getPersonneEquipe(e.getId()).get(0).size(); j++) {
+				for(Personne p : getPersonnes()) {
+					if(p.getId() == Integer.parseInt(lesMembres.get(0).get(j))) {
+						e.add(p);
+					}
+				}
+			}
+		}
+		
+		// initialisation des participants de chaque compétition
+		for(Competition c : getCompetitions()) {
+			ArrayList<ArrayList<String>> lesCandidats = r.candidatsInscritsCompetition(c.getId());
+			for (int j = 0; j < r.candidatsInscritsCompetition(c.getId()).get(0).size(); j++) {
+				if(!c.estEnEquipe()) {
+					for(Personne p : getPersonnes()) {
+						if(p.getId() == Integer.parseInt(lesCandidats.get(0).get(j))) {
+							c.add(p);
+						}
+					}
+				}
+				if(c.estEnEquipe()) {
+					for(Equipe e : getEquipes()) {
+						if(e.getId() == Integer.parseInt(lesCandidats.get(0).get(j))) {
+							c.add(e);
+						}
+					}
+				}
+			}
+		}
+		
 	}
 	
 	/**
@@ -43,6 +102,7 @@ public class Inscriptions implements Serializable
 	public SortedSet<Competition> getCompetitions()
 	{
 		return Collections.unmodifiableSortedSet(competitions);
+		
 	}
 	
 	/**
@@ -86,16 +146,16 @@ public class Inscriptions implements Serializable
 	/**
 	 * Créée une compétition. Ceci est le seul moyen, il n'y a pas
 	 * de constructeur public dans {@link Competition}.
+	 * @param id
 	 * @param nom
 	 * @param dateCloture
 	 * @param enEquipe
 	 * @return
 	 */
 	
-	public Competition createCompetition(String nom, 
-			LocalDate dateCloture, boolean enEquipe)
+	public Competition createCompetition(int id, String nom, LocalDate dateCloture, boolean enEquipe)
 	{
-		Competition competition = new Competition(this, nom, dateCloture, enEquipe);
+		Competition competition = new Competition(this, id, nom, dateCloture, enEquipe);
 		competitions.add(competition);
 		return competition;
 	}
@@ -104,15 +164,16 @@ public class Inscriptions implements Serializable
 	 * Créée une Candidat de type Personne. Ceci est le seul moyen, il n'y a pas
 	 * de constructeur public dans {@link Personne}.
 
+	 * @param id
 	 * @param nom
 	 * @param prenom
 	 * @param mail
 	 * @return
 	 */
 	
-	public Personne createPersonne(String nom, String prenom, String mail)
+	public Personne createPersonne(int id, String nom, String prenom, String mail)
 	{
-		Personne personne = new Personne(this, nom, prenom, mail);
+		Personne personne = new Personne(this, id, nom, prenom, mail);
 		candidats.add(personne);
 		return personne;
 	}
@@ -120,15 +181,16 @@ public class Inscriptions implements Serializable
 	/**
 	 * Créée une Candidat de type équipe. Ceci est le seul moyen, il n'y a pas
 	 * de constructeur public dans {@link Equipe}.
+	 * @param id
 	 * @param nom
 	 * @param prenom
 	 * @param mail
 	 * @return
 	 */
 	
-	public Equipe createEquipe(String nom)
+	public Equipe createEquipe(int id, String nom)
 	{
-		Equipe equipe = new Equipe(this, nom);
+		Equipe equipe = new Equipe(this, id, nom);
 		candidats.add(equipe);
 		return equipe;
 	}
@@ -154,9 +216,7 @@ public class Inscriptions implements Serializable
 		
 		if (inscriptions == null)
 		{
-			inscriptions = readObject();
-			if (inscriptions == null)
-				inscriptions = new Inscriptions();
+			inscriptions = new Inscriptions();
 		}
 		return inscriptions;
 	}
@@ -242,6 +302,15 @@ public class Inscriptions implements Serializable
 	{
 		return "Candidats : " + getCandidats().toString()
 			+ "\nCompetitions  " + getCompetitions().toString();
+	}
+	
+	private boolean convertToBoolean(String value) {
+		
+	    boolean returnValue = false;
+	    if ("1".equalsIgnoreCase(value) || "yes".equalsIgnoreCase(value) || 
+	        "true".equalsIgnoreCase(value) || "on".equalsIgnoreCase(value))
+	        returnValue = true;
+	    return returnValue;
 	}
 	
 	public static void main(String[] args)

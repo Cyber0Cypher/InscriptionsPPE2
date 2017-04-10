@@ -15,9 +15,9 @@ public class Equipe extends Candidat
 	private static final long serialVersionUID = 4147819927233466035L;
 	private SortedSet<Personne> membres = new TreeSet<>();
 	
-	Equipe(Inscriptions inscriptions, String nom)
+	Equipe(Inscriptions inscriptions, int id, String nom)
 	{
-		super(inscriptions, nom);
+		super(inscriptions, id, nom);
 	}
 
 	/**
