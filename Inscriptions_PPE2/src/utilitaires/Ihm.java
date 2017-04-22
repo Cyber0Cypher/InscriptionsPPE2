@@ -32,9 +32,6 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.UtilDateModel;
-
 import DB.Requete;
 import inscriptions.Candidat;
 import inscriptions.Competition;
@@ -63,9 +60,7 @@ public class Ihm {
 	private JTextField txtNomPersonne;
 	private JTextField txtPrenomPersonne;
 	private JTextField txtMailPersonne;
-	private JTextField txtAcronymeEquipe;
 	private JTextField txtNomEquipe;
-	private JTextField txtMailEquipe;
 	private JTextField txtNomEpreuve;
 	private JTextField txtDateCloture;
 	private JTextField dateCloture;
@@ -113,7 +108,7 @@ public class Ihm {
 //		}
 		frame.getContentPane().setBackground(Color.GRAY);
 		frame.setBackground(Color.DARK_GRAY);
-		frame.setSize(659, 472);
+		frame.setSize(879, 500);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation(dim.width/2 - frame.getWidth()/2, dim.height/2 - frame.getHeight()/2);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -157,7 +152,7 @@ public class Ihm {
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBackground(Color.WHITE);
-		tabbedPane.setBounds(0, 45, 643, 388);
+		tabbedPane.setBounds(0, 45, 863, 416);
 		frame.getContentPane().add(tabbedPane);
 		
 		JLayeredPane panelPersonne = new JLayeredPane();
@@ -167,15 +162,15 @@ public class Ihm {
 		for(Personne personne : insc.getPersonnes()){
 			listePersonne.addItem(personne.getPrenom()+" "+personne.getNom());
 		}
-		listePersonne.setBounds(192, 35, 190, 20);
+		listePersonne.setBounds(227, 35, 190, 20);
 		panelPersonne.add(listePersonne);
 		
 		List listeEquipePersonne = new List();
-		listeEquipePersonne.setBounds(410, 35, 190, 136);
+		listeEquipePersonne.setBounds(445, 35, 190, 160);
 		panelPersonne.add(listeEquipePersonne);
 		
 		List listCompetitionPersonne = new List();
-		listCompetitionPersonne.setBounds(410, 199, 190, 136);
+		listCompetitionPersonne.setBounds(445, 218, 190, 160);
 		panelPersonne.add(listCompetitionPersonne);
 		
 		listePersonne.addActionListener(new ActionListener() {
@@ -208,35 +203,35 @@ public class Ihm {
 		
 		
 		JLabel lblNewLabel = new JLabel("Nom\r\n");
-		lblNewLabel.setBounds(10, 14, 46, 14);
+		lblNewLabel.setBounds(10, 14, 189, 14);
 		panelPersonne.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Pr\u00E9nom");
-		lblNewLabel_1.setBounds(10, 66, 46, 14);
+		lblNewLabel_1.setBounds(10, 66, 189, 14);
 		panelPersonne.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Mail");
-		lblNewLabel_2.setBounds(10, 126, 46, 14);
+		lblNewLabel_2.setBounds(10, 124, 189, 14);
 		panelPersonne.add(lblNewLabel_2);
 		
 		txtNomPersonne = new JTextField();
-		txtNomPersonne.setBounds(10, 35, 152, 20);
+		txtNomPersonne.setBounds(10, 35, 187, 20);
 		panelPersonne.add(txtNomPersonne);
 		txtNomPersonne.setColumns(10);
 		
 		txtPrenomPersonne = new JTextField();
-		txtPrenomPersonne.setBounds(10, 91, 152, 20);
+		txtPrenomPersonne.setBounds(10, 91, 189, 20);
 		panelPersonne.add(txtPrenomPersonne);
 		txtPrenomPersonne.setColumns(10);
 		
 		txtMailPersonne = new JTextField();
-		txtMailPersonne.setBounds(10, 151, 152, 20);
+		txtMailPersonne.setBounds(10, 151, 189, 20);
 		panelPersonne.add(txtMailPersonne);
 		txtMailPersonne.setColumns(10);
 		
-		JButton btnAjouterUnePersonne = new JButton("Ajouter une personne");
+		JButton btnAjouterUnePersonne = new JButton("Ajouter");
 		buttonGroup.add(btnAjouterUnePersonne);
-		btnAjouterUnePersonne.setBounds(192, 133, 190, 38);
+		btnAjouterUnePersonne.setBounds(10, 238, 190, 40);
 		panelPersonne.add(btnAjouterUnePersonne);
 		btnAjouterUnePersonne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -299,8 +294,8 @@ public class Ihm {
 			}
 		});
 		
-		JButton btnModifierUnePersonne = new JButton("Modifier une personne\r\n");
-		btnModifierUnePersonne.setBounds(192, 183, 190, 38);
+		JButton btnModifierUnePersonne = new JButton("Modifier");
+		btnModifierUnePersonne.setBounds(10, 290, 190, 40);
 		panelPersonne.add(btnModifierUnePersonne);
 		btnModifierUnePersonne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -308,8 +303,8 @@ public class Ihm {
 			}
 		});
 		
-		JButton btnSupprimerUnePersonne = new JButton("Supprimer une personne");
-		btnSupprimerUnePersonne.setBounds(192, 233, 190, 38);
+		JButton btnSupprimerUnePersonne = new JButton("Supprimer");
+		btnSupprimerUnePersonne.setBounds(10, 340, 190, 40);
 		panelPersonne.add(btnSupprimerUnePersonne);
 		btnSupprimerUnePersonne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -319,67 +314,97 @@ public class Ihm {
 		});
 		
 		JLabel lblNewLabel_6 = new JLabel("S\u00E9l\u00E9ctionner une personne");
-		lblNewLabel_6.setBounds(192, 10, 190, 14);
+		lblNewLabel_6.setBounds(227, 14, 190, 14);
 		panelPersonne.add(lblNewLabel_6);
 		
 		JLabel lblEquipesDeLa = new JLabel("Equipe(s) de la personne");
-		lblEquipesDeLa.setBounds(410, 14, 190, 14);
+		lblEquipesDeLa.setBounds(445, 14, 190, 14);
 		panelPersonne.add(lblEquipesDeLa);
 		
 		JLabel lblComptitionsDeLa = new JLabel("Compétition(s) de la personne");
-		lblComptitionsDeLa.setBounds(410, 179, 190, 14);
+		lblComptitionsDeLa.setBounds(445, 198, 190, 14);
 		panelPersonne.add(lblComptitionsDeLa);
+		
+		JComboBox<Object> comboBox = new JComboBox<Object>();
+		comboBox.setBounds(656, 33, 190, 20);
+		panelPersonne.add(comboBox);
+		
+		JComboBox<Object> comboBox_1 = new JComboBox<Object>();
+		comboBox_1.setBounds(656, 104, 190, 20);
+		panelPersonne.add(comboBox_1);
+		
+		JComboBox<Object> comboBox_2 = new JComboBox<Object>();
+		comboBox_2.setBounds(656, 218, 190, 20);
+		panelPersonne.add(comboBox_2);
+		
+		JComboBox<Object> comboBox_3 = new JComboBox<Object>();
+		comboBox_3.setBounds(656, 284, 190, 20);
+		panelPersonne.add(comboBox_3);
+		
+		JButton button = new JButton("Ajouter");
+		button.setBounds(656, 52, 96, 20);
+		panelPersonne.add(button);
+		
+		JButton button_1 = new JButton("Ajouter");
+		button_1.setBounds(656, 239, 96, 20);
+		panelPersonne.add(button_1);
+		
+		JButton btnSupprimer = new JButton("Supprimer");
+		btnSupprimer.setBounds(656, 124, 96, 20);
+		panelPersonne.add(btnSupprimer);
+		
+		JButton btnSupprimer_1 = new JButton("Supprimer");
+		btnSupprimer_1.setBounds(656, 305, 96, 20);
+		panelPersonne.add(btnSupprimer_1);
+		
+		JLabel lblAjouterUne = new JLabel("Ajouter à une équipe");
+		lblAjouterUne.setBounds(656, 13, 190, 14);
+		panelPersonne.add(lblAjouterUne);
+		
+		JLabel lblSupprimerDunequipe = new JLabel("Supprimer d'une équipe");
+		lblSupprimerDunequipe.setBounds(656, 84, 190, 14);
+		panelPersonne.add(lblSupprimerDunequipe);
+		
+		JLabel lblAjouterUne_1 = new JLabel("Ajouter à une compétition");
+		lblAjouterUne_1.setBounds(656, 197, 190, 14);
+		panelPersonne.add(lblAjouterUne_1);
+		
+		JLabel lblSupprimerDuneComptition = new JLabel("Supprimer d'une compétition");
+		lblSupprimerDuneComptition.setBounds(656, 264, 190, 14);
+		panelPersonne.add(lblSupprimerDuneComptition);
 		
 		JLayeredPane panelEquipe = new JLayeredPane();
 		tabbedPane.addTab("Equipes", null, panelEquipe, null);
 		
-		JButton btnAjouterUneEquipe = new JButton("Ajouter une \u00E9quipe\r\n");
-		btnAjouterUneEquipe.setBounds(10, 191, 155, 39);
+		JButton btnAjouterUneEquipe = new JButton("Ajouter");
+		btnAjouterUneEquipe.setBounds(10, 236, 190, 40);
 		panelEquipe.add(btnAjouterUneEquipe);
 		
-		JButton btnModifierUneEquipe = new JButton("Modifier une \u00E9quipe");
-		btnModifierUneEquipe.setBounds(10, 241, 155, 39);
+		JButton btnModifierUneEquipe = new JButton("Modifier");
+		btnModifierUneEquipe.setBounds(10, 286, 190, 40);
 		panelEquipe.add(btnModifierUneEquipe);
 		
-		JButton btnSupprimerUneEquipe = new JButton("Supprimer une \u00E9quipe");
-		btnSupprimerUneEquipe.setBounds(10, 291, 155, 40);
+		JButton btnSupprimerUneEquipe = new JButton("Supprimer");
+		btnSupprimerUneEquipe.setBounds(10, 336, 190, 40);
 		panelEquipe.add(btnSupprimerUneEquipe);
 		
-		JLabel lblAcrEquipe = new JLabel("Acronyme");
-		lblAcrEquipe.setBounds(10, 11, 155, 20);
-		panelEquipe.add(lblAcrEquipe);
-		
 		JLabel lblNomEquipe = new JLabel("Nom de l'\u00E9quipe\r\n");
-		lblNomEquipe.setBounds(10, 67, 152, 20);
+		lblNomEquipe.setBounds(10, 14, 190, 20);
 		panelEquipe.add(lblNomEquipe);
 		
-		JLabel lblMailEquipe = new JLabel("Mail de l'\u00E9quipe\r\n");
-		lblMailEquipe.setBounds(10, 123, 152, 20);
-		panelEquipe.add(lblMailEquipe);
-		
-		txtAcronymeEquipe = new JTextField();
-		txtAcronymeEquipe.setBounds(10, 36, 152, 20);
-		panelEquipe.add(txtAcronymeEquipe);
-		txtAcronymeEquipe.setColumns(10);
-		
 		txtNomEquipe = new JTextField();
-		txtNomEquipe.setBounds(10, 92, 152, 20);
+		txtNomEquipe.setBounds(10, 39, 190, 20);
 		panelEquipe.add(txtNomEquipe);
 		txtNomEquipe.setColumns(10);
-		
-		txtMailEquipe = new JTextField();
-		txtMailEquipe.setBounds(10, 148, 152, 20);
-		panelEquipe.add(txtMailEquipe);
-		txtMailEquipe.setColumns(10);
 		
 		JComboBox<Object> listeEquipe = new JComboBox<Object>();
 		for(Equipe equipe : insc.getEquipes())
 			listeEquipe.addItem(equipe.getNom());
-		listeEquipe.setBounds(198, 36, 176, 20);
+		listeEquipe.setBounds(232, 36, 190, 20);
 		panelEquipe.add(listeEquipe);
 		
 		List listePersonneEquipe = new List();
-		listePersonneEquipe.setBounds(399, 36, 176, 303);
+		listePersonneEquipe.setBounds(444, 30, 190, 160);
 		panelEquipe.add(listePersonneEquipe);
 		
 		listeEquipe.addActionListener(new ActionListener() {
@@ -402,30 +427,38 @@ public class Ihm {
 		
 		
 		JLabel lblSlctionnerUnequipe = new JLabel("S\u00E9l\u00E9ctionner une \u00E9quipe");
-		lblSlctionnerUnequipe.setBounds(198, 11, 176, 14);
+		lblSlctionnerUnequipe.setBounds(232, 14, 190, 14);
 		panelEquipe.add(lblSlctionnerUnequipe);	
 
 		
 		JLabel lblPersonnesDeLequipe = new JLabel("Personne(s) de l'equipe");
-		lblPersonnesDeLequipe.setBounds(399, 11, 176, 14);
+		lblPersonnesDeLequipe.setBounds(444, 14, 190, 14);
 		panelEquipe.add(lblPersonnesDeLequipe);
+		
+		List list = new List();
+		list.setBounds(444, 218, 190, 160);
+		panelEquipe.add(list);
+		
+		JLabel label = new JLabel("Personne(s) de l'equipe");
+		label.setBounds(444, 196, 190, 14);
+		panelEquipe.add(label);
 		
 		JLayeredPane panelCompetition = new JLayeredPane();
 		tabbedPane.addTab("Competitions", null, panelCompetition, null);
 		
 		dateCloture = new JTextField("YYYY-MM-DD");
-		dateCloture.setBounds(10,91,152,23);
+		dateCloture.setBounds(10,91,190,23);
 		panelCompetition.add(dateCloture);
 		dateCloture.setColumns(10);
 		
 		JComboBox<Object> listeCompetition = new JComboBox<Object>();
 		for(Competition c : insc.getCompetitions())
 			listeCompetition.addItem(c.getNom());
-		listeCompetition.setBounds(190, 35, 178, 20);
+		listeCompetition.setBounds(319, 35, 190, 20);
 		panelCompetition.add(listeCompetition);
 		
 		List listeCandidatCompetition = new List();
-		listeCandidatCompetition.setBounds(397, 35, 178, 304);
+		listeCandidatCompetition.setBounds(658, 35, 190, 343);
 		panelCompetition.add(listeCandidatCompetition);
 		
 		listeCompetition.addActionListener(new ActionListener() {
@@ -462,46 +495,46 @@ public class Ihm {
 		});
 		
 		JLabel lblListeCompetition = new JLabel("S\u00E9l\u00E9ctionner une comp\u00E9tition");
-		lblListeCompetition.setBounds(190, 14, 178, 14);
+		lblListeCompetition.setBounds(319, 14, 190, 14);
 		panelCompetition.add(lblListeCompetition);
 		
 		JLabel lblNomEpreuve = new JLabel("Nom Epreuve");
-		lblNomEpreuve.setBounds(10, 14, 88, 14);
+		lblNomEpreuve.setBounds(10, 14, 190, 14);
 		panelCompetition.add(lblNomEpreuve);
 		
 		JLabel lblDateCloture = new JLabel("Date Cloture (YYYY-MM-DD)");
-		lblDateCloture.setBounds(10, 66, 160, 14);
+		lblDateCloture.setBounds(10, 66, 190, 14);
 		panelCompetition.add(lblDateCloture);
 		
 		JLabel lblEnEquipe = new JLabel("En Equipe");
-		lblEnEquipe.setBounds(10, 126, 88, 14);
+		lblEnEquipe.setBounds(10, 126, 190, 14);
 		panelCompetition.add(lblEnEquipe);
 		
 		txtNomEpreuve = new JTextField();
-		txtNomEpreuve.setBounds(10, 35, 152, 20);
+		txtNomEpreuve.setBounds(10, 35, 190, 20);
 		panelCompetition.add(txtNomEpreuve);
 		txtNomEpreuve.setColumns(10);
 		
-		rdbtnOui.setBounds(10, 154, 70, 23);
+		rdbtnOui.setBounds(10, 148, 85, 23);
 		panelCompetition.add(rdbtnOui);
 		
-		rdbtnNo.setBounds(95, 154, 70, 23);
+		rdbtnNo.setBounds(115, 148, 85, 23);
 		panelCompetition.add(rdbtnNo);
 		
 		JButton btnAjouterCompetition = new JButton("Ajouter");
-		btnAjouterCompetition.setBounds(10, 203, 152, 33);
+		btnAjouterCompetition.setBounds(10, 234, 190, 40);
 		panelCompetition.add(btnAjouterCompetition);
 		
 		JButton btnModifierCompetition = new JButton("Modifier");
-		btnModifierCompetition.setBounds(10, 247, 152, 33);
+		btnModifierCompetition.setBounds(10, 286, 190, 40);
 		panelCompetition.add(btnModifierCompetition);
 		
 		JButton btnSupprimerCompetition = new JButton("Supprimer");
-		btnSupprimerCompetition.setBounds(10, 291, 152, 33);
+		btnSupprimerCompetition.setBounds(10, 338, 190, 40);
 		panelCompetition.add(btnSupprimerCompetition);
 		
 		JLabel lblCandidatCompetition = new JLabel("Candidat(s) de la compétition");
-		lblCandidatCompetition.setBounds(397, 15, 178, 14);
+		lblCandidatCompetition.setBounds(658, 14, 188, 14);
 		panelCompetition.add(lblCandidatCompetition);
 	}
 }
