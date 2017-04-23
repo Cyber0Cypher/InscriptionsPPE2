@@ -33,14 +33,14 @@ public class Inscriptions implements Serializable
 	private static final String FILE_NAME = "Inscriptions.srz";
 	private static Inscriptions inscriptions;
 	
+	// Objet permettant l'accès aux procédure stockées de la BD
+	private Requete r = new Requete();
+	
 	private SortedSet<Competition> competitions = new TreeSet<>();
 	private SortedSet<Candidat> candidats = new TreeSet<>();
 
 	private Inscriptions()
 	{
-		// Objet permettant l'accès aux procédure stockÃ©es de la BD
-		Requete r = new Requete();
-		
 		ArrayList<ArrayList<String>> lesCompets = r.getCompetition();
 		ArrayList<ArrayList<String>> lesEquipes = r.getEquipe();
 		ArrayList<ArrayList<String>> lesPersonnes = r.getPersonne();
@@ -106,6 +106,11 @@ public class Inscriptions implements Serializable
 		
 	}
 	
+	public int getAICompetitions()
+	{
+		return Integer.parseInt(r.getAICompetition().get(10).get(0));
+	}
+	
 	/**
 	 * Retourne tous les candidats (personnes et Ã©quipes confondues).
 	 * @return
@@ -114,6 +119,11 @@ public class Inscriptions implements Serializable
 	public SortedSet<Candidat> getCandidats()
 	{
 		return Collections.unmodifiableSortedSet(candidats);
+	}
+	
+	public int getAICandidats()
+	{
+		return Integer.parseInt(r.getAICandidat().get(10).get(0));
 	}
 
 	/**
@@ -156,6 +166,9 @@ public class Inscriptions implements Serializable
 	
 	public Competition createCompetition(int id, String nom, LocalDate dateCloture, boolean enEquipe)
 	{
+		if(id == this.getAICompetitions())
+			r.creerCompetition(nom, dateCloture.toString(), enEquipe);
+		
 		Competition competition = new Competition(this, id, nom, dateCloture, enEquipe);
 		competitions.add(competition);
 		return competition;
@@ -174,6 +187,9 @@ public class Inscriptions implements Serializable
 	
 	public Personne createPersonne(int id, String nom, String prenom, String mail)
 	{
+		if(id == this.getAICandidats())
+			r.creerPersonne(nom, prenom, mail);
+		
 		Personne personne = new Personne(this, id, nom, prenom, mail);
 		candidats.add(personne);
 		return personne;
@@ -191,6 +207,9 @@ public class Inscriptions implements Serializable
 	
 	public Equipe createEquipe(int id, String nom)
 	{
+		if(id == getAICandidats())
+			r.creerEquipe(nom);
+		
 		Equipe equipe = new Equipe(this, id, nom);
 		candidats.add(equipe);
 		return equipe;
@@ -352,14 +371,14 @@ public class Inscriptions implements Serializable
 				String nom = utilitaires.EntreesSorties.getString("Saisissez le nom de la nouvelle compÃ©tition: ");
 				String date = utilitaires.EntreesSorties.getString("Saisissez la date de cloture: ");
 				int enEquipe = utilitaires.EntreesSorties.getInt("CompÃ©tition en Ã©quipe ? oui 1, non 0: ");
-				r.creerCompetition(nom, date, enEquipe);
+				//r.creerCompetition(nom, date, enEquipe);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Supprimer une compÃ©tition", "b", new Action() {
 			public void optionSelectionnee() {
 				r.getCompetition();
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compÃ©tition: ");
-				r.supprimerCompetiton(idComp);
+				r.supprimerCompetition(idComp);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Candidats inscrits Ã  une compÃ©tition", "c", new Action() {
@@ -527,7 +546,7 @@ public class Inscriptions implements Serializable
 			public void optionSelectionnee() {
 				r.getEquipe();
 				int idEquipe = utilitaires.EntreesSorties.getInt("Saisissez l'id de l'Ã©quipe: ");
-				r.supprimerEquipe(idEquipe);
+				r.supprimerCandidat(idEquipe);
 			}
 		}));
 		// Afficher les membres de l'Ã©quipe

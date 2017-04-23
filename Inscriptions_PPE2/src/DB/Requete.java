@@ -12,8 +12,8 @@ public class Requete {
 	
 	/* COMPETITION */
 	
-	public void supprimerCompetiton(int idCompetition) {
-		db.sql("call supprimerCompetiton(" + idCompetition + ")");
+	public void supprimerCompetition(int idCompetition) {
+		db.sql("call supprimerCompetition(" + idCompetition + ")");
 	}
 	
 	public ArrayList<ArrayList<String>> candidatsInscritsCompetition(int idCompetition) {
@@ -52,18 +52,23 @@ public class Requete {
 		db.sql("call modifierNomCompetition(" + idCompetition + ",\""+ nom +"\" )");
 	}
 	
-	public void creerCompetition(String nom, String date, int enEquipe) {
-		db.sql("call creerCompetition(\"" + nom +"\",\" " + date +"\", " + enEquipe +")");
+	public void creerCompetition(String nom, String date, boolean enEquipe) {
+		db.set("call creerCompetition('" + nom +"', '" + date +"', " + enEquipe +")");
 	}
 	
 	public ArrayList<ArrayList<String>> getCompetition() {
 		return db.get("call getCompetition()");
 	}
 	
+	// Récupère la valeur de l'auto-incrémentation
+	public ArrayList<ArrayList<String>> getAICompetition() {
+		return db.get("call getAICompetition()");
+	}
+	
 	/* PERSONNE */
 	
-	public void supprimerPersonne(int i) {
-		db.set("call supprimerPersonne(" + i + ")");
+	public void supprimerCandidat(int i) {
+		db.set("call supprimerCandidat(" + i + ")");
 	}
 	
 	public ArrayList<ArrayList<String>> getEquipePersonne(int idPersonne) {
@@ -98,6 +103,11 @@ public class Requete {
 		return db.get("call getPersonne()");
 	}
 	
+	// Récupère la valeur de l'auto-incrémentation
+	public ArrayList<ArrayList<String>> getAICandidat() {
+		return db.get("call getAICandidat()");
+	}
+	
 	/* EQUIPE */
 	
 	public void ajouterPersonneEquipe(int idCandidat, int idEquipe) {
@@ -116,12 +126,8 @@ public class Requete {
 		db.sql("call ajouterEquipeCompetition(" + idEquipe + ", " + idCompetition + ")");
 	}
 	
-	public void supprimerEquipe(int idEquipe) {
-		db.sql("call supprimerEquipe(" + idEquipe + ")");
-	}
-	
 	public void creerEquipe(String nom) {
-		db.sql("call creerEquipe(\"" + nom + "\")");
+		db.set("call creerEquipe('" + nom + "')");
 	}
 	
 	public String getAcrEquipe(int idEquipe) {

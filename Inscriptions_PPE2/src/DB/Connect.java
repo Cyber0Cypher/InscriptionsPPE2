@@ -124,7 +124,7 @@ public class Connect {
 		}
 		catch (SQLException e) {
 			// affiche les erreurs sql
-			// e.printStackTrace();
+			//e.printStackTrace();
 		} 
 		catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -163,7 +163,7 @@ public class Connect {
 		}
 		catch (SQLException e) {
 			// affiche les erreurs sql
-			// e.printStackTrace();
+			//e.printStackTrace();
 		} 
 		catch (ClassNotFoundException e) {
 			e.printStackTrace();

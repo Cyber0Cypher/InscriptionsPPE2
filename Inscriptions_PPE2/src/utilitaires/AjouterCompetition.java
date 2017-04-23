@@ -28,9 +28,9 @@ public class AjouterCompetition extends JDialog {
 	JButton okButton;
 	JTextField txtNom;
 	JTextField txtDateCloture;
-	boolean enEquipe;
+	JRadioButton rdbtnOui;
 	private boolean valider;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
+	final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -83,10 +83,9 @@ public class AjouterCompetition extends JDialog {
 		lblAaaammjj.setBounds(12, 82, 202, 14);
 		contentPanel.add(lblAaaammjj);
 		
-		JRadioButton rdbtnOui = new JRadioButton("Oui");
+		rdbtnOui = new JRadioButton("Oui");
 		buttonGroup.add(rdbtnOui);
 		rdbtnOui.setBounds(12, 150, 95, 28);
-		rdbtnOui.setSelected(true);
 		contentPanel.add(rdbtnOui);
 		
 		JRadioButton rdbtnNon = new JRadioButton("Non");
@@ -103,7 +102,7 @@ public class AjouterCompetition extends JDialog {
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		
-		enEquipe = false;
+		rdbtnOui.doClick();
 			
 		okButton = new JButton("Valider");
 		okButton.addActionListener(new ActionListener() {
@@ -113,8 +112,6 @@ public class AjouterCompetition extends JDialog {
 //						super.list.removeAll();
 //						for(String l : r.getEquipePersonne(Integer.parseInt(r.getPersonne().get(0).get(comboBox.getSelectedIndex()))).get(0))
 //							list.add(l); 
-				if(rdbtnOui.isSelected())
-					enEquipe = true;
 			}
 		});
 		

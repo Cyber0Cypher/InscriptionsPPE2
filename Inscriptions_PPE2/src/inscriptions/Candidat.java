@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
+import DB.Requete;
+
 /**
  * Candidat à un événement sportif, soit une personne physique, soit une équipe.
  *
@@ -82,6 +84,9 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	
 	public void delete()
 	{
+		Requete r = new Requete();
+		r.supprimerCandidat(id);
+		
 		for (Competition c : competitions)
 			c.remove(this);
 		inscriptions.remove(this);

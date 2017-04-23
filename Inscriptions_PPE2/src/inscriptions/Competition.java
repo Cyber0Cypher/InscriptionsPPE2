@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.util.Set;
 import java.util.TreeSet;
 
+import DB.Requete;
+
 /**
  * Représente une compétition, c'est-à-dire un ensemble de candidats 
  * inscrits à un événement, les inscriptions sont closes à la date dateCloture.
@@ -166,6 +168,9 @@ public class Competition implements Comparable<Competition>, Serializable
 	
 	public void delete()
 	{
+		Requete r = new Requete();
+		r.supprimerCompetition(id);
+		
 		for (Candidat candidat : candidats)
 			remove(candidat);
 		inscriptions.remove(this);

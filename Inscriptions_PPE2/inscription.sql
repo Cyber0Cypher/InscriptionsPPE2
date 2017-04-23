@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 13 Mars 2017 à 14:41
+-- Généré le :  Dim 23 Avril 2017 à 21:30
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -25,11 +25,11 @@ DELIMITER $$
 -- Procédures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterEquipeCompetition` (`id_candidat` INT(4), `id_competition` INT(4))  BEGIN
-	INSERT INTO inscrire VALUES (id_candidat, id_competition);
+INSERT INTO inscrire VALUES (id_candidat, id_competition);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterPersonneCompetition` (`id_candidat` INT(4), `id_competition` INT(4))  BEGIN
-	INSERT INTO inscrire VALUES (id_candidat, id_competition);
+INSERT INTO inscrire VALUES (id_candidat, id_competition);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterPersonneEquipe` (`numpersonne` INT, `numequipe` INT)  BEGIN
@@ -37,12 +37,12 @@ INSERT INTO APPARTENIR(idCandidatPersonne,idCandidatEquipe)
  VALUES (numpersonne,numequipe);
  END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `candidatsInscritsCompetition` (`Numcompetition` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `candidatsInscritsCompetition` (IN `Numcompetition` INT)  BEGIN
 
-    SELECT prenom, nom
+    SELECT candidat.idCandidat, candidat.nom
     FROM COMPETITION, INSCRIRE, CANDIDAT
-    WHERE COMPETITION.idCompetition = INSCRIRE.idCompetition
-    AND CANDIDAT.idCandidat = INSCRIRE.idCandidat
+    WHERE CANDIDAT.idCandidat = INSCRIRE.idCandidat
+    AND COMPETITION.idCompetition = INSCRIRE.idCompetition
     AND INSCRIRE.idCompetition = Numcompetition;
  
 END$$
@@ -51,13 +51,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `creerCompetition` (`nomC` VARCHAR(2
 INSERT INTO competition (epreuve,dateCloture,enEquipe) VALUES (nomC,dateClotureC,enEquipeC);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creerEquipe` (`nom` VARCHAR(50), `prenom` VARCHAR(50), `mail` VARCHAR(100))  BEGIN
-DECLARE a int;
-INSERT INTO CANDIDAT (nom, prenom, email, estEquipe) VALUES (nom, prenom, mail, 1);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creerEquipe` (IN `nomE` VARCHAR(50))  BEGIN
+INSERT INTO CANDIDAT (nom, prenom, email, estEquipe) VALUES (nomE, NULL, NULL, 1);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `creerPersonne` (`nomP` VARCHAR(50), `prenomP` VARCHAR(50), `mailP` VARCHAR(100))  BEGIN
-	INSERT INTO CANDIDAT (nom, prenom, email, estEquipe) VALUES (nomP, prenomP, mailP, 0);
+INSERT INTO CANDIDAT (nom, prenom, email, estEquipe) VALUES (nomP, prenomP, mailP, 0);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `dateClotureInscription` (`Numcompetition` INT)  BEGIN
@@ -65,16 +64,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `dateClotureInscription` (`Numcompet
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `enEquipe` (`id_competition` INT)  BEGIN
-	SELECT enEquipe 
-	FROM COMPETITION 
-	WHERE idCompetition = id_competition;
+SELECT enEquipe 
+FROM COMPETITION 
+WHERE idCompetition = id_competition;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAcrEquipe` (`Numcandidat` INT)  BEGIN
-	SELECT nom
-	FROM CANDIDAT
-	WHERE idCandidat = Numcandidat
-	AND estEquipe = 1;
+SELECT nom
+FROM CANDIDAT
+WHERE idCandidat = Numcandidat
+AND estEquipe = 1;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAICandidat` ()  BEGIN
+SHOW TABLE STATUS FROM inscription LIKE 'candidat';
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAICompetition` ()  BEGIN
+SHOW TABLE STATUS FROM inscription LIKE 'competition';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getCompetition` ()  BEGIN
@@ -98,51 +105,51 @@ AND Appartenir.idCandidatEquipe = CANDIDAT.idCandidat;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getMail` (`Numcandidat` INT)  BEGIN
-	SELECT email
-	FROM CANDIDAT
-	WHERE idCandidat = Numcandidat
-	AND estEquipe = 0;
+SELECT email
+FROM CANDIDAT
+WHERE idCandidat = Numcandidat
+AND estEquipe = 0;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getMailEquipe` (`Numcandidat` INT)  BEGIN
-	SELECT email
-	FROM CANDIDAT
-	WHERE idCandidat = Numcandidat
-	AND estEquipe = 1;
+SELECT email
+FROM CANDIDAT
+WHERE idCandidat = Numcandidat
+AND estEquipe = 1;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getNom` (`Numcandidat` INT)  BEGIN
-	SELECT nom
-	FROM CANDIDAT
-	WHERE idCandidat = Numcandidat
-	AND estEquipe = 0;
+SELECT nom
+FROM CANDIDAT
+WHERE idCandidat = Numcandidat
+AND estEquipe = 0;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getNomEquipe` (`Numcandidat` INT)  BEGIN
-	SELECT prenom
-	FROM CANDIDAT
-	WHERE idCandidat = Numcandidat
-	AND estEquipe = 1;
+SELECT prenom
+FROM CANDIDAT
+WHERE idCandidat = Numcandidat
+AND estEquipe = 1;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPersonne` ()  BEGIN
-	SELECT *
-	FROM CANDIDAT
-	WHERE estEquipe = 0;
+SELECT *
+FROM CANDIDAT
+WHERE estEquipe = 0;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getPersonneEquipe` (`num_equipe` INT)  BEGIN
-	SELECT prenom, nom
-	FROM CANDIDAT, APPARTENIR
-	WHERE APPARTENIR.idCandidatPersonne = CANDIDAT.idCandidat
-	AND idCandidatEquipe = num_equipe;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getPersonneEquipe` (IN `num_equipe` INT)  BEGIN
+SELECT *
+FROM CANDIDAT, APPARTENIR
+WHERE APPARTENIR.idCandidatPersonne = CANDIDAT.idCandidat
+AND idCandidatEquipe = num_equipe;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPrenom` (`Numcandidat` INT)  BEGIN
-	SELECT prenom
-	FROM CANDIDAT
-	WHERE idCandidat = Numcandidat
-	AND estEquipe = 0;
+SELECT prenom
+FROM CANDIDAT
+WHERE idCandidat = Numcandidat
+AND estEquipe = 0;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `modifierDateCloture` (`id_competition` INT, `modifdatecloture` DATE)  BEGIN
@@ -184,28 +191,28 @@ SELECT idcandidat, prenom, nom
 FROM CANDIDAT;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `supprimerCompetition` (`idComp` INT)  BEGIN
- 
-    DELETE FROM COMPETITION WHERE idCompetition = idComp;
-   
-END$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `supprimerCandidat` (IN `NumCandidat` INT)  BEGIN
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `supprimerEquipe` (`id_equipe` INT)  BEGIN
 DELETE FROM CANDIDAT
-WHERE idCandidat = id_equipe
-AND estEquipe = 1;
+WHERE idCandidat = NumCandidat;
 
 DELETE FROM APPARTENIR
-WHERE idEquipe = id_equipe;
+WHERE idCandidatPersonne = NumCandidat
+OR idCandidatEquipe = NumCandidat;
+
+DELETE FROM inscrire
+WHERE idCandidat = NumCandidat;
+
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `supprimerPersonne` (`Numpersonne` INT)  BEGIN
-	DELETE FROM APPARTENIR
-	WHERE idCandidatPersonne = Numpersonne;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `supprimerCompetition` (IN `idComp` INT)  BEGIN
 
-	DELETE FROM CANDIDAT
-	WHERE idCandidat = Numpersonne
-	AND estEquipe = 0;
+DELETE FROM COMPETITION 
+WHERE idCompetition = idComp;
+
+DELETE FROM INSCRIRE
+WHERE idCompetition = idComp;
+   
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `supprimerPersonneEquipe` (`id_personne` INT, `id_equipe` INT)  BEGIN
@@ -226,9 +233,9 @@ SET date_Cloture = (SELECT dateCloture FROM COMPETITION WHERE idCompetition = id
 SET resultat = DATEDIFF(date_Cloture,(SELECT NOW()));
 
 IF resultat > 0 THEN 
-	SET retour = "1";
+SET retour = "1";
 ELSE 
-	SET retour = "0"; 
+SET retour = "0"; 
 END IF;
 RETURN retour;
 
@@ -286,11 +293,11 @@ INSERT INTO `candidat` (`idCandidat`, `nom`, `prenom`, `email`, `estEquipe`) VAL
 (5, 'Neto', 'Adrien', 'portugais@loreal.fr', 0),
 (6, 'Fervil', 'Darwin', 'kinder@bueno.fr', 0),
 (7, 'Sabbak', 'Nicolas', 'leader@gauchiste.fr', 0),
-(8, 'FCB', 'FC Barcelone', 'contact@fcb.sp', 1),
-(9, 'HBAC', 'Hermes-Berthecourt AC', 'contact@hbac.fr', 1),
-(10, 'PSG', 'Paris-Saint-Germain', 'contact@psg.fr', 1),
-(13, 'titi', 'toto', 'onvnef@eovenrb', 0),
-(14, 'gbrtb', 'rbgbbgb', 'rbgrgngn', 0);
+(8, 'FC Barcelone', NULL, NULL, 1),
+(9, 'Hermes-Berthecourt AC', NULL, NULL, 1),
+(10, 'Paris-Saint-Germain', NULL, NULL, 1),
+(11, 'Bouillennec', 'Valentin', 'val.bouillennec@gmail.com', 0),
+(14, 'Chicago Bulls', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -310,12 +317,12 @@ CREATE TABLE `competition` (
 --
 
 INSERT INTO `competition` (`idCompetition`, `epreuve`, `dateCloture`, `enEquipe`) VALUES
-(1, 'Sweet Christmas', '2015-01-08', 0),
-(2, 'FootBall', '2017-01-20', 1),
-(3, 'Cyclisme', '2017-03-18', 0),
-(4, 'Basket', '2017-01-03', 1),
-(5, 'Natation', '2017-02-08', 0),
-(6, 'Jeux Olympiques', '2017-04-01', 1);
+(1, 'Sweet Christmas', '2018-01-08', 0),
+(2, 'Football', '2018-01-20', 1),
+(3, 'Cyclisme', '2018-03-18', 0),
+(4, 'Basket', '2018-01-03', 1),
+(5, 'Natation', '2018-02-08', 0),
+(6, 'Jeux Olympiques', '2018-04-01', 1);
 
 -- --------------------------------------------------------
 

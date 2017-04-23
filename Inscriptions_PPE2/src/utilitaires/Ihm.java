@@ -97,15 +97,9 @@ public class Ihm {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame("Inscriptions");
-		r = new Requete();
 		Inscriptions insc = Inscriptions.getInscriptions();
-//		ArrayList<ArrayList<String>> lesCompets = r.getCompetition();
-//		int i = 0;
-//		for(String compet : r.getCompetition().get(0)) {
-//			insc.createCompetition(lesCompets.get(1).get(i), LocalDate.parse(lesCompets.get(2).get(i)), Boolean.parseBoolean(lesCompets.get(3).get(i)));
-//			i++;
-//		}
+		
+		frame = new JFrame("Inscriptions");
 		frame.getContentPane().setBackground(Color.GRAY);
 		frame.setBackground(Color.DARK_GRAY);
 		frame.setSize(879, 500);
@@ -245,7 +239,7 @@ public class Ihm {
 					ajout.setVisible(true);
 					ajout.okButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							insc.createPersonne(insc.getPersonnes().size()+1, ajout.txtNom.getText(), ajout.txtPrenom.getText(), ajout.txtMail.getText());
+							insc.createPersonne(insc.getAICandidats(), ajout.txtNom.getText(), ajout.txtPrenom.getText(), ajout.txtMail.getText());
 							ajout.dispose();
 							refresh = true;
 							listePersonne.removeAllItems();
@@ -424,7 +418,7 @@ public class Ihm {
 					ajoutEquipe.setVisible(true);
 					ajoutEquipe.okButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							insc.createEquipe(insc.getEquipes().size()+1, ajoutEquipe.txtNom.getText());
+							insc.createEquipe(insc.getAICandidats(), ajoutEquipe.txtNom.getText());
 							ajoutEquipe.dispose();
 							refresh = true;
 							listeEquipe.removeAllItems();
@@ -604,7 +598,7 @@ public class Ihm {
 					ajoutCompet.setVisible(true);
 					ajoutCompet.okButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							insc.createCompetition(insc.getCompetitions().size()+1, ajoutCompet.txtNom.getText(), LocalDate.parse(ajoutCompet.txtDateCloture.getText()), ajoutCompet.enEquipe);
+							insc.createCompetition(insc.getAICompetitions(), ajoutCompet.txtNom.getText(), LocalDate.parse(ajoutCompet.txtDateCloture.getText()), ajoutCompet.rdbtnOui.isSelected());
 							ajoutCompet.dispose();
 							refresh = true;
 							listeCompetition.removeAllItems();
