@@ -16,9 +16,9 @@ public class TestCandidat {
 	
 	Inscriptions i = Inscriptions.getInscriptions();
 	SortedSet<Candidat> can = i.getCandidats();
-	Personne p = i.createPersonne("Riviere", "Jean", "jean.riviere@mail.com");
-	Personne p2 = i.createPersonne("Dupont", "Michel", "michel.dupont@mail.com");
-	Competition c = i.createCompetition("Competition 1", LocalDate.of(2020, 1, 1), false);
+	Personne p = i.createPersonne(1,"Riviere", "Jean", "jean.riviere@mail.com");
+	Personne p2 = i.createPersonne(2,"Dupont", "Michel", "michel.dupont@mail.com");
+	Competition c = i.createCompetition(3,"Competition 1", LocalDate.of(2020, 1, 1), false);
 
 	@Test
 	public void testGetNom() {

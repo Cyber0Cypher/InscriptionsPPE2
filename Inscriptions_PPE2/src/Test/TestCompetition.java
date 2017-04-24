@@ -15,16 +15,16 @@ import junit.framework.TestCase;
 public class TestCompetition extends TestCase{
 	
 	Inscriptions i = Inscriptions.getInscriptions();
-	Competition c = i.createCompetition("Competition 1", LocalDate.of(2020, 1, 1), false);
-	Equipe e = i.createEquipe("Nom Equipe");
-	Personne p = i.createPersonne("Claude", "Jean", "jean.claude@mail.com");
+	Competition c = i.createCompetition(1,"Competition 1", LocalDate.of(2020, 1, 1), false);
+	Equipe e = i.createEquipe(1,"Nom Equipe");
+	Personne p = i.createPersonne(1,"Claude", "Jean", "jean.claude@mail.com");
 	SortedSet<Candidat> can = i.getCandidats();
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		c = i.createCompetition("Competition 1", LocalDate.of(2020, 1, 1), false);
-		e = i.createEquipe("Nom Equipe");
-		p = i.createPersonne("Claude", "Jean", "jean.claude@mail.com");
+		c = i.createCompetition(1,"Competition 1", LocalDate.of(2020, 1, 1), false);
+		e = i.createEquipe(1,"Nom Equipe");
+		p = i.createPersonne(1,"Claude", "Jean", "jean.claude@mail.com");
 		can = i.getCandidats();
 	}
 
@@ -78,7 +78,7 @@ public class TestCompetition extends TestCase{
 
 	@Test
 	public void testAddEquipe() {
-		Competition c2 = i.createCompetition("Nom de la compet'", LocalDate.of(2020, 1, 1), true);
+		Competition c2 = i.createCompetition(2,"Nom de la compet'", LocalDate.of(2020, 1, 1), true);
 		c2.add(e);
 		assertNotNull(i.getEquipes());
 		c2.delete();
@@ -98,7 +98,7 @@ public class TestCompetition extends TestCase{
 
 	@Test
 	public void testCompareTo() {
-		Competition c2 = i.createCompetition("Nom de la compet'", null, true);
+		Competition c2 = i.createCompetition(2,"Nom de la compet'", null, true);
 		c.compareTo(c2);
 	}
 

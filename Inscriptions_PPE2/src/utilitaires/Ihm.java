@@ -40,6 +40,7 @@ import inscriptions.Inscriptions;
 import inscriptions.Personne;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 
 import javax.swing.JTextField;
@@ -140,8 +141,8 @@ public class Ihm {
 		bg.add(rdbtnNo);
 		
 		JLabel lblAccueil = new JLabel("Inscriptions");
-		lblAccueil.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblAccueil.setBounds(253, 11, 82, 35);
+		lblAccueil.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblAccueil.setBounds(385, 12, 117, 35);
 		frame.getContentPane().add(lblAccueil);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -170,35 +171,6 @@ public class Ihm {
 		List listeCompetitionPersonne = new List();
 		listeCompetitionPersonne.setBounds(445, 218, 190, 160);
 		panelPersonne.add(listeCompetitionPersonne);
-		
-		listePersonne.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(!refresh){
-					listeEquipePersonne.removeAll();
-					listeCompetitionPersonne.removeAll();
-					int i = 0;
-					for(Personne p : insc.getPersonnes()){
-						if (i == listePersonne.getSelectedIndex()){
-							for(Equipe e : p.getEquipes()){
-								listeEquipePersonne.add(e.getNom());
-								for(Competition comp : e.getCompetitions()){
-									listeCompetitionPersonne.add(comp.getNom());
-								}
-							}
-							for(Competition comp : p.getCompetitions()){
-								listeCompetitionPersonne.add(comp.getNom());
-							}
-							txtNomPersonne.setText(p.getNom());
-							txtPrenomPersonne.setText(p.getPrenom());
-							txtMailPersonne.setText(p.getMail());
-						}
-						i++;
-					}
-				}
-			}
-		});
-		
-		
 		
 		JLabel lblNom = new JLabel("Nom");
 		lblNom.setBounds(10, 14, 189, 14);
@@ -298,6 +270,12 @@ public class Ihm {
 		listeEquipeAjouter.setBounds(656, 33, 190, 20);
 		panelPersonne.add(listeEquipeAjouter);
 		
+		listeEquipeAjouter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
 		JComboBox<Object> listeEquipeSupprimer = new JComboBox<Object>();
 		listeEquipeSupprimer.setBounds(656, 104, 190, 20);
 		panelPersonne.add(listeEquipeSupprimer);
@@ -310,9 +288,125 @@ public class Ihm {
 		listeCompetitionSupprimer.setBounds(656, 284, 190, 20);
 		panelPersonne.add(listeCompetitionSupprimer);
 		
+		listePersonne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!refresh){
+					boolean present = false;
+					boolean occupe = false;
+					listeEquipePersonne.removeAll();
+					listeCompetitionPersonne.removeAll();
+					listeEquipeAjouter.removeAllItems();
+					listeEquipeSupprimer.removeAllItems();
+					listeCompetitionAjouter.removeAllItems();
+					listeCompetitionSupprimer.removeAllItems();
+					int i = 0;
+					for(Personne p : insc.getPersonnes()){
+						if (i == listePersonne.getSelectedIndex()){
+							for(Equipe e : p.getEquipes()){
+								for(Competition comp : e.getCompetitions()){
+									listeCompetitionPersonne.add(comp.getNom());
+								}
+							}
+							// Equipe
+							for(Equipe equipe : insc.getEquipes()){
+								present = false;
+								occupe = false;
+								for(Equipe equ : p.getEquipes()){
+									if(equipe.getId() == equ.getId()){
+										present = true;
+									}
+									for(Competition compet : equipe.getCompetitions()){
+										for(Competition comp : equ.getCompetitions()){
+											if(compet.getId() == comp.getId()){
+												occupe = true;
+											}
+										}
+									}
+								}
+								if(!present && !occupe) {
+									listeEquipeAjouter.addItem(equipe.getNom());
+								}
+								else if (present){
+									listeEquipePersonne.add(equipe.getNom());
+									listeEquipeSupprimer.addItem(equipe.getNom());
+								}
+							}
+							
+							// Competition
+							for(Competition competition : insc.getCompetitions()){
+								present = false;
+								for(Competition comp : p.getCompetitions()){
+									if(competition.getId() == comp.getId()){
+										present = true;
+									}
+									
+								}
+								if(!present && !competition.estEnEquipe()) {
+									listeCompetitionAjouter.addItem(competition.getNom());
+								}
+								else if (present) {
+									listeCompetitionPersonne.add(competition.getNom());
+									listeCompetitionSupprimer.addItem(competition.getNom());
+								}
+							}
+							txtNomPersonne.setText(p.getNom());
+							txtPrenomPersonne.setText(p.getPrenom());
+							txtMailPersonne.setText(p.getMail());
+						}
+						i++;
+					}
+				}
+			}
+		});
+		
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.setBounds(656, 52, 96, 20);
 		panelPersonne.add(btnAjouter);
+		
+		btnAjouter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Equipe> listeEquipeAjout = new ArrayList<Equipe>();
+				boolean present;
+				boolean occupe;
+				int i = 0;
+				for(Personne p : insc.getPersonnes()){
+					if (i == listePersonne.getSelectedIndex()){
+						for(Equipe equipe : insc.getEquipes()){
+							present = false;
+							occupe = false;
+							for(Equipe equ : p.getEquipes()){
+								if(equipe.getId() == equ.getId()){
+									present = true;
+								}
+								for(Competition compet : equipe.getCompetitions()){
+									for(Competition comp : equ.getCompetitions()){
+										if(compet.getId() == comp.getId()){
+											occupe = true;
+										}
+									}
+								}
+							}
+							if(!present && !occupe) {
+								listeEquipeAjout.add(equipe);
+							}
+						}
+					}
+				}
+				int j = 0;
+				int k = 0;
+				for(Personne p : insc.getPersonnes()){
+					if (k == listePersonne.getSelectedIndex()){
+						for(Equipe equipe : listeEquipeAjout){
+							if(j == listeEquipeAjouter.getSelectedIndex())
+								equipe.add(p);
+							j++;
+						}
+					}
+					k++;
+				}
+				
+			}
+		});
 		
 		JButton btnAjouter2 = new JButton("Ajouter");
 		btnAjouter2.setBounds(656, 239, 96, 20);

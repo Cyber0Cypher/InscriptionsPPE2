@@ -10,14 +10,14 @@ import junit.framework.TestCase;
 public class TestEquipe extends TestCase {
 	
 	Inscriptions i3 = Inscriptions.getInscriptions();
-	Equipe e1 = i3.createEquipe("Equipe 1");
-	Personne p1 = i3.createPersonne("Wayne", "Bruce", "bruce.wayne@mail.com");
+	Equipe e1 = i3.createEquipe(1,"Equipe 1");
+	Personne p1 = i3.createPersonne(1,"Wayne", "Bruce", "bruce.wayne@mail.com");
 	
 	protected void setUp() throws Exception {
 		super.setUp();
 		i3 = Inscriptions.getInscriptions();
-		e1 = i3.createEquipe("Equipe 1");
-		p1 = i3.createPersonne("Wayne", "Bruce", "bruce.wayne@mail.com");
+		e1 = i3.createEquipe(1,"Equipe 1");
+		p1 = i3.createPersonne(1,"Wayne", "Bruce", "bruce.wayne@mail.com");
 	}
 
 	@Test

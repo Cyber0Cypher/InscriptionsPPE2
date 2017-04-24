@@ -9,12 +9,12 @@ import junit.framework.TestCase;
 public class TestPersonne extends TestCase {
 	
 	Inscriptions i = Inscriptions.getInscriptions();
-	Personne p1 = i.createPersonne("Wayne", "Bruce", "bruce.wayne@mail.com");
+	Personne p1 = i.createPersonne(1,"Wayne", "Bruce", "bruce.wayne@mail.com");
 	
 	protected void setUp() throws Exception {
 		super.setUp();
 		i = Inscriptions.getInscriptions();
-		p1 = i.createPersonne("Wayne", "Bruce", "bruce.wayne@mail.com");
+		p1 = i.createPersonne(1,"Wayne", "Bruce", "bruce.wayne@mail.com");
 	}
 
 	@Test
