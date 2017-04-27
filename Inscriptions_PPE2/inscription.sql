@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2
+-- http://www.phpmyadmin.net
 --
--- Client :  127.0.0.1
--- Généré le :  Dim 23 Avril 2017 à 21:30
--- Version du serveur :  5.7.14
--- Version de PHP :  5.6.25
+-- Client :  localhost
+-- Généré le :  Jeu 27 Avril 2017 à 22:21
+-- Version du serveur :  5.7.18-0ubuntu0.16.04.1
+-- Version de PHP :  7.0.15-0ubuntu0.16.04.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -40,10 +40,10 @@ INSERT INTO APPARTENIR(idCandidatPersonne,idCandidatEquipe)
 CREATE DEFINER=`root`@`localhost` PROCEDURE `candidatsInscritsCompetition` (IN `Numcompetition` INT)  BEGIN
 
     SELECT candidat.idCandidat, candidat.nom
-    FROM COMPETITION, INSCRIRE, CANDIDAT
-    WHERE CANDIDAT.idCandidat = INSCRIRE.idCandidat
-    AND COMPETITION.idCompetition = INSCRIRE.idCompetition
-    AND INSCRIRE.idCompetition = Numcompetition;
+    FROM competition, inscrire, candidat
+    WHERE candidat.idCandidat = inscrire.idCandidat
+    AND competition.idCompetition = inscrire.idCompetition
+    AND inscrire.idCompetition = Numcompetition;
  
 END$$
 
@@ -52,11 +52,11 @@ INSERT INTO competition (epreuve,dateCloture,enEquipe) VALUES (nomC,dateClotureC
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `creerEquipe` (IN `nomE` VARCHAR(50))  BEGIN
-INSERT INTO CANDIDAT (nom, prenom, email, estEquipe) VALUES (nomE, NULL, NULL, 1);
+INSERT INTO candidat (nom, prenom, email, estEquipe) VALUES (nomE, NULL, NULL, 1);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creerPersonne` (`nomP` VARCHAR(50), `prenomP` VARCHAR(50), `mailP` VARCHAR(100))  BEGIN
-INSERT INTO CANDIDAT (nom, prenom, email, estEquipe) VALUES (nomP, prenomP, mailP, 0);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `creerPersonne` (IN `nomP` VARCHAR(50), IN `prenomP` VARCHAR(50), IN `mailP` VARCHAR(100))  BEGIN
+INSERT INTO candidat (nom, prenom, email, estEquipe) VALUES (nomP, prenomP, mailP, 0);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `dateClotureInscription` (`Numcompetition` INT)  BEGIN
@@ -86,12 +86,12 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getCompetition` ()  BEGIN
 SELECT *
-FROM COMPETITION;
+FROM competition;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEquipe` ()  BEGIN
 SELECT *
-FROM CANDIDAT
+FROM candidat
 WHERE estEquipe = 1;
 END$$
 
@@ -134,14 +134,14 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPersonne` ()  BEGIN
 SELECT *
-FROM CANDIDAT
+FROM candidat
 WHERE estEquipe = 0;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPersonneEquipe` (IN `num_equipe` INT)  BEGIN
 SELECT *
-FROM CANDIDAT, APPARTENIR
-WHERE APPARTENIR.idCandidatPersonne = CANDIDAT.idCandidat
+FROM candidat, appartenir
+WHERE appartenir.idCandidatPersonne = candidat.idCandidat
 AND idCandidatEquipe = num_equipe;
 END$$
 
@@ -297,7 +297,8 @@ INSERT INTO `candidat` (`idCandidat`, `nom`, `prenom`, `email`, `estEquipe`) VAL
 (9, 'Hermes-Berthecourt AC', NULL, NULL, 1),
 (10, 'Paris-Saint-Germain', NULL, NULL, 1),
 (11, 'Bouillennec', 'Valentin', 'val.bouillennec@gmail.com', 0),
-(14, 'Chicago Bulls', NULL, NULL, 1);
+(14, 'Chicago Bulls', NULL, NULL, 1),
+(15, 'test', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -322,7 +323,8 @@ INSERT INTO `competition` (`idCompetition`, `epreuve`, `dateCloture`, `enEquipe`
 (3, 'Cyclisme', '2018-03-18', 0),
 (4, 'Basket', '2018-01-03', 1),
 (5, 'Natation', '2018-02-08', 0),
-(6, 'Jeux Olympiques', '2018-04-01', 1);
+(6, 'Jeux Olympiques', '2018-04-01', 1),
+(7, 'Roland Garros', '2018-12-12', 0);
 
 -- --------------------------------------------------------
 
@@ -385,12 +387,12 @@ ALTER TABLE `inscrire`
 -- AUTO_INCREMENT pour la table `candidat`
 --
 ALTER TABLE `candidat`
-  MODIFY `idCandidat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idCandidat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT pour la table `competition`
 --
 ALTER TABLE `competition`
-  MODIFY `idCompetition` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idCompetition` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- Contraintes pour les tables exportées
 --
