@@ -49,7 +49,7 @@ public class Requete {
 	}
 	
 	public void modifierNomCompetition(int idCompetition, String nom) {
-		db.sql("call modifierNomCompetition(" + idCompetition + ",\""+ nom +"\" )");
+		db.set("call modifierNomCompetition(" + idCompetition + ",'"+ nom +"' )");
 	}
 	
 	public void creerCompetition(String nom, String date, boolean enEquipe) {
@@ -87,12 +87,16 @@ public class Requete {
 		return db.select("call getNom(" + idPersonne + ")");
 	}
 	
-	public void renommerPersonne(int idPersonne,String prenom, String nom) {
-		db.sql("call renommerPersonne(" + idPersonne + ",\"" + prenom +",\"" + nom +"\")");
+	public void modifierNomCandidat(int idPersonne,String nom) {
+		db.set("call modifierNomCandidat(" + idPersonne + ",'" + nom +"')");
+	}
+	
+	public void modifierPrenom(int idPersonne,String prenom) {
+		db.set("call modifierPrenom(" + idPersonne + ",'" + prenom +"')");
 	}
 	
 	public void modifierMail(int idPersonne, String mail) {
-		db.sql("call modifierMail('" + idPersonne + "', '" + mail + "')");
+		db.set("call modifierMail('" + idPersonne + "', '" + mail + "')");
 	}
 	
 	public void creerPersonne(String nom, String prenom, String mail) {

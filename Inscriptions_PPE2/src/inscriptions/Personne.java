@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
+import DB.Requete;
+
 /**
  * Représente une personne physique pouvant s'inscrire à une compétition.
  */
@@ -39,6 +41,9 @@ public class Personne extends Candidat
 	
 	public void setPrenom(String prenom)
 	{
+		Requete r = new Requete();
+		r.modifierPrenom(getId(), prenom);
+		
 		this.prenom = prenom;
 	}
 
@@ -59,6 +64,9 @@ public class Personne extends Candidat
 	
 	public void setMail(String mail)
 	{
+		Requete r = new Requete();
+		r.modifierMail(getId(), mail);
+		
 		this.mail = mail;
 	}
 

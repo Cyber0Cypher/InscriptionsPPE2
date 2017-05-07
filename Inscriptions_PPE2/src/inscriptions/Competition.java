@@ -60,6 +60,9 @@ public class Competition implements Comparable<Competition>, Serializable
 	
 	public void setNom(String nom)
 	{
+		Requete r = new Requete();
+		r.modifierNomCompetition(id, nom);
+		
 		this.nom = nom ;
 	}
 	

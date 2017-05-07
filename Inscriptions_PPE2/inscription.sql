@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
--- http://www.phpmyadmin.net
+-- version 4.6.4
+-- https://www.phpmyadmin.net/
 --
--- Client :  localhost
--- Généré le :  Jeu 27 Avril 2017 à 22:21
--- Version du serveur :  5.7.18-0ubuntu0.16.04.1
--- Version de PHP :  7.0.15-0ubuntu0.16.04.4
+-- Client :  127.0.0.1
+-- Généré le :  Dim 07 Mai 2017 à 13:54
+-- Version du serveur :  5.7.14
+-- Version de PHP :  5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -159,13 +159,16 @@ WHERE idCompetition = id_competition;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `modifierMail` (`Numcandidat` INT, `NomMail` VARCHAR(25))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `modifierMail` (IN `Numcandidat` INT, IN `NomMail` VARCHAR(25))  BEGIN
 UPDATE CANDIDAT
 SET email = NomMail
 WHERE idCandidat = Numcandidat;
+END$$
 
-SELECT idcandidat, prenom, nom, email
-FROM CANDIDAT;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `modifierNomCandidat` (IN `numCandidat` INT, IN `nomCandidat` VARCHAR(25))  BEGIN
+UPDATE candidat
+SET nom = nomCandidat
+WHERE idCandidat = numCandidat;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `modifierNomCompetition` (`id_competition` INT, `nom_competition` VARCHAR(25))  BEGIN
@@ -176,19 +179,16 @@ WHERE idCompetition = id_competition;
 SELECT * from COMPETITION;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `modifierPrenom` (IN `Numcandidat` INT, IN `Prenompersonne` VARCHAR(25))  BEGIN
+UPDATE CANDIDAT
+SET prenom = Prenompersonne
+WHERE idCandidat = Numcandidat;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `nomCompetition` (IN `NumCompetition` INT)  BEGIN 
 SELECT epreuve FROM COMPETITION 
 WHERE idCompetition = NumCompetition;
 
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `renommerPersonne` (`Numcandidat` INT, `Prenompersonne` VARCHAR(25), `Nompersonne` VARCHAR(25))  BEGIN
-UPDATE CANDIDAT
-SET prenom = Prenompersonne, nom = Nompersonne
-WHERE idCandidat = Numcandidat;
-
-SELECT idcandidat, prenom, nom
-FROM CANDIDAT;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `supprimerCandidat` (IN `NumCandidat` INT)  BEGIN
@@ -263,7 +263,6 @@ INSERT INTO `appartenir` (`idCandidatPersonne`, `idCandidatEquipe`) VALUES
 (2, 9),
 (3, 9),
 (6, 9),
-(1, 10),
 (4, 10),
 (5, 10);
 
@@ -297,8 +296,8 @@ INSERT INTO `candidat` (`idCandidat`, `nom`, `prenom`, `email`, `estEquipe`) VAL
 (9, 'Hermes-Berthecourt AC', NULL, NULL, 1),
 (10, 'Paris-Saint-Germain', NULL, NULL, 1),
 (11, 'Bouillennec', 'Valentin', 'val.bouillennec@gmail.com', 0),
-(14, 'Chicago Bulls', NULL, NULL, 1),
-(15, 'test', '', '', 0);
+(14, 'San Antonio Spurs', NULL, NULL, 1),
+(15, 'Nadal', 'Rafael', 'rafa.nadal@espagne.es', 0);
 
 -- --------------------------------------------------------
 
@@ -324,7 +323,7 @@ INSERT INTO `competition` (`idCompetition`, `epreuve`, `dateCloture`, `enEquipe`
 (4, 'Basket', '2018-01-03', 1),
 (5, 'Natation', '2018-02-08', 0),
 (6, 'Jeux Olympiques', '2018-04-01', 1),
-(7, 'Roland Garros', '2018-12-12', 0);
+(7, 'Tennis', '2018-12-12', 0);
 
 -- --------------------------------------------------------
 

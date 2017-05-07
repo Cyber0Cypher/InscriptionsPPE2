@@ -234,7 +234,21 @@ public class Ihm {
 		panelPersonne.add(btnModifierUnePersonne);
 		btnModifierUnePersonne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//txtNomPersonne.setText((String) comboBox.);
+				int i = 0;
+				for(Personne p : insc.getPersonnes()) {
+					if(i == listePersonne.getSelectedIndex()){
+						p.setNom(txtNomPersonne.getText());
+						p.setPrenom(txtPrenomPersonne.getText());
+						p.setMail(txtMailPersonne.getText());
+					}
+					i++;
+				}
+				refresh = true;
+				listePersonne.removeAllItems();
+				for(Personne p : insc.getPersonnes()) {
+					listePersonne.addItem(p.getPrenom()+" "+p.getNom());
+				}
+				refresh = false;
 			}
 		});
 		
@@ -533,6 +547,24 @@ public class Ihm {
 		btnModifierUneEquipe.setBounds(10, 286, 190, 40);
 		panelEquipe.add(btnModifierUneEquipe);
 		
+		btnModifierUneEquipe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int i = 0;
+				for(Equipe equ : insc.getEquipes()) {
+					if(i == listeEquipe.getSelectedIndex()){
+						equ.setNom(txtNomEquipe.getText());
+					}
+					i++;
+				}
+				refresh = true;
+				listeEquipe.removeAllItems();
+				for(Equipe equ : insc.getEquipes()) {
+					listeEquipe.addItem(equ.getNom());
+				}
+				refresh = false;
+			}
+		});
+		
 		JButton btnSupprimerUneEquipe = new JButton("Supprimer");
 		btnSupprimerUneEquipe.setBounds(10, 336, 190, 40);
 		panelEquipe.add(btnSupprimerUneEquipe);
@@ -673,9 +705,11 @@ public class Ihm {
 		txtNomEpreuve.setBounds(10, 35, 190, 20);
 		panelCompetition.add(txtNomEpreuve);
 		txtNomEpreuve.setColumns(10);
+		rdbtnOui.setEnabled(false);
 		
 		rdbtnOui.setBounds(10, 148, 85, 23);
 		panelCompetition.add(rdbtnOui);
+		rdbtnNo.setEnabled(false);
 		
 		rdbtnNo.setBounds(115, 148, 85, 23);
 		panelCompetition.add(rdbtnNo);
@@ -712,6 +746,25 @@ public class Ihm {
 		JButton btnModifierCompetition = new JButton("Modifier");
 		btnModifierCompetition.setBounds(10, 286, 190, 40);
 		panelCompetition.add(btnModifierCompetition);
+		
+		btnModifierCompetition.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int i = 0;
+				for(Competition c : insc.getCompetitions()) {
+					if(i == listeCompetition.getSelectedIndex()){
+						c.setNom(txtNomEpreuve.getText());
+						//c.setDateCloture(LocalDate.parse(txtDateCloture.getText()));
+					}
+					i++;
+				}
+				refresh = true;
+				listeCompetition.removeAllItems();
+				for(Competition c : insc.getCompetitions()) {
+					listeCompetition.addItem(c.getNom());
+				}
+				refresh = false;
+			}
+		});
 		
 		JButton btnSupprimerCompetition = new JButton("Supprimer");
 		btnSupprimerCompetition.setBounds(10, 338, 190, 40);

@@ -55,6 +55,9 @@ public abstract class Candidat implements Comparable<Candidat>, Serializable
 	
 	public void setNom(String nom)
 	{
+		Requete r = new Requete();
+		r.modifierNomCandidat(id, nom);
+		
 		this.nom = nom;
 	}
 

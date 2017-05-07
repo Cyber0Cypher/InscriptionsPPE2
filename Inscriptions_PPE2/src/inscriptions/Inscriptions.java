@@ -456,13 +456,14 @@ public class Inscriptions implements Serializable
 			}
 		}));
 		// Modifier le nom et le prÃ©nom
-		menuPersonne.ajoute(new Option("Modifier le nom et le prÃ©nom d'une personne", "c", new Action() {
+		menuPersonne.ajoute(new Option("Modifier le nom et le prénom d'une personne", "c", new Action() {
 			public void optionSelectionnee() {
 				r.getPersonne();
 				int idPers = utilitaires.EntreesSorties.getInt("Saisissez l'id de la personne: ");
 				String prenom = utilitaires.EntreesSorties.getString("Saisissez le nouveau prÃ©nom: ");
 				String nom = utilitaires.EntreesSorties.getString("Saisissez le nouveau nom: ");
-				r.renommerPersonne(idPers, prenom, nom);
+				r.modifierPrenom(idPers, prenom);
+				r.modifierNomCandidat(idPers, nom);
 				
 			}
 		}));
