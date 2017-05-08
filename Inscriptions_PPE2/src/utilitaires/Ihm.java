@@ -943,7 +943,7 @@ public class Ihm {
 				}
 			}
 		});
-	
+	 //commit
 		btnModifierCompetition.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = 0;
