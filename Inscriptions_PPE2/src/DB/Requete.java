@@ -113,7 +113,7 @@ public class Requete {
 		return db.get("call getAICandidat()");
 	}
 	
-	/* EQUIPE */
+	/* EQUIPE */ //commit
 	
 	public void ajouterPersonneEquipe(int idCandidat, int idEquipe) {
 		db.sql("call ajouterPersonneEquipe(" + idCandidat + ", " + idEquipe + ")");
