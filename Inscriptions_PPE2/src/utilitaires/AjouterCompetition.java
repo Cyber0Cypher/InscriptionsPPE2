@@ -10,11 +10,14 @@ import javax.swing.border.EmptyBorder;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.UIManager;
 
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.ButtonGroup;
 import java.awt.Font;
 
@@ -31,6 +34,7 @@ public class AjouterCompetition extends JDialog {
 	JRadioButton rdbtnOui;
 	private boolean valider;
 	final ButtonGroup buttonGroup = new ButtonGroup();
+	JSpinner dateCloture = new JSpinner();
 
 	/**
 	 * Launch the application.
@@ -46,7 +50,7 @@ public class AjouterCompetition extends JDialog {
 	}
 
 	/**
-	 * Create the dialog.
+	 * Create the dialog.  commit
 	 */
 	public AjouterCompetition() {
 		//super();
@@ -72,11 +76,10 @@ public class AjouterCompetition extends JDialog {
 		lblDateCloture.setBounds(12, 68, 202, 14);
 		contentPanel.add(lblDateCloture);
 		
-		txtDateCloture = new JTextField();
-		txtDateCloture.setToolTipText("AAAA-MM-JJ");
-		txtDateCloture.setColumns(10);
-		txtDateCloture.setBounds(12, 98, 202, 20);
-		contentPanel.add(txtDateCloture);
+		
+		dateCloture.setModel(new SpinnerDateModel(new java.util.Date(1494194400000L), null, null, Calendar.DAY_OF_YEAR));
+		dateCloture.setBounds(12, 98, 202, 20);
+		contentPanel.add(dateCloture);
 		
 		JLabel lblAaaammjj = new JLabel("AAAA-MM-JJ");
 		lblAaaammjj.setFont(new Font("Tahoma", Font.ITALIC, 10));

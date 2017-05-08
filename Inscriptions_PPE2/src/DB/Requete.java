@@ -1,5 +1,6 @@
 package DB;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Requete {
@@ -44,8 +45,8 @@ public class Requete {
 		db.sql("call ajouterCandidatCompetition(" + idCandidat + ", " + idCompetition + ")");
 	}
 	
-	public void modifierDateCloture(int idCompetition, String date) {
-		db.sql("call modifierDateCloture(" + idCompetition + ",\"" + date +"\" )");
+	public void modifierDateCloture(int idCompetition, LocalDate dateCloture) {
+		db.sql("call modifierDateCloture(" + idCompetition + ",\"" + dateCloture +"\" )");
 	}
 	
 	public void modifierNomCompetition(int idCompetition, String nom) {
@@ -112,7 +113,7 @@ public class Requete {
 		return db.get("call getAICandidat()");
 	}
 	
-	/* EQUIPE */
+	/* EQUIPE */ //commit
 	
 	public void ajouterPersonneEquipe(int idCandidat, int idEquipe) {
 		db.sql("call ajouterPersonneEquipe(" + idCandidat + ", " + idEquipe + ")");

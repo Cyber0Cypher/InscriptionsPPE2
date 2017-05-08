@@ -422,7 +422,7 @@ public class Inscriptions implements Serializable
 				r.getCompetition();
 				int idComp = utilitaires.EntreesSorties.getInt("Saisissez l'id de la compÃ©tition: ");
 				String date = utilitaires.EntreesSorties.getString("Saisissez la nouvelle date de cloture: ");
-				r.modifierDateCloture(idComp, date);
+				//r.modifierDateCloture(idComp, date);
 			}
 		}));
 		menuCompetition.ajoute(new Option("Afficher les compÃ©titions", "i", new Action() {
