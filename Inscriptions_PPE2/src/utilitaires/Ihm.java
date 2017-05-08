@@ -611,7 +611,7 @@ public class Ihm {
 		panelEquipe.add(btnSupprimerUneEquipe);
 		
 		
-		//////////////////////////////////////////FONCTION ONGLET COMPETITION /////////////////////////////////////////////////
+		//////////////////////////////////////////FONCTION ONGLET EQUIPE /////////////////////////////////////////////////
 		
 		for(Equipe equipe : insc.getEquipes())
 			listeEquipe.addItem(equipe.getNom());
@@ -642,7 +642,14 @@ public class Ihm {
 										present = true;
 									}
 								}
-								if(!present) {
+								for(Competition c : personne.getCompetitions()){
+									for(Competition compet : e.getCompetitions()){
+										if(c.getId() == compet.getId()){
+											occupe = true;
+										}
+									}
+								}
+								if(!present && !occupe) {
 									arrayPersonneAjout.add(personne);
 									listePersonneAjouter.addItem(personne.getPrenom() +" "+personne.getNom());
 								}
