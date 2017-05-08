@@ -90,17 +90,13 @@ public class Ihm {
 	private JLabel lblEquipesDeLa = new JLabel("Equipe(s) de la personne");
 	private JLabel lblComptitionsDeLa = new JLabel("Compétition(s) de la personne");
 	private JComboBox<Object> listeEquipeAjouter = new JComboBox<Object>();
-	private JComboBox<Object> listeEquipeSupprimer = new JComboBox<Object>();
 	private JComboBox<Object> listeCompetitionAjouter = new JComboBox<Object>();
-	private JComboBox<Object> listeCompetitionSupprimer = new JComboBox<Object>(); 
 	private JButton btnAjouter = new JButton("Ajouter");
 	private JButton btnAjouter2 = new JButton("Ajouter");
 	private JButton btnSupprimer = new JButton("Supprimer");
 	private JButton btnSupprimer2 = new JButton("Supprimer");
 	private JLabel lblAjouterAEquipe = new JLabel("Ajouter à une équipe");
-	private JLabel lblSupprimerDEquipe = new JLabel("Supprimer d'une équipe");
 	private JLabel lblAjouterACompetition = new JLabel("Ajouter à une compétition");
-	private JLabel lblSupprimerDCompetition = new JLabel("Supprimer d'une compétition");
 	private JLayeredPane panelEquipe = new JLayeredPane();
 	private JLabel lblNomEquipe = new JLabel("Nom de l'équipe");
 	private JLabel lblPersonnesDeLequipe = new JLabel("Personne(s) de l'equipe");
@@ -112,18 +108,14 @@ public class Ihm {
 	private JButton btnAjouterUneEquipe = new JButton("Ajouter");
 	private JButton btnModifierUneEquipe = new JButton("Modifier");
 	private JButton btnSupprimerUneEquipe = new JButton("Supprimer");
-	private JComboBox<Object> comboBox_4 = new JComboBox<Object>();
-	private JComboBox<Object> comboBox_5 = new JComboBox<Object>();
-	private JComboBox<Object> comboBox_6 = new JComboBox<Object>();
-	private JComboBox<Object> comboBox_7 = new JComboBox<Object>();
-	private JButton button_2 = new JButton("Ajouter");
-	private JButton button_3 = new JButton("Ajouter");
-	private JButton button_4 = new JButton("Supprimer");
-	private JButton button_5 = new JButton("Supprimer");
+	private JComboBox<Object> listePersonneAjouter = new JComboBox<Object>();
+	private JComboBox<Object> listeCompetitionAjouter2 = new JComboBox<Object>();
+	private JButton btnAjouter3 = new JButton("Ajouter");
+	private JButton btnAjouter4 = new JButton("Ajouter");
+	private JButton btnSupprimer3 = new JButton("Supprimer");
+	private JButton btnSupprimer4 = new JButton("Supprimer");
 	private JLabel lblAjouterUnePersonne = new JLabel("Ajouter une personne");
-	private JLabel lblSupprimerUnePersonne = new JLabel("Supprimer une personne");
 	private JLabel label_2 = new JLabel("Ajouter à une compétition");
-	private JLabel label_3 = new JLabel("Supprimer d'une compétition");
 	private JLayeredPane panelCompetition = new JLayeredPane();
 	private JComboBox<Object> listeCompetition = new JComboBox<Object>();
 	private List listeCandidatCompetition = new List();
@@ -136,6 +128,15 @@ public class Ihm {
 	private JButton btnSupprimerCompetition = new JButton("Supprimer");
 	private JLabel lblCandidatCompetition = new JLabel("Candidat(s) de la compétition");
 	private JSpinner dateCloture = new JSpinner();
+	
+	ArrayList<Equipe> arrayEquipeAjout = new ArrayList<Equipe>();
+	ArrayList<Competition> arrayCompetitionAjout = new ArrayList<Competition>();
+	ArrayList<Competition> arrayCompetSupprimer = new ArrayList<Competition>();
+	ArrayList<Personne> arrayPersonneAjout = new ArrayList<Personne>();
+	ArrayList<Personne> arrayPersonneSupprimer = new ArrayList<Personne>();
+	ArrayList<Competition> arrayCompetition2Ajout = new ArrayList<Competition>();
+	ArrayList<Competition> arrayCompet2Supprimer = new ArrayList<Competition>();
+	
 	
 	private Requete r;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
@@ -227,50 +228,34 @@ public class Ihm {
 		btnAjouter2.setBounds(656, 239, 96, 20);
 		panelPersonne.add(btnAjouter2);
 		
-		
 		btnSupprimer.setEnabled(false);
-		btnSupprimer.setBounds(656, 124, 96, 20);
+		btnSupprimer.setBounds(445, 172, 96, 20);
 		panelPersonne.add(btnSupprimer);
-		
-		
+			
 		btnSupprimer2.setEnabled(false);
-		btnSupprimer2.setBounds(656, 305, 96, 20);
+		btnSupprimer2.setBounds(445, 355, 96, 20);
 		panelPersonne.add(btnSupprimer2);
-		
 		
 		lblAjouterAEquipe.setBounds(656, 13, 190, 14);
 		panelPersonne.add(lblAjouterAEquipe);
-		
-		
-		
-		lblSupprimerDEquipe.setBounds(656, 84, 190, 14);
-		panelPersonne.add(lblSupprimerDEquipe);
-		
-		
+				
 		lblAjouterACompetition.setBounds(656, 197, 190, 14);
 		panelPersonne.add(lblAjouterACompetition);
-		
-		
-		lblSupprimerDCompetition.setBounds(656, 264, 190, 14);
-		panelPersonne.add(lblSupprimerDCompetition);
 		
 		listePersonne.setBounds(227, 35, 190, 20);
 		panelPersonne.add(listePersonne);
 		
-		listeEquipePersonne.setBounds(445, 35, 190, 160);
+		listeEquipePersonne.setBounds(445, 35, 190, 136);
 		panelPersonne.add(listeEquipePersonne);
-		listeCompetitionPersonne.setBounds(445, 218, 190, 160);
+		listeCompetitionPersonne.setBounds(445, 218, 190, 136);
 		panelPersonne.add(listeCompetitionPersonne);
-		
-		
+				
 		lblNom.setBounds(10, 14, 189, 14);
 		panelPersonne.add(lblNom);
-		
-		
+			
 		lblPrenom.setBounds(10, 66, 189, 14);
 		panelPersonne.add(lblPrenom);
-		
-		
+			
 		lblMail.setBounds(10, 124, 189, 14);
 		panelPersonne.add(lblMail);
 		
@@ -301,29 +286,18 @@ public class Ihm {
 		
 		lblSelectPersonne.setBounds(227, 14, 190, 14);
 		panelPersonne.add(lblSelectPersonne);
-		
-		
+				
 		lblEquipesDeLa.setBounds(445, 14, 190, 14);
 		panelPersonne.add(lblEquipesDeLa);
-		
-		
+				
 		lblComptitionsDeLa.setBounds(445, 198, 190, 14);
 		panelPersonne.add(lblComptitionsDeLa);
-		
-		
+				
 		listeEquipeAjouter.setBounds(656, 33, 190, 20);
 		panelPersonne.add(listeEquipeAjouter);
-		
-		listeEquipeSupprimer.setBounds(656, 104, 190, 20);
-		panelPersonne.add(listeEquipeSupprimer);
-		
-		
+				
 		listeCompetitionAjouter.setBounds(656, 218, 190, 20);
 		panelPersonne.add(listeCompetitionAjouter);
-		
-		
-		listeCompetitionSupprimer.setBounds(656, 284, 190, 20);
-		panelPersonne.add(listeCompetitionSupprimer);
 		
 		btnAjouter.setBounds(656, 52, 96, 20);
 		panelPersonne.add(btnAjouter);
@@ -412,14 +386,16 @@ public class Ihm {
 					listeEquipePersonne.removeAll();
 					listeCompetitionPersonne.removeAll();
 					listeEquipeAjouter.removeAllItems();
-					listeEquipeSupprimer.removeAllItems();
 					listeCompetitionAjouter.removeAllItems();
-					listeCompetitionSupprimer.removeAllItems();
+					arrayEquipeAjout.clear();
+					arrayCompetitionAjout.clear();
+					arrayCompetSupprimer.clear();
 					int i = 0;
 					for(Personne p : insc.getPersonnes()){
 						if (i == listePersonne.getSelectedIndex()){
 							for(Equipe e : p.getEquipes()){
 								for(Competition comp : e.getCompetitions()){
+									arrayCompetSupprimer.add(comp);
 									listeCompetitionPersonne.add(comp.getNom());
 								}
 							}
@@ -440,11 +416,11 @@ public class Ihm {
 									}
 								}
 								if(!present && !occupe) {
+									arrayEquipeAjout.add(equipe);
 									listeEquipeAjouter.addItem(equipe.getNom());
 								}
 								else if (present){
 									listeEquipePersonne.add(equipe.getNom());
-									listeEquipeSupprimer.addItem(equipe.getNom());
 								}
 							}
 							
@@ -458,11 +434,12 @@ public class Ihm {
 									
 								}
 								if(!present && !competition.estEnEquipe()) {
+									arrayCompetitionAjout.add(competition);
 									listeCompetitionAjouter.addItem(competition.getNom());
 								}
 								else if (present) {
+									arrayCompetSupprimer.add(competition);
 									listeCompetitionPersonne.add(competition.getNom());
-									listeCompetitionSupprimer.addItem(competition.getNom());
 								}
 							}
 							txtNomPersonne.setText(p.getNom());
@@ -480,52 +457,85 @@ public class Ihm {
 		
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<Equipe> listeEquipeAjout = new ArrayList<Equipe>();
-				boolean present;
-				boolean occupe;
-				int i = 0;
-				for(Personne p : insc.getPersonnes()){
-					if (i == listePersonne.getSelectedIndex()){
-						for(Equipe equipe : insc.getEquipes()){
-							present = false;
-							occupe = false;
-							for(Equipe equ : p.getEquipes()){
-								if(equipe.getId() == equ.getId()){
-									present = true;
-								}
-								for(Competition compet : equipe.getCompetitions()){
-									for(Competition comp : equ.getCompetitions()){
-										if(compet.getId() == comp.getId()){
-											occupe = true;
-										}
-									}
-								}
-							}
-							if(!present && !occupe) {
-								listeEquipeAjout.add(equipe);
-							}
-						}
-					}
-				}
 				int j = 0;
 				int k = 0;
 				for(Personne p : insc.getPersonnes()){
 					if (k == listePersonne.getSelectedIndex()){
-						for(Equipe equipe : listeEquipeAjout){
-							if(j == listeEquipeAjouter.getSelectedIndex())
+						for(Equipe equipe : arrayEquipeAjout){
+							if(j == listeEquipeAjouter.getSelectedIndex()){
 								equipe.add(p);
+							}
 							j++;
 						}
 					}
 					k++;
 				}
-				
+				listePersonne.setSelectedIndex(listePersonne.getSelectedIndex());
+			}
+		});
+		
+		btnAjouter2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int j = 0;
+				int k = 0;
+				for(Personne p : insc.getPersonnes()){
+					if (k == listePersonne.getSelectedIndex()){
+						for(Competition compet : arrayCompetitionAjout){
+							if(j == listeCompetitionAjouter.getSelectedIndex()){
+								compet.add(p);
+							}
+							j++;
+						}
+					}
+					k++;
+				}
+				listePersonne.setSelectedIndex(listePersonne.getSelectedIndex());
+			}
+		});
+		
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int j = 0;
+				int k = 0;
+				for(Personne p : insc.getPersonnes()){
+					if (k == listePersonne.getSelectedIndex()){
+						for(Equipe equipe : p.getEquipes()){
+							if(j == listeEquipePersonne.getSelectedIndex()){
+								equipe.remove(p);
+							}
+							j++;
+						}
+					}
+					k++;
+				}
+				listePersonne.setSelectedIndex(listePersonne.getSelectedIndex());
+			}
+		});
+		
+		btnSupprimer2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int j = 0;
+				int k = 0;
+				for(Personne p : insc.getPersonnes()){
+					if (k == listePersonne.getSelectedIndex()){
+						for(Competition c : arrayCompetSupprimer){
+							if(j == listeCompetitionPersonne.getSelectedIndex()){
+								c.remove(p);
+							}
+							j++;
+						}
+					}
+					k++;
+				}
+				listePersonne.setSelectedIndex(listePersonne.getSelectedIndex());
 			}
 		});
 				
+		
+		
 		listeEquipePersonne.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				btnSupprimer.setEnabled(true);
+				btnSupprimer.setEnabled(listeEquipePersonne.isFocusOwner());
 			}
 		});
 		listeCompetitionPersonne.addItemListener(new ItemListener() {
@@ -552,53 +562,41 @@ public class Ihm {
 		lblPersonnesDeLequipe.setBounds(444, 14, 190, 14);
 		panelEquipe.add(lblPersonnesDeLequipe);
 		
-		listePersonneEquipe.setBounds(444, 30, 190, 160);
+		listePersonneEquipe.setBounds(444, 30, 190, 136);
 		panelEquipe.add(listePersonneEquipe);
 		
 		lblComptitionsDeLquipe.setBounds(444, 196, 190, 14);
 		panelEquipe.add(lblComptitionsDeLquipe);
 		
-		listeCompetitionEquipe.setBounds(444, 218, 190, 160);
+		listeCompetitionEquipe.setBounds(444, 218, 190, 136);
 		panelEquipe.add(listeCompetitionEquipe);
 		
 		lblSelectEquipe.setBounds(232, 14, 190, 14);
 		panelEquipe.add(lblSelectEquipe);
 		
-		comboBox_4.setBounds(656, 50, 190, 20);
-		panelEquipe.add(comboBox_4);
+		listePersonneAjouter.setBounds(656, 34, 190, 20);
+		panelEquipe.add(listePersonneAjouter);
 		
-		comboBox_5.setBounds(656, 121, 190, 20);
-		panelEquipe.add(comboBox_5);
+		listeCompetitionAjouter2.setBounds(656, 217, 190, 20);
+		panelEquipe.add(listeCompetitionAjouter2);
 		
-		comboBox_6.setBounds(656, 235, 190, 20);
-		panelEquipe.add(comboBox_6);
+		btnAjouter3.setBounds(656, 55, 96, 20);
+		panelEquipe.add(btnAjouter3);
 		
-		comboBox_7.setBounds(656, 301, 190, 20);
-		panelEquipe.add(comboBox_7);
+		btnAjouter4.setBounds(656, 238, 96, 20);
+		panelEquipe.add(btnAjouter4);
 		
-		button_2.setBounds(656, 69, 96, 20);
-		panelEquipe.add(button_2);
+		btnSupprimer3.setBounds(444, 167, 96, 20);
+		panelEquipe.add(btnSupprimer3);
 		
-		button_3.setBounds(656, 256, 96, 20);
-		panelEquipe.add(button_3);
+		btnSupprimer4.setBounds(444, 356, 96, 20);
+		panelEquipe.add(btnSupprimer4);
 		
-		button_4.setBounds(656, 141, 96, 20);
-		panelEquipe.add(button_4);
-		
-		button_5.setBounds(656, 322, 96, 20);
-		panelEquipe.add(button_5);
-		
-		lblAjouterUnePersonne.setBounds(656, 30, 190, 14);
+		lblAjouterUnePersonne.setBounds(656, 14, 190, 14);
 		panelEquipe.add(lblAjouterUnePersonne);
 		
-		lblSupprimerUnePersonne.setBounds(656, 101, 190, 14);
-		panelEquipe.add(lblSupprimerUnePersonne);
-		
-		label_2.setBounds(656, 214, 190, 14);
+		label_2.setBounds(656, 196, 190, 14);
 		panelEquipe.add(label_2);
-		
-		label_3.setBounds(656, 281, 190, 14);
-		panelEquipe.add(label_3);
 		
 		btnAjouterUneEquipe.setBounds(10, 236, 190, 40);
 		panelEquipe.add(btnAjouterUneEquipe);
@@ -621,16 +619,56 @@ public class Ihm {
 		listeEquipe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!refresh){
+					boolean present = false;
+					boolean occupe = false;
+					listePersonneAjouter.removeAllItems();
+					listeCompetitionAjouter2.removeAllItems();
 					listePersonneEquipe.removeAll();
 					listeCompetitionEquipe.removeAll();
+					arrayPersonneAjout.clear();
+					arrayPersonneSupprimer.clear();
+					arrayCompetition2Ajout.clear();
+					arrayCompet2Supprimer.clear();
 					int i = 0;
 					for(Equipe e : insc.getEquipes()){
 						if (i == listeEquipe.getSelectedIndex()){
-							for(Personne p : e.getMembres()){
-								listePersonneEquipe.add(p.getPrenom()+" "+p.getNom());
+							
+							// Personne
+							for(Personne personne : insc.getPersonnes()){
+								present = false;
+								occupe = false;
+								for(Personne p : e.getMembres()){
+									if(personne.getId() == p.getId()){
+										present = true;
+									}
+								}
+								if(!present) {
+									arrayPersonneAjout.add(personne);
+									listePersonneAjouter.addItem(personne.getPrenom() +" "+personne.getNom());
+								}
+								else if (present){
+									arrayPersonneSupprimer.add(personne);
+									listePersonneEquipe.add(personne.getPrenom() +" "+personne.getNom());
+								}
 							}
-							for(Competition c : e.getCompetitions()){
-								listeCompetitionEquipe.add(c.getNom());
+							
+							// Compétition
+							for(Competition competition: insc.getCompetitions()){
+								present = false;
+								occupe = false;
+								for(Competition c : e.getCompetitions()){
+									if(competition.getId() == c.getId()){
+										present = true;
+									}
+								}
+								if(!present && competition.inscriptionsOuvertes() && competition.estEnEquipe()) {
+									arrayCompetition2Ajout.add(competition);
+									listeCompetitionAjouter2.addItem(competition.getNom());
+								}
+								else if (present && competition.estEnEquipe()){
+									arrayCompet2Supprimer.add(competition);
+									listeCompetitionEquipe.add(competition.getNom());
+								}
 							}
 							txtNomEquipe.setText(e.getNom());
 						}
@@ -686,8 +724,6 @@ public class Ihm {
 			}
 		});
 		
-		
-		
 		btnSupprimerUneEquipe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = 0;
@@ -701,7 +737,81 @@ public class Ihm {
 			}
 		});
 		
+		btnAjouter3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int j = 0;
+				int k = 0;
+				for(Equipe equ : insc.getEquipes()){
+					if (k == listeEquipe.getSelectedIndex()){
+						for(Personne p : arrayPersonneAjout){
+							if(j == listePersonneAjouter.getSelectedIndex()){
+								equ.add(p);
+							}
+							j++;
+						}
+					}
+					k++;
+				}
+				listeEquipe.setSelectedIndex(listeEquipe.getSelectedIndex());
+			}
+		});
 		
+		btnAjouter4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int j = 0;
+				int k = 0;
+				for(Equipe equ : insc.getEquipes()){
+					if (k == listeEquipe.getSelectedIndex()){
+						for(Competition c : arrayCompetition2Ajout){
+							if(j == listeCompetitionAjouter2.getSelectedIndex()){
+								c.add(equ);
+							}
+							j++;
+						}
+					}
+					k++;
+				}
+				listeEquipe.setSelectedIndex(listeEquipe.getSelectedIndex());
+			}
+		});
+		
+		btnSupprimer3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int j = 0;
+				int k = 0;
+				for(Equipe equ : insc.getEquipes()){
+					if (k == listeEquipe.getSelectedIndex()){
+						for(Personne p : arrayPersonneSupprimer){
+							if(j == listePersonneEquipe.getSelectedIndex()){
+								equ.remove(p);
+							}
+							j++;
+						}
+					}
+					k++;
+				}
+				listeEquipe.setSelectedIndex(listeEquipe.getSelectedIndex());
+			}
+		});
+		
+		btnSupprimer4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int j = 0;
+				int k = 0;
+				for(Equipe equ : insc.getEquipes()){
+					if (k == listeEquipe.getSelectedIndex()){
+						for(Competition c : arrayCompet2Supprimer){
+							if(j == listeCompetitionEquipe.getSelectedIndex()){
+								c.remove(equ);
+							}
+							j++;
+						}
+					}
+					k++;
+				}
+				listeEquipe.setSelectedIndex(listeEquipe.getSelectedIndex());
+			}
+		});
 		
 		
 		/////////////////
