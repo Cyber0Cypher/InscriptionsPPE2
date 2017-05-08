@@ -50,7 +50,7 @@ public class AjouterCompetition extends JDialog {
 	}
 
 	/**
-	 * Create the dialog.
+	 * Create the dialog.  commit
 	 */
 	public AjouterCompetition() {
 		//super();
