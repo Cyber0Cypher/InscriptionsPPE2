@@ -109,6 +109,8 @@ public class Competition implements Comparable<Competition>, Serializable
 		{
 			this.dateCloture = dateCloture;
 		}
+		Requete r = new Requete();
+		r.modifierDateCloture(id, dateCloture);
 	}
 	
 	/**

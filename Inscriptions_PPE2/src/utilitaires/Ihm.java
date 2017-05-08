@@ -611,7 +611,7 @@ public class Ihm {
 		panelEquipe.add(btnSupprimerUneEquipe);
 		
 		
-		//////////////////////////////////////////FONCTION ONGLET COMPETITION /////////////////////////////////////////////////
+		//////////////////////////////////////////FONCTION ONGLET EQUIPE /////////////////////////////////////////////////
 		
 		for(Equipe equipe : insc.getEquipes())
 			listeEquipe.addItem(equipe.getNom());
@@ -873,7 +873,7 @@ public class Ihm {
 		lblCandidatCompetition.setBounds(658, 14, 188, 14);
 		panelCompetition.add(lblCandidatCompetition);
 		
-		dateCloture.setModel(new SpinnerDateModel(new java.util.Date(1494194400000L), null, null, Calendar.DAY_OF_YEAR));
+		dateCloture.setModel(new SpinnerDateModel(new Date(1494194400000L), null, null, Calendar.DAY_OF_YEAR));
 		dateCloture.setBounds(10, 95, 159, 20);
 		panelCompetition.add(dateCloture);
 		
@@ -917,7 +917,7 @@ public class Ihm {
 //					rdbtnNo.setSelected(true);
 			}
 		});
-		
+		System.out.println(dateCloture.getValue());
 		btnAjouterCompetition.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -926,8 +926,7 @@ public class Ihm {
 					ajoutCompet.setVisible(true);
 					ajoutCompet.okButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							Date date = (Date)dateCloture.getValue();
-							LocalDate localDate = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(date) );
+							LocalDate localDate = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(ajoutCompet.dateCloture.getValue()) );
 							insc.createCompetition(insc.getAICompetitions(), ajoutCompet.txtNom.getText(), localDate, ajoutCompet.rdbtnOui.isSelected());
 							ajoutCompet.dispose();
 							refresh = true;
@@ -951,7 +950,8 @@ public class Ihm {
 				for(Competition c : insc.getCompetitions()) {
 					if(i == listeCompetition.getSelectedIndex()){
 						c.setNom(txtNomEpreuve.getText());
-						//c.setDateCloture(LocalDate.parse(txtDateCloture.getText()));
+						LocalDate localDate = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(dateCloture.getValue()) );
+						c.setDateCloture(localDate);
 					}
 					i++;
 				}
