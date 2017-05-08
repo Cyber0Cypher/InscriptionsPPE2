@@ -46,7 +46,7 @@ public class Requete {
 	}
 	
 	public void modifierDateCloture(int idCompetition, LocalDate dateCloture) {
-		db.sql("call modifierDateCloture(" + idCompetition + ",\"" + dateCloture +"\" )");
+		db.set("call modifierDateCloture(" + idCompetition + ",\"" + dateCloture +"\" )");
 	}
 	
 	public void modifierNomCompetition(int idCompetition, String nom) {
@@ -113,7 +113,7 @@ public class Requete {
 		return db.get("call getAICandidat()");
 	}
 	
-	/* EQUIPE */ //commit
+	/* EQUIPE */
 	
 	public void ajouterPersonneEquipe(int idCandidat, int idEquipe) {
 		db.sql("call ajouterPersonneEquipe(" + idCandidat + ", " + idEquipe + ")");

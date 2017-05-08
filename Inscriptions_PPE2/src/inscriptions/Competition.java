@@ -104,13 +104,14 @@ public class Competition implements Comparable<Competition>, Serializable
 	 */
 	
 	public void setDateCloture(LocalDate dateCloture)
-	{
+	{		
 		if(this.dateCloture.compareTo(dateCloture) < 0)
 		{
+			Requete r = new Requete();
+			r.modifierDateCloture(id, dateCloture);
+			
 			this.dateCloture = dateCloture;
 		}
-		Requete r = new Requete();
-		r.modifierDateCloture(id, dateCloture); //a commit
 	}
 	
 	/**

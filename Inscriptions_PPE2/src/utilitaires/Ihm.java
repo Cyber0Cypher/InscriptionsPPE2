@@ -711,8 +711,6 @@ public class Ihm {
 		});
 		
 		
-		
-		
 		btnModifierUneEquipe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = 0;
@@ -924,7 +922,7 @@ public class Ihm {
 //					rdbtnNo.setSelected(true);
 			}
 		});
-		System.out.println(dateCloture.getValue());
+		
 		btnAjouterCompetition.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -950,7 +948,7 @@ public class Ihm {
 				}
 			}
 		});
-	 //commit commit
+
 		btnModifierCompetition.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = 0;
@@ -962,7 +960,6 @@ public class Ihm {
 					}
 					i++;
 				}
-				//
 				refresh = true;
 				listeCompetition.removeAllItems();
 				for(Competition c : insc.getCompetitions()) {
