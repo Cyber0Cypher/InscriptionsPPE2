@@ -845,6 +845,7 @@ public class Ihm {
 					}
 					i++;
 				}
+				//
 				refresh = true;
 				listeCompetition.removeAllItems();
 				for(Competition c : insc.getCompetitions()) {
