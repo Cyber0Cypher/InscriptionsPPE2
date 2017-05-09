@@ -124,7 +124,7 @@ public class Requete {
 	}
 	
 	public void supprimerPersonneEquipe(int idEquipe, int idPersonne) {
-		db.sql("call supprimerPersonneEquipe(" + idEquipe + ", " + idPersonne + ")");
+		db.set("call supprimerPersonneEquipe(" + idEquipe + ", " + idPersonne + ")");
 	}
 	
 	public void ajouterEquipeCompetition(int idEquipe, int idCompetition){
