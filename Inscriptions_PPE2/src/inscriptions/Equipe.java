@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import DB.Requete;
+
 /**
  * Représente une Equipe. C'est-à-dire un ensemble de personnes pouvant 
  * s'inscrire à une compétition.
@@ -37,6 +39,9 @@ public class Equipe extends Candidat
 
 	public boolean add(Personne membre)
 	{
+		Requete r = new Requete();
+		r.ajouterPersonneEquipe(membre.getId(), getId());
+		
 		membre.add(this);
 		return membres.add(membre);
 	}
@@ -49,6 +54,9 @@ public class Equipe extends Candidat
 	
 	public boolean remove(Personne membre)
 	{
+		Requete r = new Requete();
+		r.supprimerPersonneEquipe(membre.getId(), getId());
+		
 		membre.remove(this);
 		return membres.remove(membre);
 	}

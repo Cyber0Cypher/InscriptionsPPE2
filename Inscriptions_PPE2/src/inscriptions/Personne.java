@@ -82,11 +82,17 @@ public class Personne extends Candidat
 	
 	boolean add(Equipe equipe)
 	{
+		Requete r = new Requete();
+		r.ajouterPersonneEquipe(getId(), equipe.getId());
+		
 		return equipes.add(equipe);
 	}
 
 	boolean remove(Equipe equipe)
 	{
+		Requete r = new Requete();
+		r.supprimerPersonneEquipe(getId(), equipe.getId());
+		
 		return equipes.remove(equipe);
 	}
 	

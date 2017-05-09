@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 07 Mai 2017 à 13:54
+-- Généré le :  Mar 09 Mai 2017 à 08:18
 -- Version du serveur :  5.7.14
 -- Version de PHP :  5.6.25
 
@@ -24,18 +24,18 @@ DELIMITER $$
 --
 -- Procédures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterCandidatCompetition` (IN `id_candidat` INT(4), IN `id_competition` INT(4))  BEGIN
+INSERT INTO inscrire VALUES (id_candidat, id_competition);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterEquipeCompetition` (`id_candidat` INT(4), `id_competition` INT(4))  BEGIN
 INSERT INTO inscrire VALUES (id_candidat, id_competition);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterPersonneCompetition` (`id_candidat` INT(4), `id_competition` INT(4))  BEGIN
-INSERT INTO inscrire VALUES (id_candidat, id_competition);
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterPersonneEquipe` (`numpersonne` INT, `numequipe` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterPersonneEquipe` (IN `numpersonne` INT, IN `numequipe` INT)  BEGIN
 INSERT INTO APPARTENIR(idCandidatPersonne,idCandidatEquipe)
- VALUES (numpersonne,numequipe);
- END$$
+VALUES (numpersonne,numequipe);
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `candidatsInscritsCompetition` (IN `Numcompetition` INT)  BEGIN
 
@@ -61,6 +61,12 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `dateClotureInscription` (`Numcompetition` INT)  BEGIN
     SELECT dateCloture FROM COMPETITION WHERE idCompetition = Numcompetition;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `desinscrireCandidat` (IN `numCandidat` INT, IN `numCompet` INT)  BEGIN
+DELETE FROM INSCRIRE
+WHERE idCandidat = numCandidat
+AND idCompetition = numCompet;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `enEquipe` (`id_competition` INT)  BEGIN
@@ -264,7 +270,9 @@ INSERT INTO `appartenir` (`idCandidatPersonne`, `idCandidatEquipe`) VALUES
 (3, 9),
 (6, 9),
 (4, 10),
-(5, 10);
+(5, 10),
+(7, 14),
+(11, 14);
 
 -- --------------------------------------------------------
 
@@ -318,11 +326,11 @@ CREATE TABLE `competition` (
 
 INSERT INTO `competition` (`idCompetition`, `epreuve`, `dateCloture`, `enEquipe`) VALUES
 (1, 'Sweet Christmas', '2018-01-08', 0),
-(2, 'Football', '2018-01-20', 1),
+(2, 'Football', '2018-01-21', 1),
 (3, 'Cyclisme', '2018-03-18', 0),
-(4, 'Basket', '2018-01-03', 1),
-(5, 'Natation', '2018-02-08', 0),
-(6, 'Jeux Olympiques', '2018-04-01', 1),
+(4, 'Basket', '2018-01-22', 1),
+(5, 'Natation', '2018-02-09', 0),
+(6, 'Jeux Olympiques', '2018-04-03', 1),
 (7, 'Tennis', '2018-12-12', 0);
 
 -- --------------------------------------------------------
@@ -345,8 +353,10 @@ INSERT INTO `inscrire` (`idCandidat`, `idCompetition`) VALUES
 (9, 2),
 (10, 2),
 (4, 3),
-(7, 3),
-(1, 5);
+(14, 4),
+(1, 5),
+(7, 7),
+(15, 7);
 
 --
 -- Index pour les tables exportées

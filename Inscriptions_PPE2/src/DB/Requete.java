@@ -38,11 +38,11 @@ public class Requete {
 	}
 	
 	public void desinscrireCandidat(int idCandidat,int idCompetition) {
-		db.sql("call desinscrireCandidat(" + idCandidat + ", " + idCompetition + ")");
+		db.set("call desinscrireCandidat(" + idCandidat + ", " + idCompetition + ")");
 	}
 	
 	public void ajouterCandidatCompetition(int idCandidat,int idCompetition) {
-		db.sql("call ajouterCandidatCompetition(" + idCandidat + ", " + idCompetition + ")");
+		db.set("call ajouterCandidatCompetition(" + idCandidat + ", " + idCompetition + ")");
 	}
 	
 	public void modifierDateCloture(int idCompetition, LocalDate dateCloture) {
@@ -116,7 +116,7 @@ public class Requete {
 	/* EQUIPE */
 	
 	public void ajouterPersonneEquipe(int idCandidat, int idEquipe) {
-		db.sql("call ajouterPersonneEquipe(" + idCandidat + ", " + idEquipe + ")");
+		db.set("call ajouterPersonneEquipe(" + idCandidat + ", " + idEquipe + ")");
 	}
 	
 	public ArrayList<ArrayList<String>> getPersonneEquipe(int idEquipe) {
