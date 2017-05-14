@@ -24,20 +24,20 @@ DELIMITER $$
 --
 -- Procédures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterCandidatCompetition` (IN `id_candidat` INT(4), IN `id_competition` INT(4))  BEGIN
+CREATE PROCEDURE `ajouterCandidatCompetition` (IN `id_candidat` INT(4), IN `id_competition` INT(4))  BEGIN
 INSERT INTO inscrire VALUES (id_candidat, id_competition);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterEquipeCompetition` (`id_candidat` INT(4), `id_competition` INT(4))  BEGIN
+CREATE PROCEDURE `ajouterEquipeCompetition` (`id_candidat` INT(4), `id_competition` INT(4))  BEGIN
 INSERT INTO inscrire VALUES (id_candidat, id_competition);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterPersonneEquipe` (IN `numpersonne` INT, IN `numequipe` INT)  BEGIN
+CREATE PROCEDURE `ajouterPersonneEquipe` (IN `numpersonne` INT, IN `numequipe` INT)  BEGIN
 INSERT INTO APPARTENIR(idCandidatPersonne,idCandidatEquipe)
 VALUES (numpersonne,numequipe);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `candidatsInscritsCompetition` (IN `Numcompetition` INT)  BEGIN
+CREATE PROCEDURE `candidatsInscritsCompetition` (IN `Numcompetition` INT)  BEGIN
 
     SELECT candidat.idCandidat, candidat.nom
     FROM competition, inscrire, candidat
@@ -47,61 +47,61 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `candidatsInscritsCompetition` (IN `
  
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creerCompetition` (`nomC` VARCHAR(255), `dateClotureC` DATE, `enEquipeC` BOOLEAN)  BEGIN
+CREATE PROCEDURE `creerCompetition` (`nomC` VARCHAR(255), `dateClotureC` DATE, `enEquipeC` BOOLEAN)  BEGIN
 INSERT INTO competition (epreuve,dateCloture,enEquipe) VALUES (nomC,dateClotureC,enEquipeC);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creerEquipe` (IN `nomE` VARCHAR(50))  BEGIN
+CREATE PROCEDURE `creerEquipe` (IN `nomE` VARCHAR(50))  BEGIN
 INSERT INTO candidat (nom, prenom, email, estEquipe) VALUES (nomE, NULL, NULL, 1);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `creerPersonne` (IN `nomP` VARCHAR(50), IN `prenomP` VARCHAR(50), IN `mailP` VARCHAR(100))  BEGIN
+CREATE PROCEDURE `creerPersonne` (IN `nomP` VARCHAR(50), IN `prenomP` VARCHAR(50), IN `mailP` VARCHAR(100))  BEGIN
 INSERT INTO candidat (nom, prenom, email, estEquipe) VALUES (nomP, prenomP, mailP, 0);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `dateClotureInscription` (`Numcompetition` INT)  BEGIN
+CREATE PROCEDURE `dateClotureInscription` (`Numcompetition` INT)  BEGIN
     SELECT dateCloture FROM COMPETITION WHERE idCompetition = Numcompetition;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `desinscrireCandidat` (IN `numCandidat` INT, IN `numCompet` INT)  BEGIN
+CREATE PROCEDURE `desinscrireCandidat` (IN `numCandidat` INT, IN `numCompet` INT)  BEGIN
 DELETE FROM INSCRIRE
 WHERE idCandidat = numCandidat
 AND idCompetition = numCompet;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `enEquipe` (`id_competition` INT)  BEGIN
+CREATE PROCEDURE `enEquipe` (`id_competition` INT)  BEGIN
 SELECT enEquipe 
 FROM COMPETITION 
 WHERE idCompetition = id_competition;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAcrEquipe` (`Numcandidat` INT)  BEGIN
+CREATE PROCEDURE `getAcrEquipe` (`Numcandidat` INT)  BEGIN
 SELECT nom
 FROM CANDIDAT
 WHERE idCandidat = Numcandidat
 AND estEquipe = 1;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAICandidat` ()  BEGIN
+CREATE PROCEDURE `getAICandidat` ()  BEGIN
 SHOW TABLE STATUS FROM inscription LIKE 'candidat';
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAICompetition` ()  BEGIN
+CREATE PROCEDURE `getAICompetition` ()  BEGIN
 SHOW TABLE STATUS FROM inscription LIKE 'competition';
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getCompetition` ()  BEGIN
+CREATE PROCEDURE `getCompetition` ()  BEGIN
 SELECT *
 FROM competition;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getEquipe` ()  BEGIN
+CREATE PROCEDURE `getEquipe` ()  BEGIN
 SELECT *
 FROM candidat
 WHERE estEquipe = 1;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getEquipePersonne` (`Numcandidat` INT)  BEGIN
+CREATE PROCEDURE `getEquipePersonne` (`Numcandidat` INT)  BEGIN
 
 SELECT prenom
 FROM APPARTENIR,CANDIDAT
@@ -110,74 +110,74 @@ AND Appartenir.idCandidatEquipe = CANDIDAT.idCandidat;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getMail` (`Numcandidat` INT)  BEGIN
+CREATE PROCEDURE `getMail` (`Numcandidat` INT)  BEGIN
 SELECT email
 FROM CANDIDAT
 WHERE idCandidat = Numcandidat
 AND estEquipe = 0;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getMailEquipe` (`Numcandidat` INT)  BEGIN
+CREATE PROCEDURE `getMailEquipe` (`Numcandidat` INT)  BEGIN
 SELECT email
 FROM CANDIDAT
 WHERE idCandidat = Numcandidat
 AND estEquipe = 1;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getNom` (`Numcandidat` INT)  BEGIN
+CREATE PROCEDURE `getNom` (`Numcandidat` INT)  BEGIN
 SELECT nom
 FROM CANDIDAT
 WHERE idCandidat = Numcandidat
 AND estEquipe = 0;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getNomEquipe` (`Numcandidat` INT)  BEGIN
+CREATE PROCEDURE `getNomEquipe` (`Numcandidat` INT)  BEGIN
 SELECT prenom
 FROM CANDIDAT
 WHERE idCandidat = Numcandidat
 AND estEquipe = 1;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getPersonne` ()  BEGIN
+CREATE PROCEDURE `getPersonne` ()  BEGIN
 SELECT *
 FROM candidat
 WHERE estEquipe = 0;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getPersonneEquipe` (IN `num_equipe` INT)  BEGIN
+CREATE PROCEDURE `getPersonneEquipe` (IN `num_equipe` INT)  BEGIN
 SELECT *
 FROM candidat, appartenir
 WHERE appartenir.idCandidatPersonne = candidat.idCandidat
 AND idCandidatEquipe = num_equipe;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getPrenom` (`Numcandidat` INT)  BEGIN
+CREATE PROCEDURE `getPrenom` (`Numcandidat` INT)  BEGIN
 SELECT prenom
 FROM CANDIDAT
 WHERE idCandidat = Numcandidat
 AND estEquipe = 0;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `modifierDateCloture` (`id_competition` INT, `modifdatecloture` DATE)  BEGIN
+CREATE PROCEDURE `modifierDateCloture` (`id_competition` INT, `modifdatecloture` DATE)  BEGIN
 UPDATE COMPETITION
 SET dateCloture = modifdatecloture
 WHERE idCompetition = id_competition;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `modifierMail` (IN `Numcandidat` INT, IN `NomMail` VARCHAR(25))  BEGIN
+CREATE PROCEDURE `modifierMail` (IN `Numcandidat` INT, IN `NomMail` VARCHAR(25))  BEGIN
 UPDATE CANDIDAT
 SET email = NomMail
 WHERE idCandidat = Numcandidat;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `modifierNomCandidat` (IN `numCandidat` INT, IN `nomCandidat` VARCHAR(25))  BEGIN
+CREATE PROCEDURE `modifierNomCandidat` (IN `numCandidat` INT, IN `nomCandidat` VARCHAR(25))  BEGIN
 UPDATE candidat
 SET nom = nomCandidat
 WHERE idCandidat = numCandidat;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `modifierNomCompetition` (`id_competition` INT, `nom_competition` VARCHAR(25))  BEGIN
+CREATE PROCEDURE `modifierNomCompetition` (`id_competition` INT, `nom_competition` VARCHAR(25))  BEGIN
 UPDATE COMPETITION
 SET  epreuve = nom_competition
 WHERE idCompetition = id_competition;
@@ -185,19 +185,19 @@ WHERE idCompetition = id_competition;
 SELECT * from COMPETITION;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `modifierPrenom` (IN `Numcandidat` INT, IN `Prenompersonne` VARCHAR(25))  BEGIN
+CREATE PROCEDURE `modifierPrenom` (IN `Numcandidat` INT, IN `Prenompersonne` VARCHAR(25))  BEGIN
 UPDATE CANDIDAT
 SET prenom = Prenompersonne
 WHERE idCandidat = Numcandidat;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `nomCompetition` (IN `NumCompetition` INT)  BEGIN 
+CREATE PROCEDURE `nomCompetition` (IN `NumCompetition` INT)  BEGIN 
 SELECT epreuve FROM COMPETITION 
 WHERE idCompetition = NumCompetition;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `supprimerCandidat` (IN `NumCandidat` INT)  BEGIN
+CREATE PROCEDURE `supprimerCandidat` (IN `NumCandidat` INT)  BEGIN
 
 DELETE FROM CANDIDAT
 WHERE idCandidat = NumCandidat;
@@ -211,7 +211,7 @@ WHERE idCandidat = NumCandidat;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `supprimerCompetition` (IN `idComp` INT)  BEGIN
+CREATE PROCEDURE `supprimerCompetition` (IN `idComp` INT)  BEGIN
 
 DELETE FROM COMPETITION 
 WHERE idCompetition = idComp;
@@ -221,7 +221,7 @@ WHERE idCompetition = idComp;
    
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `supprimerPersonneEquipe` (`id_personne` INT, `id_equipe` INT)  BEGIN
+CREATE PROCEDURE `supprimerPersonneEquipe` (`id_personne` INT, `id_equipe` INT)  BEGIN
 DELETE FROM APPARTENIR
 WHERE idCandidatPersonne = id_personne
 AND idCandidatEquipe = id_equipe;
@@ -230,7 +230,7 @@ END$$
 --
 -- Fonctions
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `inscriptionsOuvertes` (`id_competition` INT) RETURNS VARCHAR(60) CHARSET latin1 BEGIN
+CREATE FUNCTION `inscriptionsOuvertes` (`id_competition` INT) RETURNS VARCHAR(60) CHARSET latin1 BEGIN
 DECLARE retour varchar(60);
 DECLARE date_Cloture date;
 DECLARE resultat int;

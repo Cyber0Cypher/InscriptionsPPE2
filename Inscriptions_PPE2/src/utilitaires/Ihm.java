@@ -329,7 +329,7 @@ public class Ihm {
 				catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+				refresh();
 			}
 		});
 		btnModifierUnePersonne.addActionListener(new ActionListener() {
@@ -349,6 +349,7 @@ public class Ihm {
 					listePersonne.addItem(p.getPrenom()+" "+p.getNom());
 				}
 				refresh = false;
+				refresh();
 			}
 		});
 		
@@ -364,18 +365,9 @@ public class Ihm {
 					i++;
 				}
 				listePersonne.removeItem(listePersonne.getSelectedItem());
+				refresh();
 			}
 		});
-		
-		
-	
-		
-		listeEquipeAjouter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		
 		
 		
 		listePersonne.addActionListener(new ActionListener() {
@@ -470,7 +462,7 @@ public class Ihm {
 					}
 					k++;
 				}
-				listePersonne.setSelectedIndex(listePersonne.getSelectedIndex());
+				refresh();
 			}
 		});
 		
@@ -489,7 +481,7 @@ public class Ihm {
 					}
 					k++;
 				}
-				listePersonne.setSelectedIndex(listePersonne.getSelectedIndex());
+				refresh();
 			}
 		});
 		
@@ -508,7 +500,7 @@ public class Ihm {
 					}
 					k++;
 				}
-				listePersonne.setSelectedIndex(listePersonne.getSelectedIndex());
+				refresh();
 			}
 		});
 		
@@ -527,7 +519,7 @@ public class Ihm {
 					}
 					k++;
 				}
-				listePersonne.setSelectedIndex(listePersonne.getSelectedIndex());
+				refresh();
 			}
 		});
 				
@@ -707,6 +699,7 @@ public class Ihm {
 				catch (Exception e1) {
 					e1.printStackTrace();
 				}
+				refresh();
 			}
 		});
 		
@@ -726,6 +719,7 @@ public class Ihm {
 					listeEquipe.addItem(equ.getNom());
 				}
 				refresh = false;
+				refresh();
 			}
 		});
 		
@@ -739,6 +733,7 @@ public class Ihm {
 					i++;
 				}
 				listeEquipe.removeItem(listeEquipe.getSelectedItem());
+				refresh();
 			}
 		});
 		
@@ -757,7 +752,7 @@ public class Ihm {
 					}
 					k++;
 				}
-				listeEquipe.setSelectedIndex(listeEquipe.getSelectedIndex());
+				refresh();
 			}
 		});
 		
@@ -776,7 +771,7 @@ public class Ihm {
 					}
 					k++;
 				}
-				listeEquipe.setSelectedIndex(listeEquipe.getSelectedIndex());
+				refresh();
 			}
 		});
 		
@@ -795,7 +790,7 @@ public class Ihm {
 					}
 					k++;
 				}
-				listeEquipe.setSelectedIndex(listeEquipe.getSelectedIndex());
+				refresh();
 			}
 		});
 		
@@ -814,7 +809,7 @@ public class Ihm {
 					}
 					k++;
 				}
-				listeEquipe.setSelectedIndex(listeEquipe.getSelectedIndex());
+				refresh();
 			}
 		});
 		
@@ -946,6 +941,7 @@ public class Ihm {
 				catch (Exception e1) {
 					e1.printStackTrace();
 				}
+				refresh();
 			}
 		});
 
@@ -966,6 +962,7 @@ public class Ihm {
 					listeCompetition.addItem(c.getNom());
 				}
 				refresh = false;
+				refresh();
 			}
 		});
 	
@@ -979,7 +976,20 @@ public class Ihm {
 					i++;
 				}
 				listeCompetition.removeItem(listeCompetition.getSelectedItem());
+				refresh();
 			}
-		});		
+		});
+		
+	}
+	
+	
+	
+	public void refresh() {
+		listePersonne.setSelectedIndex(listePersonne.getSelectedIndex());
+		//listePersonne.setSelectedIndex(listePersonne.getSelectedIndex()+1);
+		listeEquipe.setSelectedIndex(listeEquipe.getSelectedIndex());
+		//listeEquipe.setSelectedIndex(listeEquipe.getSelectedIndex()+1);
+		listeCompetition.setSelectedIndex(listeCompetition.getSelectedIndex());
+		//listeCompetition.setSelectedIndex(listeCompetition.getSelectedIndex()+1);
 	}
 }

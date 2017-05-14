@@ -19,7 +19,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.ButtonGroup;
-import java.awt.Font;
 
 public class AjouterCompetition extends JDialog {
 
@@ -77,14 +76,9 @@ public class AjouterCompetition extends JDialog {
 		contentPanel.add(lblDateCloture);
 		
 		
-		dateCloture.setModel(new SpinnerDateModel(new java.util.Date(1494194400000L), null, null, Calendar.DAY_OF_YEAR));
-		dateCloture.setBounds(12, 98, 202, 20);
+		dateCloture.setModel(new SpinnerDateModel(new java.util.Date(), null, null, Calendar.DAY_OF_YEAR));
+		dateCloture.setBounds(12, 93, 202, 20);
 		contentPanel.add(dateCloture);
-		
-		JLabel lblAaaammjj = new JLabel("AAAA-MM-JJ");
-		lblAaaammjj.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		lblAaaammjj.setBounds(12, 82, 202, 14);
-		contentPanel.add(lblAaaammjj);
 		
 		rdbtnOui = new JRadioButton("Oui");
 		buttonGroup.add(rdbtnOui);
