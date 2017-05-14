@@ -121,7 +121,7 @@ public class Ihm {
 	private List listeCandidatCompetition = new List();
 	private JLabel lblListeCompetition = new JLabel("Sélectionner une compétition");
 	private JLabel lblNomEpreuve = new JLabel("Nom Epreuve");
-	private JLabel lblDateCloture = new JLabel("Date Cloture (YYYY-MM-DD)");
+	private JLabel lblDateCloture = new JLabel("Date Cloture (DD-MM-YY)");
 	private JLabel lblEnEquipe = new JLabel("En Equipe");
 	private JButton btnAjouterCompetition = new JButton("Ajouter");
 	private JButton btnModifierCompetition = new JButton("Modifier");
